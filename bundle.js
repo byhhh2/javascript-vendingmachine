@@ -833,6 +833,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/utils.ts");
 
 const nav = document.querySelector('.nav');
+const baseURL = '/javascript-vendingmachine';
 nav.addEventListener('click', (e) => {
     historyRouterPush(e.target.getAttribute('route'));
 });
@@ -850,12 +851,15 @@ const render = (path) => {
     prevs.forEach((p) => p.component.classList.add('hidden'));
 };
 const routers = [
-    { path: '/javascript-vendingmachine/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('product-management') },
-    { path: '/javascript-vendingmachine/charge', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('charge-tab') },
+    { path: baseURL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('product-management') },
+    { path: baseURL + '/charge', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('charge-tab') },
 ];
 window.addEventListener('popstate', function () {
     render(window.location.pathname);
 });
+if (window.location.pathname === '/') {
+    window.location.pathname = baseURL;
+}
 render(window.location.pathname);
 
 
