@@ -850,8 +850,8 @@ const render = (path) => {
     prevs.forEach((p) => p.component.classList.add('hidden'));
 };
 const routers = [
-    { path: '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('product-management') },
-    { path: '/charge', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('charge-tab') },
+    { path: '/javascript-vendingmachine/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('product-management') },
+    { path: '/javascript-vendingmachine/charge', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('charge-tab') },
 ];
 window.addEventListener('popstate', function () {
     render(window.location.pathname);
