@@ -1108,7 +1108,6 @@ class ProductManagement extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__["def
         const name = e.target.name.value;
         const price = e.target.price.valueAsNumber;
         const quantity = e.target.quantity.valueAsNumber;
-        e.target.reset();
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.product-manage-form', '@add', { name, price, quantity }, this);
     }
     handleUpdateAndDelete(e) {
@@ -1160,6 +1159,7 @@ class ProductManagement extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__["def
         }
     }
     insertItem(product) {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.product-manage-form').reset();
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('tbody', this).insertAdjacentHTML('beforeend', `<tr class="product-item" data-product-name="${product.name}" data-product-id="${product.id}">
           <td>${product.name}</td>
           <td>${(0,_utils__WEBPACK_IMPORTED_MODULE_2__.markUnit)(product.price)}</td>
