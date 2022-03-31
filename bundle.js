@@ -750,8 +750,8 @@ __webpack_require__.r(__webpack_exports__);
 class VendingMachine {
     constructor() {
         this.observers = [];
-        this.amount = new _Coin__WEBPACK_IMPORTED_MODULE_4__["default"](..._storage__WEBPACK_IMPORTED_MODULE_1__["default"].getAmount());
-        this.products = _storage__WEBPACK_IMPORTED_MODULE_1__["default"].getProducts().map((product) => new _Product__WEBPACK_IMPORTED_MODULE_5__["default"](product, product.id));
+        this.amount = new _Coin__WEBPACK_IMPORTED_MODULE_4__["default"](..._storage__WEBPACK_IMPORTED_MODULE_1__["default"].getLocalStorage('amount'));
+        this.products = _storage__WEBPACK_IMPORTED_MODULE_1__["default"].getLocalStorage('products').map((product) => new _Product__WEBPACK_IMPORTED_MODULE_5__["default"](product, product.id));
     }
     static get instance() {
         if (!VendingMachine._instance) {
@@ -880,13 +880,13 @@ const storage = {
         localStorage.setItem(key, JSON.stringify(value));
     },
     getLocalStorage(key) {
-        return localStorage.getItem(key);
-    },
-    getProducts() {
-        return this.getLocalStorage('products') ? JSON.parse(this.getLocalStorage('products')) : [];
-    },
-    getAmount() {
-        return this.getLocalStorage('amount') ? Object.values(JSON.parse(this.getLocalStorage('amount'))) : [0, 0, 0, 0];
+        const items = JSON.parse(localStorage.getItem(key));
+        switch (key) {
+            case 'products':
+                return items !== null && items !== void 0 ? items : [];
+            case 'amount':
+                return items ? Object.values(items) : [0, 0, 0, 0];
+        }
     },
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (storage);
@@ -1008,7 +1008,7 @@ class ChargeTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__["default"] {
     }
     render() {
         this.innerHTML = this.template();
-        const amount = _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getAmount();
+        const amount = _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getLocalStorage('amount');
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.charge-amount', this).textContent = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.markUnit)(_constants__WEBPACK_IMPORTED_MODULE_5__.COINS.map((coin, i) => coin * amount[i]).reduce((acc, cur) => acc + cur, 0));
         _constants__WEBPACK_IMPORTED_MODULE_5__.COINS.forEach((coin, i) => ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)(`.coin-${coin}-quantity`).textContent = String(amount[i])));
     }
@@ -1092,7 +1092,7 @@ class ProductManagement extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__["def
     }
     render() {
         this.innerHTML = this.template();
-        const products = _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getProducts();
+        const products = _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getLocalStorage('products');
         products.forEach((product) => this.insertItem(product));
     }
     template() {
