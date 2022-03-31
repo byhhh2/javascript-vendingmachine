@@ -911,7 +911,7 @@ const TEMPLATE = {
       <form class="product-manage-form">
         <fieldset>
           <legend>추가할 상품 정보를 입력해주세요.</legend>
-          <input type="text" name="name" placeholder="상품명" maxlength="10" required />
+          <input type="text" name="productName" placeholder="상품명" maxlength="10" required />
           <input type="number" name="price" placeholder="가격" min="100" max="10000" required />
           <input type="number" name="quantity" placeholder="수량" min="1" max="20" required />
           <button type="submit" class="product-manage-form__add-button submit-button">추가</button>
@@ -1105,7 +1105,7 @@ class ProductManagement extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__["def
     }
     handleAdd(e) {
         e.preventDefault();
-        const name = e.target.name.value;
+        const name = e.target.productName.value;
         const price = e.target.price.valueAsNumber;
         const quantity = e.target.quantity.valueAsNumber;
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.product-manage-form', '@add', { name, price, quantity }, this);
@@ -1120,15 +1120,15 @@ class ProductManagement extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__["def
         }
     }
     showForm(e) {
-        const item = e.target.closest('.product-item');
-        const { productName, productId } = item.dataset;
-        const values = [...item.getElementsByTagName('td')].slice(0, 3).map((td) => td.textContent);
+        const productItem = e.target.closest('.product-item');
+        const { productName, productId } = productItem.dataset;
+        const values = [...productItem.getElementsByTagName('td')].slice(0, 3).map((td) => td.textContent);
         const name = values[0];
         const price = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.deleteSeparator)(values[1]);
         const quantity = values[2];
-        item.innerHTML = `
+        productItem.innerHTML = `
       <tr class="product-item" data-product-name="${productName}" data-product-id="${productId}">
-        <td><form id="product-edit-form-${productName}" class="product-item__form"><input form="product-edit-form-${productName}" name="name" maxlength="10" value="${name}" required/></form></td>
+        <td><form id="product-edit-form-${productName}" class="product-item__form"><input form="product-edit-form-${productName}" name="productName" maxlength="10" value="${name}" required/></form></td>
         <td><input type="number" form="product-edit-form-${productName}" name="price" min="100" max="10000" value="${price}" required/></td>
         <td><input type="number" form="product-edit-form-${productName}" name="quantity" min="1" max="20" value="${quantity}" required/></td>
         <td class="product-item__button">
@@ -1142,7 +1142,7 @@ class ProductManagement extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__["def
         if (!e.submitter.classList.contains('product-item__confirm-button'))
             return;
         const targetName = e.target.closest('.product-item').dataset.productName;
-        const name = e.target.name.value;
+        const name = e.target.productName.value;
         const price = e.target.price.valueAsNumber;
         const quantity = e.target.quantity.valueAsNumber;
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('#product-list-table', '@update', { targetName, name, price, quantity }, this);
