@@ -1122,10 +1122,10 @@ class ProductManagement extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__["def
     showForm(e) {
         const productItem = e.target.closest('.product-item');
         const { productName, productId } = productItem.dataset;
-        const values = [...productItem.getElementsByTagName('td')].slice(0, 3).map((td) => td.textContent);
-        const name = values[0];
-        const price = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.deleteSeparator)(values[1]);
-        const quantity = values[2];
+        const [name, separatedPrice, quantity] = [...productItem.getElementsByTagName('td')]
+            .slice(0, 3)
+            .map((td) => td.textContent);
+        const price = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.deleteSeparator)(separatedPrice);
         productItem.innerHTML = `
       <tr class="product-item" data-product-name="${productName}" data-product-id="${productId}">
         <td><form id="product-edit-form-${productName}" class="product-item__form"><input form="product-edit-form-${productName}" name="productName" maxlength="10" value="${name}" required/></form></td>
