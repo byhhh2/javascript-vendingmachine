@@ -1148,14 +1148,16 @@ class ProductManagement extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__["def
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('#product-list-table', '@update', { targetName, name, price, quantity }, this);
     }
     notify(action, _, product) {
-        if (action === 'add') {
-            this.insertItem(product);
-        }
-        if (action === 'update') {
-            this.updateItem(product);
-        }
-        if (action === 'delete') {
-            this.deleteItem(product);
+        switch (action) {
+            case 'add':
+                this.insertItem(product);
+                return;
+            case 'update':
+                this.updateItem(product);
+                return;
+            case 'delete':
+                this.deleteItem(product);
+                return;
         }
     }
     insertItem(product) {
