@@ -770,7 +770,7 @@ class VendingMachine {
     }
     dispatch(key, action, product) {
         const targets = this.observers.filter((observer) => observer.key === key);
-        targets.forEach((target) => target.element.notify(action, this.amount, product));
+        targets.forEach((target) => target.element.notify({ action, amount: this.amount, product }));
     }
     observe(key, element) {
         this.observers.push({ key, element });
@@ -1007,7 +1007,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class ChargeTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class ChargeTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
     connectedCallback() {
         super.connectedCallback();
         _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_3__["default"].instance.observe(_constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.CHARGE, this);
@@ -1029,7 +1029,7 @@ class ChargeTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__["default"] {
         const change = e.target.change.valueAsNumber;
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.charge-form', '@charge', { change }, this);
     }
-    notify(_, amount, __) {
+    notify({ amount }) {
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.charge-amount', this).textContent = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.markUnit)(amount.getAmount());
         _constants__WEBPACK_IMPORTED_MODULE_5__.COINS.forEach((coin) => ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)(`.coin-${coin}-quantity`).textContent = amount.counter[coin].count));
     }
@@ -1048,7 +1048,7 @@ customElements.define('charge-tab', ChargeTab);
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "CustomElement": () => (/* binding */ CustomElement)
 /* harmony export */ });
 class CustomElement extends HTMLElement {
     connectedCallback() {
@@ -1062,9 +1062,8 @@ class CustomElement extends HTMLElement {
         return '';
     }
     setEvent() { }
-    notify(action, amount, product) { }
+    notify(notification) { }
 }
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CustomElement);
 
 
 /***/ }),
@@ -1091,7 +1090,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class ProductManagement extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class ProductManagement extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
     connectedCallback() {
         super.connectedCallback();
         _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_3__["default"].instance.observe(_constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.PRODUCT, this);
@@ -1153,7 +1152,7 @@ class ProductManagement extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__["def
         const quantity = e.target.quantity.valueAsNumber;
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('#product-list-table', '@update', { targetName, name, price, quantity }, this);
     }
-    notify(action, _, product) {
+    notify({ action, product }) {
         switch (action) {
             case 'add':
                 this.insertItem(product);
