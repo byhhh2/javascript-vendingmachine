@@ -628,7 +628,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "COINS": () => (/* binding */ COINS),
 /* harmony export */   "CONFIGURATION": () => (/* binding */ CONFIGURATION),
 /* harmony export */   "ELEMENT_KEY": () => (/* binding */ ELEMENT_KEY),
-/* harmony export */   "ERROR_MESSAGE": () => (/* binding */ ERROR_MESSAGE)
+/* harmony export */   "ERROR_MESSAGE": () => (/* binding */ ERROR_MESSAGE),
+/* harmony export */   "CONFIRM_MESSAGE": () => (/* binding */ CONFIRM_MESSAGE)
 /* harmony export */ });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/utils.ts");
 
@@ -653,6 +654,9 @@ const ERROR_MESSAGE = {
     INCORRECT_UNIT_PRODUCT_PRICE: `상품 가격은 ${CONFIGURATION.PRICE.UNIT}원 단위로 나누어 떨어지는 금액으로 입력하세요.`,
     INCORRECT_UNIT_CHARGE_MONEY: `금액은 ${CONFIGURATION.PRICE.UNIT}원 단위로 나누어 떨어지는 금액으로 입력하세요.`,
     OVER_AMOUNT: `현재 보유 금액은 ${(0,_utils__WEBPACK_IMPORTED_MODULE_0__.markUnit)(CONFIGURATION.AMOUNT.MAX)}원을 초과할 수 없습니다!`,
+};
+const CONFIRM_MESSAGE = {
+    DELETE: '해당 상품을 삭제하시겠습니까?',
 };
 
 
@@ -1119,7 +1123,7 @@ class ProductManagement extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Cust
         if (e.target.classList.contains('product-item__edit-button')) {
             this.showForm(e);
         }
-        if (e.target.classList.contains('product-item__delete-button') && confirm('해당 상품을 삭제하시겠습니까?')) {
+        if (e.target.classList.contains('product-item__delete-button') && confirm(_constants__WEBPACK_IMPORTED_MODULE_5__.CONFIRM_MESSAGE.DELETE)) {
             const productName = e.target.closest('.product-item').dataset.productName;
             (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('#product-list-table', '@delete', { productName }, this);
         }
