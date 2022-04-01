@@ -666,35 +666,36 @@ const ERROR_MESSAGE = {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "Coin": () => (/* binding */ Coin)
 /* harmony export */ });
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
 
 
 class Coin {
-    constructor(...args) {
-        this[500] = 0;
-        this[100] = 0;
-        this[50] = 0;
-        this[10] = 0;
-        _constants__WEBPACK_IMPORTED_MODULE_0__.COINS.forEach((coin, i) => (this[coin] = arguments[i]));
+    constructor(counter) {
+        this.counter = {
+            500: { type: '500won', count: 0 },
+            100: { type: '100won', count: 0 },
+            50: { type: '50won', count: 0 },
+            10: { type: '10won', count: 0 },
+        };
+        this.counter = counter;
     }
     getAmount() {
-        return Object.entries(this).reduce((previous, [key, value]) => previous + value * Number(key), 0);
+        return Object.entries(this.counter).reduce((previous, [key, value]) => previous + value.count * Number(key), 0);
     }
     genarateRandomCoin(amount) {
         let remainingAmount = amount;
         while (remainingAmount > 0) {
             const randomCoin = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.pickRandomElement)(_constants__WEBPACK_IMPORTED_MODULE_0__.COINS);
             if (remainingAmount >= randomCoin) {
-                this[randomCoin] += 1;
+                this.counter[randomCoin].count += 1;
                 remainingAmount -= randomCoin;
             }
         }
     }
 }
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Coin);
 
 
 /***/ }),
@@ -750,7 +751,7 @@ __webpack_require__.r(__webpack_exports__);
 class VendingMachine {
     constructor() {
         this.observers = [];
-        this.amount = new _Coin__WEBPACK_IMPORTED_MODULE_4__["default"](..._storage__WEBPACK_IMPORTED_MODULE_1__["default"].getLocalStorage('amount'));
+        this.amount = new _Coin__WEBPACK_IMPORTED_MODULE_4__.Coin(_storage__WEBPACK_IMPORTED_MODULE_1__["default"].getLocalStorage('amount'));
         this.products = _storage__WEBPACK_IMPORTED_MODULE_1__["default"].getLocalStorage('products').map((product) => new _Product__WEBPACK_IMPORTED_MODULE_5__["default"](product, product.id));
     }
     static get instance() {
@@ -809,7 +810,7 @@ class VendingMachine {
         try {
             (0,_validator__WEBPACK_IMPORTED_MODULE_3__.validateChange)(inputMoney, this.amount.getAmount());
             this.amount.genarateRandomCoin(inputMoney);
-            _storage__WEBPACK_IMPORTED_MODULE_1__["default"].setLocalStorage('amount', this.amount);
+            _storage__WEBPACK_IMPORTED_MODULE_1__["default"].setLocalStorage('amount', this.amount.counter);
             this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.CHARGE, 'update');
         }
         catch (error) {
@@ -885,7 +886,12 @@ const storage = {
             case 'products':
                 return items !== null && items !== void 0 ? items : [];
             case 'amount':
-                return items ? Object.values(items) : [0, 0, 0, 0];
+                return (items !== null && items !== void 0 ? items : {
+                    500: { type: '500won', count: 0 },
+                    100: { type: '100won', count: 0 },
+                    50: { type: '50won', count: 0 },
+                    10: { type: '10won', count: 0 },
+                });
         }
     },
 };
@@ -1009,8 +1015,8 @@ class ChargeTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__["default"] {
     render() {
         this.innerHTML = this.template();
         const amount = _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getLocalStorage('amount');
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.charge-amount', this).textContent = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.markUnit)(_constants__WEBPACK_IMPORTED_MODULE_5__.COINS.map((coin, i) => coin * amount[i]).reduce((acc, cur) => acc + cur, 0));
-        _constants__WEBPACK_IMPORTED_MODULE_5__.COINS.forEach((coin, i) => ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)(`.coin-${coin}-quantity`).textContent = String(amount[i])));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.charge-amount', this).textContent = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.markUnit)(Object.entries(amount).reduce((previous, [key, value]) => previous + value.count * Number(key), 0));
+        _constants__WEBPACK_IMPORTED_MODULE_5__.COINS.forEach((coin) => ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)(`.coin-${coin}-quantity`).textContent = String(amount[coin].count)));
     }
     template() {
         return _templates__WEBPACK_IMPORTED_MODULE_1__["default"].CHARGE_TAB;
@@ -1025,7 +1031,7 @@ class ChargeTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__["default"] {
     }
     notify(_, amount, __) {
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.charge-amount', this).textContent = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.markUnit)(amount.getAmount());
-        _constants__WEBPACK_IMPORTED_MODULE_5__.COINS.forEach((coin) => ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)(`.coin-${coin}-quantity`).textContent = amount[coin]));
+        _constants__WEBPACK_IMPORTED_MODULE_5__.COINS.forEach((coin) => ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)(`.coin-${coin}-quantity`).textContent = amount.counter[coin].count));
     }
 }
 customElements.define('charge-tab', ChargeTab);
