@@ -969,7 +969,7 @@ class VendingMachine {
     }
     insertCoin(userInputMoney) {
         try {
-            (0,_validator__WEBPACK_IMPORTED_MODULE_3__.validateUserInputMoney)(userInputMoney);
+            (0,_validator__WEBPACK_IMPORTED_MODULE_3__.validateUserInputMoney)(userInputMoney, this.userAmount);
             this.userAmount += userInputMoney;
             this.dispatch('subscribePurchaseTab', 'update-amount');
         }
@@ -1821,9 +1821,17 @@ const validateUpdateProduct = (targetName, name, price, products) => {
         throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.INCORRECT_UNIT_PRODUCT_PRICE);
     }
 };
-const validateUserInputMoney = (userInputMoney) => {
+const userInputMoneyValidator = {
+    isOverMax(userAmount, userInputMoney) {
+        return userAmount + userInputMoney > 10000;
+    },
+};
+const validateUserInputMoney = (userInputMoney, userAmount) => {
     if (productValidator.isIncorrectUnit(userInputMoney)) {
         throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.INCORRECT_UNIT_CHARGE_MONEY);
+    }
+    if (userInputMoneyValidator.isOverMax(userAmount, userInputMoney)) {
+        throw new Error('투입 금액이 10,000원을 초과할 수 없습니다.');
     }
 };
 const purchableValidator = {
