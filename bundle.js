@@ -908,6 +908,7 @@ class VendingMachine {
             const newProduct = new _Product__WEBPACK_IMPORTED_MODULE_5__["default"](product);
             this.products.push(newProduct);
             _storage__WEBPACK_IMPORTED_MODULE_1__["default"].setLocalStorage('products', this.products);
+            this.dispatch('subscribePurchaseTab', 'update-product', newProduct);
             this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PRODUCT, 'add', newProduct);
         }
         catch (error) {
@@ -920,6 +921,7 @@ class VendingMachine {
             const target = this.products.find((product) => product.name === targetName);
             target.update({ name, price, quantity });
             _storage__WEBPACK_IMPORTED_MODULE_1__["default"].setLocalStorage('products', this.products);
+            this.dispatch('subscribePurchaseTab', 'update-product', target);
             this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PRODUCT, 'update', target);
         }
         catch (error) {
@@ -928,6 +930,7 @@ class VendingMachine {
     }
     deleteProduct(targetName) {
         const targetProduct = this.products.find((product) => product.name === targetName);
+        this.dispatch('subscribePurchaseTab', 'delete-product', targetProduct);
         this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PRODUCT, 'delete', targetProduct);
         this.products = this.products.filter((product) => product.name !== targetName);
         _storage__WEBPACK_IMPORTED_MODULE_1__["default"].setLocalStorage('products', this.products);
@@ -1579,14 +1582,20 @@ class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElem
     notify({ action, product, userAmount }) {
         switch (action) {
             case 'update-amount':
-                this.changeAmount(userAmount);
+                this.updateAmount(userAmount);
                 return;
             case 'purchase':
                 this.purchase(product);
                 return;
+            case 'update-product':
+                this.updateProductTable('update-product', product);
+                return;
+            case 'delete-product':
+                this.updateProductTable('delete-product', product);
+                return;
         }
     }
-    changeAmount(userAmount) {
+    updateAmount(userAmount) {
         (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('.user-amount', this).textContent = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.markUnit)(userAmount);
     }
     purchase(product) {
@@ -1600,6 +1609,19 @@ class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElem
         if (product.quantity > 0)
             return;
         productItems.forEach((item) => item.remove());
+    }
+    updateProductTable(action, product) {
+        const productTable = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('#purchasable-product-list-table', this);
+        const targetProduct = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)(`[data-product-id="${product.id}"]`, productTable);
+        switch (action) {
+            case 'update-product':
+                targetProduct === null || targetProduct === void 0 ? void 0 : targetProduct.remove();
+                this.insertPurchableProduct(product, productTable);
+                return;
+            case 'delete-product':
+                targetProduct.remove();
+                return;
+        }
     }
 }
 customElements.define('purchase-tab', PurchaseTab);
