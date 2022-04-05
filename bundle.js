@@ -844,6 +844,9 @@ class Authentication {
     subscribeSignupPage() {
         (0,_utils__WEBPACK_IMPORTED_MODULE_1__.on)('.signup-form', '@signup', (e) => this.signup(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('signup-page'));
     }
+    subscribeLoginPage() {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_1__.on)('.login-form', '@login', (e) => this.login(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('login-page'));
+    }
     signup({ email, name, password }) {
         fetch('http://localhost:3000/register', {
             method: 'post',
@@ -860,6 +863,30 @@ class Authentication {
             const body = yield response.json();
             if (!response.ok)
                 throw new Error(body);
+            (0,_router__WEBPACK_IMPORTED_MODULE_0__.historyRouterPush)('/javascript-vendingmachine/');
+        }))
+            .catch((err) => {
+            (0,_utils__WEBPACK_IMPORTED_MODULE_1__.showSnackbar)(err.message);
+        });
+    }
+    login({ email, password }) {
+        fetch('http://localhost:3000/login', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email,
+                password,
+            }),
+        })
+            .then((response) => __awaiter(this, void 0, void 0, function* () {
+            const body = yield response.json();
+            if (!response.ok)
+                throw new Error(body);
+            const { accessToken, user } = body;
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('userInfo', JSON.stringify(user));
             (0,_router__WEBPACK_IMPORTED_MODULE_0__.historyRouterPush)('/javascript-vendingmachine/');
         }))
             .catch((err) => {
@@ -1337,7 +1364,7 @@ const TEMPLATE = {
         <input type="password" name="password" placeholder="비밀번호를 입력해주세요." required />
         <button type="submit" class="submit-button login-page__login-button">확인</button>
       </form>
-      <p>아직 회원이 아니신가요? <a href="">회원가입</a></p>
+      <p>아직 회원이 아니신가요? <a href="/javascript-vendingmachine/signup">회원가입</a></p>
    </section>
   `,
     SIGNUP_PAGE: `
@@ -1473,11 +1500,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CustomElement */ "./src/ui/CustomElement.ts");
 /* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../templates */ "./src/templates.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
+/* harmony import */ var _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../domain/Authentication */ "./src/domain/Authentication.ts");
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../router */ "./src/router.ts");
+
+
+
 
 
 class LoginPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
     connectedCallback() {
         super.connectedCallback();
+        _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__["default"].instance.subscribe('subscribeLoginPage', this);
     }
     render() {
         this.innerHTML = this.template();
@@ -1485,7 +1519,19 @@ class LoginPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElemen
     template() {
         return _templates__WEBPACK_IMPORTED_MODULE_1__["default"].LOGIN_PAGE;
     }
-    setEvent() { }
+    setEvent() {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.addEvent)(this, 'submit', '.login-form', (e) => this.handleLogin(e));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.addEvent)(this, 'click', 'a', (e) => this.handleSignup(e));
+    }
+    handleLogin(e) {
+        e.preventDefault();
+        const form = e.target;
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.login-form', '@login', { email: form.email.value, password: form.password.value }, this);
+    }
+    handleSignup(e) {
+        e.preventDefault();
+        (0,_router__WEBPACK_IMPORTED_MODULE_4__.historyRouterPush)('/javascript-vendingmachine/signup');
+    }
 }
 customElements.define('login-page', LoginPage);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (LoginPage);
