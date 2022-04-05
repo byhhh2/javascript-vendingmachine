@@ -961,6 +961,9 @@ class VendingMachine {
             targetProduct.quantity -= 1;
             this.dispatch('subscribePurchaseTab', 'update-amount');
             this.dispatch('subscribePurchaseTab', 'purchase', targetProduct);
+            if (targetProduct.quantity <= 0) {
+                this.products = this.products.filter((product) => product.id !== targetProduct.id);
+            }
             _storage__WEBPACK_IMPORTED_MODULE_1__["default"].setLocalStorage('products', this.products);
         }
         catch (error) {
@@ -1591,6 +1594,12 @@ class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElem
         productItems.forEach((item) => {
             (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('[name=quantity]', item).textContent = String(product.quantity);
         });
+        this.deleteProductItem(product, productItems);
+    }
+    deleteProductItem(product, productItems) {
+        if (product.quantity > 0)
+            return;
+        productItems.forEach((item) => item.remove());
     }
 }
 customElements.define('purchase-tab', PurchaseTab);
