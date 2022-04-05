@@ -770,6 +770,7 @@ const ERROR_MESSAGE = {
     INCORRECT_UNIT_PRODUCT_PRICE: `상품 가격은 ${CONFIGURATION.PRICE.UNIT}원 단위로 나누어 떨어지는 금액으로 입력하세요.`,
     INCORRECT_UNIT_CHARGE_MONEY: `금액은 ${CONFIGURATION.PRICE.UNIT}원 단위로 나누어 떨어지는 금액으로 입력하세요.`,
     OVER_AMOUNT: `현재 보유 금액은 ${(0,_utils__WEBPACK_IMPORTED_MODULE_0__.markUnit)(CONFIGURATION.AMOUNT.MAX)}원을 초과할 수 없습니다!`,
+    INSUFFICIENT_CASH: `잔액이 부족합니다.`,
 };
 const CONFIRM_MESSAGE = {
     DELETE: '해당 상품을 삭제하시겠습니까?',
@@ -891,6 +892,7 @@ class VendingMachine {
     }
     subscribePurchaseTab() {
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.user-amount-form', '@insert-coin', (e) => this.insertCoin(e.detail.userInputMoney), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('purchase-tab'));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('#purchasable-product-list-table', '@purchase', (e) => this.purchase(e.detail.productId), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('purchase-tab'));
     }
     dispatch(key, action, product) {
         const targets = this.observers.filter((observer) => observer.key === key);
@@ -945,7 +947,21 @@ class VendingMachine {
         try {
             (0,_validator__WEBPACK_IMPORTED_MODULE_3__.validateUserInputMoney)(userInputMoney);
             this.userAmount += userInputMoney;
-            this.dispatch('subscribePurchaseTab', 'insert-coin');
+            this.dispatch('subscribePurchaseTab', 'update-amount');
+        }
+        catch (error) {
+            alert(error.message);
+        }
+    }
+    purchase(productId) {
+        const targetProduct = this.products.find((product) => product.id === productId);
+        try {
+            (0,_validator__WEBPACK_IMPORTED_MODULE_3__.validatePurchable)(this.userAmount, targetProduct);
+            this.userAmount -= targetProduct.price;
+            targetProduct.quantity -= 1;
+            this.dispatch('subscribePurchaseTab', 'update-amount');
+            this.dispatch('subscribePurchaseTab', 'purchase', targetProduct);
+            _storage__WEBPACK_IMPORTED_MODULE_1__["default"].setLocalStorage('products', this.products);
         }
         catch (error) {
             alert(error.message);
@@ -1437,7 +1453,7 @@ class ProductManagement extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Cust
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('tbody', this).insertAdjacentHTML('beforeend', `<tr class="product-item" data-product-name="${product.name}" data-product-id="${product.id}">
           <td>${product.name}</td>
           <td>${(0,_utils__WEBPACK_IMPORTED_MODULE_2__.markUnit)(product.price)}</td>
-          <td>${product.quantity}</td>
+          <td name="quantity">${product.quantity}</td>
           <td class="product-item__button">
             <button type="button" class="product-item__edit-button button">수정</button>
             <button type="button" class="product-item__delete-button button">삭제</button>
@@ -1512,8 +1528,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CustomElement */ "./src/ui/CustomElement.ts");
 /* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../templates */ "./src/templates.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
-/* harmony import */ var _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../domain/VendingMachine */ "./src/domain/VendingMachine.ts");
+/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../storage */ "./src/storage.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
+/* harmony import */ var _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../domain/VendingMachine */ "./src/domain/VendingMachine.ts");
+
 
 
 
@@ -1521,27 +1539,58 @@ __webpack_require__.r(__webpack_exports__);
 class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
     connectedCallback() {
         super.connectedCallback();
-        _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_3__["default"].instance.observe('subscribePurchaseTab', this);
+        _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_4__["default"].instance.observe('subscribePurchaseTab', this);
     }
     render() {
         this.innerHTML = this.template();
+        const products = _storage__WEBPACK_IMPORTED_MODULE_2__["default"].getLocalStorage('products');
+        const productTable = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('#purchasable-product-list-table', this);
+        products.forEach((product) => this.insertPurchableProduct(product, productTable));
     }
     template() {
         return _templates__WEBPACK_IMPORTED_MODULE_1__["default"].PURCHASE_TAB;
     }
     setEvent() {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.addEvent)(this, 'submit', '.user-amount-form', (e) => this.handleInsertCoin(e));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.addEvent)(this, 'submit', '.user-amount-form', (e) => this.handleInsertCoin(e));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.addEvent)(this, 'click', '.purchase_button', (e) => this.handlePurchase(e));
     }
     handleInsertCoin(e) {
         e.preventDefault();
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.user-amount-form', '@insert-coin', { userInputMoney: e.target.change.valueAsNumber }, this);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('.user-amount-form', '@insert-coin', { userInputMoney: e.target.change.valueAsNumber }, this);
     }
-    notify({ action, userAmount }) {
+    handlePurchase(e) {
+        const productItem = e.target.closest('.product-item');
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('#purchasable-product-list-table', '@purchase', { productId: productItem.dataset.productId }, this);
+    }
+    insertPurchableProduct(product, productTable) {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('tbody', productTable).insertAdjacentHTML('beforeend', `<tr class="product-item" data-product-name="${product.name}" data-product-id="${product.id}">
+          <td>${product.name}</td>
+          <td>${(0,_utils__WEBPACK_IMPORTED_MODULE_3__.markUnit)(product.price)}</td>
+          <td name="quantity">${product.quantity}</td>
+          <td class="product-item__button">
+            <button type="button" class="button purchase_button">구매</button>
+          </td>
+       </tr>
+      `);
+    }
+    notify({ action, product, userAmount }) {
         switch (action) {
-            case 'insert-coin':
-                (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.user-amount', this).textContent = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.markUnit)(userAmount);
+            case 'update-amount':
+                this.changeAmount(userAmount);
+                return;
+            case 'purchase':
+                this.purchase(product);
                 return;
         }
+    }
+    changeAmount(userAmount) {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('.user-amount', this).textContent = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.markUnit)(userAmount);
+    }
+    purchase(product) {
+        const productItems = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$$)(`[data-product-id="${product.id}"]`);
+        productItems.forEach((item) => {
+            (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('[name=quantity]', item).textContent = String(product.quantity);
+        });
     }
 }
 customElements.define('purchase-tab', PurchaseTab);
@@ -1640,7 +1689,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "validateProduct": () => (/* binding */ validateProduct),
 /* harmony export */   "validateChange": () => (/* binding */ validateChange),
 /* harmony export */   "validateUpdateProduct": () => (/* binding */ validateUpdateProduct),
-/* harmony export */   "validateUserInputMoney": () => (/* binding */ validateUserInputMoney)
+/* harmony export */   "validateUserInputMoney": () => (/* binding */ validateUserInputMoney),
+/* harmony export */   "validatePurchable": () => (/* binding */ validatePurchable)
 /* harmony export */ });
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
 
@@ -1699,6 +1749,16 @@ const validateUpdateProduct = (targetName, name, price, products) => {
 const validateUserInputMoney = (userInputMoney) => {
     if (productValidator.isIncorrectUnit(userInputMoney)) {
         throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.INCORRECT_UNIT_CHARGE_MONEY);
+    }
+};
+const purchableValidator = {
+    isInsufficientCash(userAmount, product) {
+        return userAmount < product.price;
+    },
+};
+const validatePurchable = (userAmount, product) => {
+    if (purchableValidator.isInsufficientCash(userAmount, product)) {
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.INSUFFICIENT_CASH);
     }
 };
 
