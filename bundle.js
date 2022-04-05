@@ -808,6 +808,71 @@ const CONFIRM_MESSAGE = {
 
 /***/ }),
 
+/***/ "./src/domain/Authentication.ts":
+/*!**************************************!*\
+  !*** ./src/domain/Authentication.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../router */ "./src/router.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+
+class Authentication {
+    static get instance() {
+        if (!Authentication._instance) {
+            Authentication._instance = new Authentication();
+        }
+        return Authentication._instance;
+    }
+    subscribe(key, element) {
+        this[key]();
+    }
+    subscribeSignupPage() {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_1__.on)('.signup-form', '@signup', (e) => this.signup(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('signup-page'));
+    }
+    signup({ email, name, password }) {
+        fetch('http://localhost:3000/register', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email,
+                name,
+                password,
+            }),
+        })
+            .then((response) => __awaiter(this, void 0, void 0, function* () {
+            const body = yield response.json();
+            if (!response.ok)
+                throw new Error(body);
+            (0,_router__WEBPACK_IMPORTED_MODULE_0__.historyRouterPush)('/javascript-vendingmachine/');
+        }))
+            .catch((err) => {
+            (0,_utils__WEBPACK_IMPORTED_MODULE_1__.showSnackbar)(err.message);
+        });
+    }
+}
+Authentication._instance = null;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Authentication);
+
+
+/***/ }),
+
 /***/ "./src/domain/Coin.ts":
 /*!****************************!*\
   !*** ./src/domain/Coin.ts ***!
@@ -1053,6 +1118,9 @@ VendingMachine._instance = null;
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "historyRouterPush": () => (/* binding */ historyRouterPush)
+/* harmony export */ });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/utils.ts");
 
 const nav = document.querySelector('.nav');
@@ -1077,6 +1145,8 @@ const routers = [
     { path: baseURL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('product-management') },
     { path: baseURL + '/charge', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('charge-tab') },
     { path: baseURL + '/purchase', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('purchase-tab') },
+    { path: baseURL + '/login', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('login-page') },
+    { path: baseURL + '/signup', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('signup-page') },
 ];
 window.addEventListener('popstate', function () {
     render(window.location.pathname);
@@ -1717,11 +1787,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CustomElement */ "./src/ui/CustomElement.ts");
 /* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../templates */ "./src/templates.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
+/* harmony import */ var _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../domain/Authentication */ "./src/domain/Authentication.ts");
+
+
 
 
 class SignupPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
     connectedCallback() {
         super.connectedCallback();
+        _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__["default"].instance.subscribe('subscribeSignupPage', this);
     }
     render() {
         this.innerHTML = this.template();
@@ -1729,7 +1804,18 @@ class SignupPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomEleme
     template() {
         return _templates__WEBPACK_IMPORTED_MODULE_1__["default"].SIGNUP_PAGE;
     }
-    setEvent() { }
+    setEvent() {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.addEvent)(this, 'submit', '.signup-form', (e) => this.handleSignup(e));
+    }
+    handleSignup(e) {
+        e.preventDefault();
+        const form = e.target;
+        // if (form.password.value !== form.passwordConfirm.value) {
+        //   showSnackbar('비밀번호가 일치하지 않습니다.');
+        //   return;
+        // }
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.signup-form', '@signup', { email: form.email.value, name: form.userName.value, password: form.password.value }, this);
+    }
 }
 customElements.define('signup-page', SignupPage);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SignupPage);
