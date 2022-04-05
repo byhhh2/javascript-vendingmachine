@@ -819,7 +819,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../router */ "./src/router.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
+/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../storage */ "./src/storage.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -829,6 +830,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+
 
 
 class Authentication {
@@ -842,10 +844,13 @@ class Authentication {
         this[key]();
     }
     subscribeSignupPage() {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_1__.on)('.signup-form', '@signup', (e) => this.signup(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('signup-page'));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.signup-form', '@signup', (e) => this.signup(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('signup-page'));
     }
     subscribeLoginPage() {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_1__.on)('.login-form', '@login', (e) => this.login(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('login-page'));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.login-form', '@login', (e) => this.login(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('login-page'));
+    }
+    subscribeProfileEditPage() {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.profile-edit-form', '@edit', (e) => this.editProfile(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('profile-edit-page'));
     }
     signup({ email, name, password }) {
         fetch('http://localhost:3000/register', {
@@ -866,7 +871,7 @@ class Authentication {
             (0,_router__WEBPACK_IMPORTED_MODULE_0__.historyRouterPush)('/javascript-vendingmachine/');
         }))
             .catch((err) => {
-            (0,_utils__WEBPACK_IMPORTED_MODULE_1__.showSnackbar)(err.message);
+            (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(err.message);
         });
     }
     login({ email, password }) {
@@ -886,11 +891,39 @@ class Authentication {
                 throw new Error(body);
             const { accessToken, user } = body;
             localStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('userInfo', JSON.stringify(user));
+            localStorage.setItem('user', JSON.stringify(user));
             (0,_router__WEBPACK_IMPORTED_MODULE_0__.historyRouterPush)('/javascript-vendingmachine/');
         }))
             .catch((err) => {
-            (0,_utils__WEBPACK_IMPORTED_MODULE_1__.showSnackbar)(err.message);
+            (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(err.message);
+        });
+    }
+    editProfile({ name, password }) {
+        const token = localStorage.getItem('accessToken');
+        const user = _storage__WEBPACK_IMPORTED_MODULE_1__["default"].getLocalStorage('user');
+        if (!token || !user)
+            return;
+        fetch(`http://localhost:3000/users/${user.id}`, {
+            method: 'put',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                email: user.email,
+                name,
+                password,
+            }),
+        })
+            .then((response) => __awaiter(this, void 0, void 0, function* () {
+            const { ok } = response;
+            const body = yield response.json();
+            if (!ok)
+                throw new Error(body);
+            localStorage.setItem('user', JSON.stringify(body));
+        }))
+            .catch((err) => {
+            (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(err.message);
         });
     }
 }
@@ -1174,6 +1207,7 @@ const routers = [
     { path: baseURL + '/purchase', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('purchase-tab') },
     { path: baseURL + '/login', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('login-page') },
     { path: baseURL + '/signup', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('signup-page') },
+    { path: baseURL + '/profile', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('profile-edit-page') },
 ];
 window.addEventListener('popstate', function () {
     render(window.location.pathname);
@@ -1198,7 +1232,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 const storage = {
     setLocalStorage(key, value) {
-        localStorage.setItem(key, JSON.stringify(value));
+        localStorage.setItem(key, typeof value === 'object' ? JSON.stringify(value) : value);
     },
     getLocalStorage(key) {
         const items = JSON.parse(localStorage.getItem(key));
@@ -1212,6 +1246,8 @@ const storage = {
                     50: { type: '50won', count: 0 },
                     10: { type: '10won', count: 0 },
                 });
+            case 'user':
+                return items;
         }
     },
 };
@@ -1684,19 +1720,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CustomElement */ "./src/ui/CustomElement.ts");
 /* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../templates */ "./src/templates.ts");
+/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../storage */ "./src/storage.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
+/* harmony import */ var _domain_Authentication__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../domain/Authentication */ "./src/domain/Authentication.ts");
+
+
+
 
 
 class ProfileEditPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
     connectedCallback() {
         super.connectedCallback();
+        _domain_Authentication__WEBPACK_IMPORTED_MODULE_4__["default"].instance.subscribe('subscribeProfileEditPage', this);
     }
     render() {
         this.innerHTML = this.template();
+        const user = _storage__WEBPACK_IMPORTED_MODULE_2__["default"].getLocalStorage('user');
+        if (!user)
+            return;
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('[name=email]', this).value = user.email;
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('[name=userName]', this).value = user.name;
     }
     template() {
         return _templates__WEBPACK_IMPORTED_MODULE_1__["default"].PROFILE_EDIT_PAGE;
     }
-    setEvent() { }
+    setEvent() {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.addEvent)(this, 'submit', '.profile-edit-form', (e) => this.handleEdit(e));
+    }
+    handleEdit(e) {
+        e.preventDefault();
+        const form = e.target;
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('.profile-edit-form', '@edit', { name: form.userName.value, password: form.password.value }, this);
+    }
 }
 customElements.define('profile-edit-page', ProfileEditPage);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProfileEditPage);
