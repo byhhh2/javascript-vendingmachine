@@ -45,7 +45,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_css_loader_dist_cjs_js_table_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! -!../../node_modules/css-loader/dist/cjs.js!./table.css */ "./node_modules/css-loader/dist/cjs.js!./src/css/table.css");
 /* harmony import */ var _node_modules_css_loader_dist_cjs_js_product_manage_tab_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! -!../../node_modules/css-loader/dist/cjs.js!./product-manage-tab.css */ "./node_modules/css-loader/dist/cjs.js!./src/css/product-manage-tab.css");
 /* harmony import */ var _node_modules_css_loader_dist_cjs_js_charge_tab_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! -!../../node_modules/css-loader/dist/cjs.js!./charge-tab.css */ "./node_modules/css-loader/dist/cjs.js!./src/css/charge-tab.css");
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_purchase_tab_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! -!../../node_modules/css-loader/dist/cjs.js!./purchase-tab.css */ "./node_modules/css-loader/dist/cjs.js!./src/css/purchase-tab.css");
 // Imports
+
 
 
 
@@ -55,8 +57,9 @@ var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBP
 ___CSS_LOADER_EXPORT___.i(_node_modules_css_loader_dist_cjs_js_table_css__WEBPACK_IMPORTED_MODULE_2__["default"]);
 ___CSS_LOADER_EXPORT___.i(_node_modules_css_loader_dist_cjs_js_product_manage_tab_css__WEBPACK_IMPORTED_MODULE_3__["default"]);
 ___CSS_LOADER_EXPORT___.i(_node_modules_css_loader_dist_cjs_js_charge_tab_css__WEBPACK_IMPORTED_MODULE_4__["default"]);
+___CSS_LOADER_EXPORT___.i(_node_modules_css_loader_dist_cjs_js_purchase_tab_css__WEBPACK_IMPORTED_MODULE_5__["default"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ":root {\n  --primary-font-color: rgba(0, 0, 0, 0.87);\n  --secondary-font-color: #ffffff;\n  --input-border-color: #b4b4b4;\n  --table-border-color: #dcdcdc;\n  --button-bg-color: #f5f5f5;\n  --button-focus-bg-color: #00bcd429;\n  --submit-button-bg-color: #00bcd4;\n}\n\nbody {\n  font-family: 'Roboto';\n  color: var(--primary-font-color);\n  font-style: normal;\n  font-weight: 400;\n  font-size: 16px;\n  line-height: 24px;\n  letter-spacing: 0.5px;\n}\n\nh1 {\n  margin: 32px 0;\n}\n\n#app {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n}\n\n.nav {\n  margin-bottom: 52px;\n}\n\n.button {\n  background: var(--button-bg-color);\n  border-radius: 4px;\n  border: none;\n  cursor: pointer;\n  width: 100px;\n  height: 36px;\n}\n\n.focus-button {\n  background: var(--button-focus-bg-color);\n}\n\n.submit-button {\n  background: var(--submit-button-bg-color);\n  border-radius: 4px;\n  border: none;\n  color: var(--secondary-font-color);\n  cursor: pointer;\n  width: 56px;\n  height: 36px;\n}\n\ninput {\n  padding: 8px;\n  border: 1px solid var(--input-border-color);\n  box-sizing: border-box;\n  border-radius: 4px;\n}\n\ninput::-webkit-outer-spin-button,\ninput::-webkit-inner-spin-button {\n  -webkit-appearance: none;\n  margin: 0;\n}\n\n.hidden {\n  display: none;\n}\n", "",{"version":3,"sources":["webpack://./src/css/index.css"],"names":[],"mappings":"AAIA;EACE,yCAAyC;EACzC,+BAA+B;EAC/B,6BAA6B;EAC7B,6BAA6B;EAC7B,0BAA0B;EAC1B,kCAAkC;EAClC,iCAAiC;AACnC;;AAEA;EACE,qBAAqB;EACrB,gCAAgC;EAChC,kBAAkB;EAClB,gBAAgB;EAChB,eAAe;EACf,iBAAiB;EACjB,qBAAqB;AACvB;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,aAAa;EACb,uBAAuB;EACvB,mBAAmB;EACnB,sBAAsB;AACxB;;AAEA;EACE,mBAAmB;AACrB;;AAEA;EACE,kCAAkC;EAClC,kBAAkB;EAClB,YAAY;EACZ,eAAe;EACf,YAAY;EACZ,YAAY;AACd;;AAEA;EACE,wCAAwC;AAC1C;;AAEA;EACE,yCAAyC;EACzC,kBAAkB;EAClB,YAAY;EACZ,kCAAkC;EAClC,eAAe;EACf,WAAW;EACX,YAAY;AACd;;AAEA;EACE,YAAY;EACZ,2CAA2C;EAC3C,sBAAsB;EACtB,kBAAkB;AACpB;;AAEA;;EAEE,wBAAwB;EACxB,SAAS;AACX;;AAEA;EACE,aAAa;AACf","sourcesContent":["@import './table.css';\n@import './product-manage-tab.css';\n@import './charge-tab.css';\n\n:root {\n  --primary-font-color: rgba(0, 0, 0, 0.87);\n  --secondary-font-color: #ffffff;\n  --input-border-color: #b4b4b4;\n  --table-border-color: #dcdcdc;\n  --button-bg-color: #f5f5f5;\n  --button-focus-bg-color: #00bcd429;\n  --submit-button-bg-color: #00bcd4;\n}\n\nbody {\n  font-family: 'Roboto';\n  color: var(--primary-font-color);\n  font-style: normal;\n  font-weight: 400;\n  font-size: 16px;\n  line-height: 24px;\n  letter-spacing: 0.5px;\n}\n\nh1 {\n  margin: 32px 0;\n}\n\n#app {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n}\n\n.nav {\n  margin-bottom: 52px;\n}\n\n.button {\n  background: var(--button-bg-color);\n  border-radius: 4px;\n  border: none;\n  cursor: pointer;\n  width: 100px;\n  height: 36px;\n}\n\n.focus-button {\n  background: var(--button-focus-bg-color);\n}\n\n.submit-button {\n  background: var(--submit-button-bg-color);\n  border-radius: 4px;\n  border: none;\n  color: var(--secondary-font-color);\n  cursor: pointer;\n  width: 56px;\n  height: 36px;\n}\n\ninput {\n  padding: 8px;\n  border: 1px solid var(--input-border-color);\n  box-sizing: border-box;\n  border-radius: 4px;\n}\n\ninput::-webkit-outer-spin-button,\ninput::-webkit-inner-spin-button {\n  -webkit-appearance: none;\n  margin: 0;\n}\n\n.hidden {\n  display: none;\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ":root {\n  --primary-font-color: rgba(0, 0, 0, 0.87);\n  --secondary-font-color: #ffffff;\n  --input-border-color: #b4b4b4;\n  --table-border-color: #dcdcdc;\n  --button-bg-color: #f5f5f5;\n  --button-focus-bg-color: #00bcd429;\n  --submit-button-bg-color: #00bcd4;\n}\n\nbody {\n  font-family: 'Roboto';\n  color: var(--primary-font-color);\n  font-style: normal;\n  font-weight: 400;\n  font-size: 16px;\n  line-height: 24px;\n  letter-spacing: 0.5px;\n}\n\nh1 {\n  margin: 32px 0;\n}\n\n#app {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n}\n\n.nav {\n  margin-bottom: 52px;\n}\n\n.button {\n  background: var(--button-bg-color);\n  border-radius: 4px;\n  border: none;\n  cursor: pointer;\n  width: 100px;\n  height: 32px;\n}\n\n.focus-button {\n  background: var(--button-focus-bg-color);\n}\n\n.submit-button {\n  background: var(--submit-button-bg-color);\n  border-radius: 4px;\n  border: none;\n  color: var(--secondary-font-color);\n  cursor: pointer;\n  width: 56px;\n  height: 36px;\n}\n\ninput {\n  padding: 8px;\n  border: 1px solid var(--input-border-color);\n  box-sizing: border-box;\n  border-radius: 4px;\n}\n\ninput::-webkit-outer-spin-button,\ninput::-webkit-inner-spin-button {\n  -webkit-appearance: none;\n  margin: 0;\n}\n\n.hidden {\n  display: none;\n}\n", "",{"version":3,"sources":["webpack://./src/css/index.css"],"names":[],"mappings":"AAKA;EACE,yCAAyC;EACzC,+BAA+B;EAC/B,6BAA6B;EAC7B,6BAA6B;EAC7B,0BAA0B;EAC1B,kCAAkC;EAClC,iCAAiC;AACnC;;AAEA;EACE,qBAAqB;EACrB,gCAAgC;EAChC,kBAAkB;EAClB,gBAAgB;EAChB,eAAe;EACf,iBAAiB;EACjB,qBAAqB;AACvB;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,aAAa;EACb,uBAAuB;EACvB,mBAAmB;EACnB,sBAAsB;AACxB;;AAEA;EACE,mBAAmB;AACrB;;AAEA;EACE,kCAAkC;EAClC,kBAAkB;EAClB,YAAY;EACZ,eAAe;EACf,YAAY;EACZ,YAAY;AACd;;AAEA;EACE,wCAAwC;AAC1C;;AAEA;EACE,yCAAyC;EACzC,kBAAkB;EAClB,YAAY;EACZ,kCAAkC;EAClC,eAAe;EACf,WAAW;EACX,YAAY;AACd;;AAEA;EACE,YAAY;EACZ,2CAA2C;EAC3C,sBAAsB;EACtB,kBAAkB;AACpB;;AAEA;;EAEE,wBAAwB;EACxB,SAAS;AACX;;AAEA;EACE,aAAa;AACf","sourcesContent":["@import './table.css';\n@import './product-manage-tab.css';\n@import './charge-tab.css';\n@import './purchase-tab.css';\n\n:root {\n  --primary-font-color: rgba(0, 0, 0, 0.87);\n  --secondary-font-color: #ffffff;\n  --input-border-color: #b4b4b4;\n  --table-border-color: #dcdcdc;\n  --button-bg-color: #f5f5f5;\n  --button-focus-bg-color: #00bcd429;\n  --submit-button-bg-color: #00bcd4;\n}\n\nbody {\n  font-family: 'Roboto';\n  color: var(--primary-font-color);\n  font-style: normal;\n  font-weight: 400;\n  font-size: 16px;\n  line-height: 24px;\n  letter-spacing: 0.5px;\n}\n\nh1 {\n  margin: 32px 0;\n}\n\n#app {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n}\n\n.nav {\n  margin-bottom: 52px;\n}\n\n.button {\n  background: var(--button-bg-color);\n  border-radius: 4px;\n  border: none;\n  cursor: pointer;\n  width: 100px;\n  height: 32px;\n}\n\n.focus-button {\n  background: var(--button-focus-bg-color);\n}\n\n.submit-button {\n  background: var(--submit-button-bg-color);\n  border-radius: 4px;\n  border: none;\n  color: var(--secondary-font-color);\n  cursor: pointer;\n  width: 56px;\n  height: 36px;\n}\n\ninput {\n  padding: 8px;\n  border: 1px solid var(--input-border-color);\n  box-sizing: border-box;\n  border-radius: 4px;\n}\n\ninput::-webkit-outer-spin-button,\ninput::-webkit-inner-spin-button {\n  -webkit-appearance: none;\n  margin: 0;\n}\n\n.hidden {\n  display: none;\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -83,6 +86,32 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, ".product-manage-form {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin-bottom: 48px;\n}\n\n.product-manage-form input {\n  width: 120px;\n  height: 36px;\n}\n\n.product-item input {\n  border: 0;\n}\n\nfieldset {\n  border: 0;\n  padding: 0;\n}\n\nlegend {\n  margin-bottom: 4px;\n}\n\ntd input {\n  text-align: center;\n  font-size: 16px;\n  width: 118px;\n  letter-spacing: 0.5px;\n}\n\ntd input:focus {\n  outline: none !important;\n  animation: focus linear 1.5s infinite;\n}\n\n@keyframes focus {\n  0% {\n    box-shadow: 0 0 5px red;\n  }\n  20% {\n    box-shadow: 0 0 5px orange;\n  }\n  40% {\n    box-shadow: 0 0 5px yellow;\n  }\n  60% {\n    box-shadow: 0 0 5px green;\n  }\n  80% {\n    box-shadow: 0 0 5px blue;\n  }\n  100% {\n    box-shadow: 0 0 4px purple;\n  }\n}\n", "",{"version":3,"sources":["webpack://./src/css/product-manage-tab.css"],"names":[],"mappings":"AAAA;EACE,aAAa;EACb,mBAAmB;EACnB,uBAAuB;EACvB,mBAAmB;AACrB;;AAEA;EACE,YAAY;EACZ,YAAY;AACd;;AAEA;EACE,SAAS;AACX;;AAEA;EACE,SAAS;EACT,UAAU;AACZ;;AAEA;EACE,kBAAkB;AACpB;;AAEA;EACE,kBAAkB;EAClB,eAAe;EACf,YAAY;EACZ,qBAAqB;AACvB;;AAEA;EACE,wBAAwB;EACxB,qCAAqC;AACvC;;AAEA;EACE;IACE,uBAAuB;EACzB;EACA;IACE,0BAA0B;EAC5B;EACA;IACE,0BAA0B;EAC5B;EACA;IACE,yBAAyB;EAC3B;EACA;IACE,wBAAwB;EAC1B;EACA;IACE,0BAA0B;EAC5B;AACF","sourcesContent":[".product-manage-form {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin-bottom: 48px;\n}\n\n.product-manage-form input {\n  width: 120px;\n  height: 36px;\n}\n\n.product-item input {\n  border: 0;\n}\n\nfieldset {\n  border: 0;\n  padding: 0;\n}\n\nlegend {\n  margin-bottom: 4px;\n}\n\ntd input {\n  text-align: center;\n  font-size: 16px;\n  width: 118px;\n  letter-spacing: 0.5px;\n}\n\ntd input:focus {\n  outline: none !important;\n  animation: focus linear 1.5s infinite;\n}\n\n@keyframes focus {\n  0% {\n    box-shadow: 0 0 5px red;\n  }\n  20% {\n    box-shadow: 0 0 5px orange;\n  }\n  40% {\n    box-shadow: 0 0 5px yellow;\n  }\n  60% {\n    box-shadow: 0 0 5px green;\n  }\n  80% {\n    box-shadow: 0 0 5px blue;\n  }\n  100% {\n    box-shadow: 0 0 4px purple;\n  }\n}\n"],"sourceRoot":""}]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./src/css/purchase-tab.css":
+/*!************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./src/css/purchase-tab.css ***!
+  \************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/sourceMaps.js */ "./node_modules/css-loader/dist/runtime/sourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".tab__purchase-tab {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.tab__purchase-tab p {\n  width: 360px;\n}\n\n.user-amount-form label {\n  display: block;\n}\n\n.user-amount-form input {\n  width: 300px;\n  height: 36px;\n}\n\n#purchasable-product-list-table {\n  margin-top: 48px;\n}\n\n#change-return-table {\n  margin: 60px 0 16px;\n}\n", "",{"version":3,"sources":["webpack://./src/css/purchase-tab.css"],"names":[],"mappings":"AAAA;EACE,aAAa;EACb,sBAAsB;EACtB,mBAAmB;AACrB;;AAEA;EACE,YAAY;AACd;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,YAAY;EACZ,YAAY;AACd;;AAEA;EACE,gBAAgB;AAClB;;AAEA;EACE,mBAAmB;AACrB","sourcesContent":[".tab__purchase-tab {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.tab__purchase-tab p {\n  width: 360px;\n}\n\n.user-amount-form label {\n  display: block;\n}\n\n.user-amount-form input {\n  width: 300px;\n  height: 36px;\n}\n\n#purchasable-product-list-table {\n  margin-top: 48px;\n}\n\n#change-return-table {\n  margin: 60px 0 16px;\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -858,6 +887,7 @@ const render = (path) => {
 const routers = [
     { path: baseURL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('product-management') },
     { path: baseURL + '/charge', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('charge-tab') },
+    { path: baseURL + '/purchase', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('purchase-tab') },
 ];
 window.addEventListener('popstate', function () {
     render(window.location.pathname);
@@ -982,7 +1012,62 @@ const TEMPLATE = {
         </tbody>
       </table>
     </section>
-`,
+  `,
+    PURCHASE_TAB: `
+    <section class="tab__purchase-tab">
+      <h2 hidden>상품 구매 화면</h2>
+      <form class="user-amount-form">
+        <label>상품을 구매할 금액을 투입해주세요.</label>
+        <input type="number" name="change" placeholder="금액" min="10" max="10000" required />
+        <button type="submit" class="user-amount-form__charge-button submit-button">투입</button>
+      </form>
+      <p>투입한 금액: <span class="user-amount">0</span>원</p>
+      <table id="purchasable-product-list-table">
+        <caption>
+          구매 가능 상품 현황
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">상품명</th>
+            <th scope="col">가격</th>
+            <th scope="col">수량</th>
+            <th scope="col">구매</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <table id="change-return-table">
+        <caption>
+          잔돈 반환
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">동전</th>
+            <th scope="col">개수</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>500원</td>
+            <td><span class="change-500-quantity">0</span>개</td>
+          </tr>
+          <tr>
+            <td>100원</td>
+            <td><span class="change-100-quantity">0</span>개</td>
+          </tr>
+          <tr>
+            <td>50원</td>
+            <td><span class="change-50-quantity">0</span>개</td>
+          </tr>
+          <tr>
+            <td>10원</td>
+            <td><span class="change-10-quantity">0</span>개</td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="button" class="button">반환</button>
+    </section>
+  `,
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TEMPLATE);
 
@@ -1205,6 +1290,38 @@ customElements.define('product-management', ProductManagement);
 
 /***/ }),
 
+/***/ "./src/ui/PurchaseTab.ts":
+/*!*******************************!*\
+  !*** ./src/ui/PurchaseTab.ts ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CustomElement */ "./src/ui/CustomElement.ts");
+/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../templates */ "./src/templates.ts");
+
+
+class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
+    connectedCallback() {
+        super.connectedCallback();
+    }
+    render() {
+        this.innerHTML = this.template();
+    }
+    template() {
+        return _templates__WEBPACK_IMPORTED_MODULE_1__["default"].PURCHASE_TAB;
+    }
+    setEvent() { }
+}
+customElements.define('purchase-tab', PurchaseTab);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PurchaseTab);
+
+
+/***/ }),
+
 /***/ "./src/utils.ts":
 /*!**********************!*\
   !*** ./src/utils.ts ***!
@@ -1400,7 +1517,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _css_index_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./css/index.css */ "./src/css/index.css");
 /* harmony import */ var _ui_ProductManagement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ui/ProductManagement */ "./src/ui/ProductManagement.ts");
 /* harmony import */ var _ui_ChargeTab__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ui/ChargeTab */ "./src/ui/ChargeTab.ts");
-/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./router */ "./src/router.ts");
+/* harmony import */ var _ui_PurchaseTab__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ui/PurchaseTab */ "./src/ui/PurchaseTab.ts");
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./router */ "./src/router.ts");
+
 
 
 
