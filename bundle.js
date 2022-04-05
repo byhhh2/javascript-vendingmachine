@@ -172,7 +172,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".tab__purchase-tab {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.tab__purchase-tab p {\n  width: 360px;\n}\n\n.user-amount-form label {\n  display: block;\n}\n\n.user-amount-form input {\n  width: 300px;\n  height: 36px;\n}\n\n.user-amount-form__charge-button {\n  width: 56px;\n}\n\n#purchasable-product-list-table {\n  margin-top: 48px;\n}\n\n#change-return-table {\n  margin: 60px 0 16px;\n}\n", "",{"version":3,"sources":["webpack://./src/css/purchase-tab.css"],"names":[],"mappings":"AAAA;EACE,aAAa;EACb,sBAAsB;EACtB,mBAAmB;AACrB;;AAEA;EACE,YAAY;AACd;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,YAAY;EACZ,YAAY;AACd;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,gBAAgB;AAClB;;AAEA;EACE,mBAAmB;AACrB","sourcesContent":[".tab__purchase-tab {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.tab__purchase-tab p {\n  width: 360px;\n}\n\n.user-amount-form label {\n  display: block;\n}\n\n.user-amount-form input {\n  width: 300px;\n  height: 36px;\n}\n\n.user-amount-form__charge-button {\n  width: 56px;\n}\n\n#purchasable-product-list-table {\n  margin-top: 48px;\n}\n\n#change-return-table {\n  margin: 60px 0 16px;\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".tab__purchase-tab {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.tab__purchase-tab p {\n  width: 360px;\n}\n\n.user-amount-form label {\n  display: block;\n}\n\n.user-amount-form input {\n  width: 300px;\n  height: 36px;\n}\n\n.user-amount-form__charge-button {\n  width: 56px;\n}\n\n#purchasable-product-list-table {\n  margin-top: 48px;\n}\n\n#change-return-table {\n  margin: 60px 0 16px;\n}\n\n.return-button {\n  margin-bottom: 30px;\n}\n", "",{"version":3,"sources":["webpack://./src/css/purchase-tab.css"],"names":[],"mappings":"AAAA;EACE,aAAa;EACb,sBAAsB;EACtB,mBAAmB;AACrB;;AAEA;EACE,YAAY;AACd;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,YAAY;EACZ,YAAY;AACd;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,gBAAgB;AAClB;;AAEA;EACE,mBAAmB;AACrB;;AAEA;EACE,mBAAmB;AACrB","sourcesContent":[".tab__purchase-tab {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.tab__purchase-tab p {\n  width: 360px;\n}\n\n.user-amount-form label {\n  display: block;\n}\n\n.user-amount-form input {\n  width: 300px;\n  height: 36px;\n}\n\n.user-amount-form__charge-button {\n  width: 56px;\n}\n\n#purchasable-product-list-table {\n  margin-top: 48px;\n}\n\n#change-return-table {\n  margin: 60px 0 16px;\n}\n\n.return-button {\n  margin-bottom: 30px;\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1188,7 +1188,7 @@ const TEMPLATE = {
           </tr>
         </tbody>
       </table>
-      <button type="button" class="button">반환</button>
+      <button type="button" class="button return-button">반환</button>
     </section>
   `,
     LOGIN_PAGE: `
