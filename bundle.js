@@ -870,6 +870,7 @@ __webpack_require__.r(__webpack_exports__);
 
 class VendingMachine {
     constructor() {
+        this.userAmount = 0;
         this.observers = [];
         this.amount = new _Coin__WEBPACK_IMPORTED_MODULE_4__.Coin(_storage__WEBPACK_IMPORTED_MODULE_1__["default"].getLocalStorage('amount'));
         this.products = _storage__WEBPACK_IMPORTED_MODULE_1__["default"].getLocalStorage('products').map((product) => new _Product__WEBPACK_IMPORTED_MODULE_5__["default"](product, product.id));
@@ -888,9 +889,12 @@ class VendingMachine {
     subscribeChargeTab() {
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.charge-form', '@charge', (e) => this.charge(e.detail.change), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('charge-tab'));
     }
+    subscribePurchaseTab() {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.user-amount-form', '@insert-coin', (e) => this.insertCoin(e.detail.userInputMoney), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('purchase-tab'));
+    }
     dispatch(key, action, product) {
         const targets = this.observers.filter((observer) => observer.key === key);
-        targets.forEach((target) => target.element.notify({ action, amount: this.amount, product }));
+        targets.forEach((target) => target.element.notify({ action, amount: this.amount, product, userAmount: this.userAmount }));
     }
     observe(key, element) {
         this.observers.push({ key, element });
@@ -932,6 +936,16 @@ class VendingMachine {
             this.amount.genarateRandomCoin(inputMoney);
             _storage__WEBPACK_IMPORTED_MODULE_1__["default"].setLocalStorage('amount', this.amount.counter);
             this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.CHARGE, 'update');
+        }
+        catch (error) {
+            alert(error.message);
+        }
+    }
+    insertCoin(userInputMoney) {
+        try {
+            (0,_validator__WEBPACK_IMPORTED_MODULE_3__.validateUserInputMoney)(userInputMoney);
+            this.userAmount += userInputMoney;
+            this.dispatch('subscribePurchaseTab', 'insert-coin');
         }
         catch (error) {
             alert(error.message);
@@ -1498,11 +1512,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CustomElement */ "./src/ui/CustomElement.ts");
 /* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../templates */ "./src/templates.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
+/* harmony import */ var _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../domain/VendingMachine */ "./src/domain/VendingMachine.ts");
+
+
 
 
 class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
     connectedCallback() {
         super.connectedCallback();
+        _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_3__["default"].instance.observe('subscribePurchaseTab', this);
     }
     render() {
         this.innerHTML = this.template();
@@ -1510,7 +1529,20 @@ class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElem
     template() {
         return _templates__WEBPACK_IMPORTED_MODULE_1__["default"].PURCHASE_TAB;
     }
-    setEvent() { }
+    setEvent() {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.addEvent)(this, 'submit', '.user-amount-form', (e) => this.handleInsertCoin(e));
+    }
+    handleInsertCoin(e) {
+        e.preventDefault();
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.user-amount-form', '@insert-coin', { userInputMoney: e.target.change.valueAsNumber }, this);
+    }
+    notify({ action, userAmount }) {
+        switch (action) {
+            case 'insert-coin':
+                (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.user-amount', this).textContent = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.markUnit)(userAmount);
+                return;
+        }
+    }
 }
 customElements.define('purchase-tab', PurchaseTab);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PurchaseTab);
@@ -1607,7 +1639,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "validateProduct": () => (/* binding */ validateProduct),
 /* harmony export */   "validateChange": () => (/* binding */ validateChange),
-/* harmony export */   "validateUpdateProduct": () => (/* binding */ validateUpdateProduct)
+/* harmony export */   "validateUpdateProduct": () => (/* binding */ validateUpdateProduct),
+/* harmony export */   "validateUserInputMoney": () => (/* binding */ validateUserInputMoney)
 /* harmony export */ });
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
 
@@ -1661,6 +1694,11 @@ const validateUpdateProduct = (targetName, name, price, products) => {
     }
     if (updateProductValidator.isIncorrectUnit(price)) {
         throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.INCORRECT_UNIT_PRODUCT_PRICE);
+    }
+};
+const validateUserInputMoney = (userInputMoney) => {
+    if (productValidator.isIncorrectUnit(userInputMoney)) {
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.INCORRECT_UNIT_CHARGE_MONEY);
     }
 };
 
