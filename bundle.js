@@ -749,7 +749,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/utils.ts");
 
-const COINS = [10, 50, 100, 500];
+const COINS = [500, 100, 50, 10];
 const CONFIGURATION = {
     AMOUNT: {
         UNIT: 10,
@@ -801,6 +801,12 @@ class Coin {
             50: { type: '50won', count: 0 },
             10: { type: '10won', count: 0 },
         };
+        this.userChange = {
+            500: { type: '500won', count: 0 },
+            100: { type: '100won', count: 0 },
+            50: { type: '50won', count: 0 },
+            10: { type: '10won', count: 0 },
+        };
         this.counter = counter;
     }
     getAmount() {
@@ -815,6 +821,20 @@ class Coin {
                 remainingAmount -= randomCoin;
             }
         }
+    }
+    returnChange(userAmount) {
+        _constants__WEBPACK_IMPORTED_MODULE_0__.COINS.forEach((coin) => {
+            this.userChange[coin].count = 0;
+        });
+        let remainingUserAmount = userAmount;
+        _constants__WEBPACK_IMPORTED_MODULE_0__.COINS.forEach((coin) => {
+            while (remainingUserAmount > 0 && this.counter[coin].count > 0) {
+                remainingUserAmount -= coin;
+                this.userChange[coin].count += 1;
+                this.counter[coin].count -= 1;
+            }
+        });
+        return remainingUserAmount;
     }
 }
 
@@ -893,6 +913,7 @@ class VendingMachine {
     subscribePurchaseTab() {
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.user-amount-form', '@insert-coin', (e) => this.insertCoin(e.detail.userInputMoney), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('purchase-tab'));
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('#purchasable-product-list-table', '@purchase', (e) => this.purchase(e.detail.productId), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('purchase-tab'));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.return-button', '@return', () => this.returnCoin(), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('purchase-tab'));
     }
     dispatch(key, action, product) {
         const targets = this.observers.filter((observer) => observer.key === key);
@@ -968,6 +989,19 @@ class VendingMachine {
                 this.products = this.products.filter((product) => product.id !== targetProduct.id);
             }
             _storage__WEBPACK_IMPORTED_MODULE_1__["default"].setLocalStorage('products', this.products);
+        }
+        catch (error) {
+            alert(error.message);
+        }
+    }
+    returnCoin() {
+        try {
+            (0,_validator__WEBPACK_IMPORTED_MODULE_3__.validateReturn)(this.userAmount);
+            const remainingUserAmount = this.amount.returnChange(this.userAmount);
+            this.userAmount = remainingUserAmount;
+            this.dispatch('subscribePurchaseTab', 'return');
+            this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.CHARGE, 'update');
+            _storage__WEBPACK_IMPORTED_MODULE_1__["default"].setLocalStorage('amount', this.amount.counter);
         }
         catch (error) {
             alert(error.message);
@@ -1537,6 +1571,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../storage */ "./src/storage.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
 /* harmony import */ var _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../domain/VendingMachine */ "./src/domain/VendingMachine.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
+
 
 
 
@@ -1559,6 +1595,7 @@ class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElem
     setEvent() {
         (0,_utils__WEBPACK_IMPORTED_MODULE_3__.addEvent)(this, 'submit', '.user-amount-form', (e) => this.handleInsertCoin(e));
         (0,_utils__WEBPACK_IMPORTED_MODULE_3__.addEvent)(this, 'click', '.purchase_button', (e) => this.handlePurchase(e));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.addEvent)(this, 'click', '.return-button', () => (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('.return-button', '@return', {}, this));
     }
     handleInsertCoin(e) {
         e.preventDefault();
@@ -1579,7 +1616,7 @@ class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElem
        </tr>
       `);
     }
-    notify({ action, product, userAmount }) {
+    notify({ action, amount, product, userAmount }) {
         switch (action) {
             case 'update-amount':
                 this.updateAmount(userAmount);
@@ -1593,6 +1630,8 @@ class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElem
             case 'delete-product':
                 this.updateProductTable('delete-product', product);
                 return;
+            case 'return':
+                this.returnChange(amount, userAmount);
         }
     }
     updateAmount(userAmount) {
@@ -1604,11 +1643,6 @@ class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElem
             (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('[name=quantity]', item).textContent = String(product.quantity);
         });
         this.deleteProductItem(product, productItems);
-    }
-    deleteProductItem(product, productItems) {
-        if (product.quantity > 0)
-            return;
-        productItems.forEach((item) => item.remove());
     }
     updateProductTable(action, product) {
         const productTable = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('#purchasable-product-list-table', this);
@@ -1622,6 +1656,15 @@ class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElem
                 targetProduct.remove();
                 return;
         }
+    }
+    returnChange(amount, userAmount) {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('.user-amount', this).textContent = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.markUnit)(userAmount);
+        _constants__WEBPACK_IMPORTED_MODULE_5__.COINS.forEach((coin) => ((0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)(`.change-${coin}-quantity`).textContent = amount.userChange[coin].count));
+    }
+    deleteProductItem(product, productItems) {
+        if (product.quantity > 0)
+            return;
+        productItems.forEach((item) => item.remove());
     }
 }
 customElements.define('purchase-tab', PurchaseTab);
@@ -1721,7 +1764,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "validateChange": () => (/* binding */ validateChange),
 /* harmony export */   "validateUpdateProduct": () => (/* binding */ validateUpdateProduct),
 /* harmony export */   "validateUserInputMoney": () => (/* binding */ validateUserInputMoney),
-/* harmony export */   "validatePurchable": () => (/* binding */ validatePurchable)
+/* harmony export */   "validatePurchable": () => (/* binding */ validatePurchable),
+/* harmony export */   "validateReturn": () => (/* binding */ validateReturn)
 /* harmony export */ });
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
 
@@ -1790,6 +1834,16 @@ const purchableValidator = {
 const validatePurchable = (userAmount, product) => {
     if (purchableValidator.isInsufficientCash(userAmount, product)) {
         throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.INSUFFICIENT_CASH);
+    }
+};
+const returnValidator = {
+    isInsufficientAmount(userAmount) {
+        return userAmount <= 0;
+    },
+};
+const validateReturn = (userAmount) => {
+    if (returnValidator.isInsufficientAmount(userAmount)) {
+        throw new Error('반환할 잔액이 없습니다.');
     }
 };
 
