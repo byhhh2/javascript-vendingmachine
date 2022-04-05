@@ -97,7 +97,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".login-button {\n  position: absolute;\n  top: 12px;\n  right: 180px;\n}\n\n.login-form label {\n  display: block;\n  margin-top: 8px;\n}\n\n.login-form input {\n  width: 300px;\n  margin: 8px 0;\n}\n\n.login-page h2 {\n  text-align: center;\n  margin-bottom: 48px;\n}\n\n.login-page__login-button {\n  display: block;\n  width: 300px;\n  margin-top: 32px;\n}\n", "",{"version":3,"sources":["webpack://./src/css/login.css"],"names":[],"mappings":"AAAA;EACE,kBAAkB;EAClB,SAAS;EACT,YAAY;AACd;;AAEA;EACE,cAAc;EACd,eAAe;AACjB;;AAEA;EACE,YAAY;EACZ,aAAa;AACf;;AAEA;EACE,kBAAkB;EAClB,mBAAmB;AACrB;;AAEA;EACE,cAAc;EACd,YAAY;EACZ,gBAAgB;AAClB","sourcesContent":[".login-button {\n  position: absolute;\n  top: 12px;\n  right: 180px;\n}\n\n.login-form label {\n  display: block;\n  margin-top: 8px;\n}\n\n.login-form input {\n  width: 300px;\n  margin: 8px 0;\n}\n\n.login-page h2 {\n  text-align: center;\n  margin-bottom: 48px;\n}\n\n.login-page__login-button {\n  display: block;\n  width: 300px;\n  margin-top: 32px;\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".login-button {\n  position: absolute;\n  top: 12px;\n  right: 180px;\n}\n\n.login-form label {\n  display: block;\n  margin-top: 8px;\n}\n\n.login-form input {\n  width: 300px;\n  margin: 8px 0;\n}\n\n.login-page h2 {\n  text-align: center;\n  margin-bottom: 48px;\n}\n\n.login-page__login-button {\n  display: block;\n  width: 300px;\n  margin-top: 32px;\n}\n\n.user-name {\n  position: absolute;\n  top: 12px;\n  right: 180px;\n  width: 40px;\n  height: 40px;\n  background: #d6f4f8;\n  border-radius: 100%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n", "",{"version":3,"sources":["webpack://./src/css/login.css"],"names":[],"mappings":"AAAA;EACE,kBAAkB;EAClB,SAAS;EACT,YAAY;AACd;;AAEA;EACE,cAAc;EACd,eAAe;AACjB;;AAEA;EACE,YAAY;EACZ,aAAa;AACf;;AAEA;EACE,kBAAkB;EAClB,mBAAmB;AACrB;;AAEA;EACE,cAAc;EACd,YAAY;EACZ,gBAAgB;AAClB;;AAEA;EACE,kBAAkB;EAClB,SAAS;EACT,YAAY;EACZ,WAAW;EACX,YAAY;EACZ,mBAAmB;EACnB,mBAAmB;EACnB,aAAa;EACb,mBAAmB;EACnB,uBAAuB;AACzB","sourcesContent":[".login-button {\n  position: absolute;\n  top: 12px;\n  right: 180px;\n}\n\n.login-form label {\n  display: block;\n  margin-top: 8px;\n}\n\n.login-form input {\n  width: 300px;\n  margin: 8px 0;\n}\n\n.login-page h2 {\n  text-align: center;\n  margin-bottom: 48px;\n}\n\n.login-page__login-button {\n  display: block;\n  width: 300px;\n  margin-top: 32px;\n}\n\n.user-name {\n  position: absolute;\n  top: 12px;\n  right: 180px;\n  width: 40px;\n  height: 40px;\n  background: #d6f4f8;\n  border-radius: 100%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -201,7 +201,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".signup-form label {\n  display: block;\n  margin-top: 8px;\n}\n\n.signup-form input {\n  width: 300px;\n  margin: 8px 0;\n}\n\n.signup-page h2 {\n  text-align: center;\n  margin-bottom: 48px;\n}\n\n.signup-page__signup-button {\n  display: block;\n  width: 300px;\n  margin-top: 32px;\n}\n", "",{"version":3,"sources":["webpack://./src/css/signup-page.css"],"names":[],"mappings":"AAAA;EACE,cAAc;EACd,eAAe;AACjB;;AAEA;EACE,YAAY;EACZ,aAAa;AACf;;AAEA;EACE,kBAAkB;EAClB,mBAAmB;AACrB;;AAEA;EACE,cAAc;EACd,YAAY;EACZ,gBAAgB;AAClB","sourcesContent":[".signup-form label {\n  display: block;\n  margin-top: 8px;\n}\n\n.signup-form input {\n  width: 300px;\n  margin: 8px 0;\n}\n\n.signup-page h2 {\n  text-align: center;\n  margin-bottom: 48px;\n}\n\n.signup-page__signup-button {\n  display: block;\n  width: 300px;\n  margin-top: 32px;\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".signup-button {\n  position: absolute;\n  top: 12px;\n  right: 180px;\n}\n\n.signup-form label {\n  display: block;\n  margin-top: 8px;\n}\n\n.signup-form input {\n  width: 300px;\n  margin: 8px 0;\n}\n\n.signup-page h2 {\n  text-align: center;\n  margin-bottom: 48px;\n}\n\n.signup-page__signup-button {\n  display: block;\n  width: 300px;\n  margin-top: 32px;\n}\n", "",{"version":3,"sources":["webpack://./src/css/signup-page.css"],"names":[],"mappings":"AAAA;EACE,kBAAkB;EAClB,SAAS;EACT,YAAY;AACd;;AAEA;EACE,cAAc;EACd,eAAe;AACjB;;AAEA;EACE,YAAY;EACZ,aAAa;AACf;;AAEA;EACE,kBAAkB;EAClB,mBAAmB;AACrB;;AAEA;EACE,cAAc;EACd,YAAY;EACZ,gBAAgB;AAClB","sourcesContent":[".signup-button {\n  position: absolute;\n  top: 12px;\n  right: 180px;\n}\n\n.signup-form label {\n  display: block;\n  margin-top: 8px;\n}\n\n.signup-form input {\n  width: 300px;\n  margin: 8px 0;\n}\n\n.signup-page h2 {\n  text-align: center;\n  margin-bottom: 48px;\n}\n\n.signup-page__signup-button {\n  display: block;\n  width: 300px;\n  margin-top: 32px;\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -834,6 +834,9 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 class Authentication {
+    constructor() {
+        this.observers = [];
+    }
     static get instance() {
         if (!Authentication._instance) {
             Authentication._instance = new Authentication();
@@ -841,7 +844,13 @@ class Authentication {
         return Authentication._instance;
     }
     subscribe(key, element) {
+        this.observers.push({ key, element });
         this[key]();
+    }
+    dispatch(params) {
+        const { key, userName } = params;
+        const targets = this.observers.filter((observer) => observer.key === key);
+        targets.forEach((target) => target.element.notify({ userName }));
     }
     subscribeSignupPage() {
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.signup-form', '@signup', (e) => this.signup(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('signup-page'));
@@ -892,6 +901,7 @@ class Authentication {
             const { accessToken, user } = body;
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('user', JSON.stringify(user));
+            this.dispatch({ key: 'subscribeLoginPage', userName: user.name });
             (0,_router__WEBPACK_IMPORTED_MODULE_0__.historyRouterPush)('/javascript-vendingmachine/');
         }))
             .catch((err) => {
@@ -1181,11 +1191,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "historyRouterPush": () => (/* binding */ historyRouterPush)
 /* harmony export */ });
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/utils.ts");
+/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./storage */ "./src/storage.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils */ "./src/utils.ts");
+
 
 const nav = document.querySelector('.nav');
+const auth = document.querySelector('.auth');
 const baseURL = '/javascript-vendingmachine';
 nav.addEventListener('click', (e) => {
+    historyRouterPush(e.target.getAttribute('route'));
+});
+auth.addEventListener('click', (e) => {
+    if (e.target.tagName !== 'BUTTON')
+        return;
     historyRouterPush(e.target.getAttribute('route'));
 });
 const historyRouterPush = (pathname) => {
@@ -1194,20 +1212,20 @@ const historyRouterPush = (pathname) => {
 };
 const render = (path) => {
     var _a, _b, _c;
-    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$$)('.focus-button').forEach((button) => button.classList.remove('focus-button'));
-    (_a = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)(`[route='${path}']`, nav)) === null || _a === void 0 ? void 0 : _a.classList.add('focus-button');
-    const cur = (_c = (_b = routers.find((route) => route.path === path)) === null || _b === void 0 ? void 0 : _b.component) !== null && _c !== void 0 ? _c : (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('product-management');
+    (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$$)('.focus-button').forEach((button) => button.classList.remove('focus-button'));
+    (_a = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)(`[route='${path}']`, nav)) === null || _a === void 0 ? void 0 : _a.classList.add('focus-button');
+    const cur = (_c = (_b = routers.find((route) => route.path === path)) === null || _b === void 0 ? void 0 : _b.component) !== null && _c !== void 0 ? _c : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('product-management');
     const prevs = routers.filter((route) => route.path !== path);
     cur.classList.remove('hidden');
     prevs.forEach((p) => p.component.classList.add('hidden'));
 };
 const routers = [
-    { path: baseURL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('product-management') },
-    { path: baseURL + '/charge', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('charge-tab') },
-    { path: baseURL + '/purchase', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('purchase-tab') },
-    { path: baseURL + '/login', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('login-page') },
-    { path: baseURL + '/signup', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('signup-page') },
-    { path: baseURL + '/profile', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('profile-edit-page') },
+    { path: baseURL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('product-management') },
+    { path: baseURL + '/charge', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('charge-tab') },
+    { path: baseURL + '/purchase', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('purchase-tab') },
+    { path: baseURL + '/login', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('login-page') },
+    { path: baseURL + '/signup', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('signup-page') },
+    { path: baseURL + '/profile', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('profile-edit-page') },
 ];
 window.addEventListener('popstate', function () {
     render(window.location.pathname);
@@ -1216,6 +1234,12 @@ if (window.location.pathname === '/') {
     window.location.pathname = baseURL;
 }
 render(window.location.pathname);
+(0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.signup-button').classList.add('hidden');
+(0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.login-button').classList.toggle('hidden', !!localStorage.getItem('accessToken'));
+(0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.user-name').classList.toggle('hidden', !localStorage.getItem('accessToken'));
+(0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.user-name').textContent = _storage__WEBPACK_IMPORTED_MODULE_0__["default"].getLocalStorage('user')
+    ? _storage__WEBPACK_IMPORTED_MODULE_0__["default"].getLocalStorage('user').name.substring(0, 1)
+    : '';
 
 
 /***/ }),
@@ -1567,6 +1591,12 @@ class LoginPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElemen
     handleSignup(e) {
         e.preventDefault();
         (0,_router__WEBPACK_IMPORTED_MODULE_4__.historyRouterPush)('/javascript-vendingmachine/signup');
+    }
+    notify({ userName }) {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.signup-button').classList.add('hidden');
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.login-button').classList.add('hidden');
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.user-name').classList.remove('hidden');
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.user-name').textContent = userName.substring(0, 1);
     }
 }
 customElements.define('login-page', LoginPage);
