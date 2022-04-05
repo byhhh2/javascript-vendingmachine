@@ -48,7 +48,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_css_loader_dist_cjs_js_purchase_tab_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! -!../../node_modules/css-loader/dist/cjs.js!./purchase-tab.css */ "./node_modules/css-loader/dist/cjs.js!./src/css/purchase-tab.css");
 /* harmony import */ var _node_modules_css_loader_dist_cjs_js_login_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! -!../../node_modules/css-loader/dist/cjs.js!./login.css */ "./node_modules/css-loader/dist/cjs.js!./src/css/login.css");
 /* harmony import */ var _node_modules_css_loader_dist_cjs_js_signup_page_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! -!../../node_modules/css-loader/dist/cjs.js!./signup-page.css */ "./node_modules/css-loader/dist/cjs.js!./src/css/signup-page.css");
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_profile_edit_page_css__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! -!../../node_modules/css-loader/dist/cjs.js!./profile-edit-page.css */ "./node_modules/css-loader/dist/cjs.js!./src/css/profile-edit-page.css");
 // Imports
+
 
 
 
@@ -64,8 +66,9 @@ ___CSS_LOADER_EXPORT___.i(_node_modules_css_loader_dist_cjs_js_charge_tab_css__W
 ___CSS_LOADER_EXPORT___.i(_node_modules_css_loader_dist_cjs_js_purchase_tab_css__WEBPACK_IMPORTED_MODULE_5__["default"]);
 ___CSS_LOADER_EXPORT___.i(_node_modules_css_loader_dist_cjs_js_login_css__WEBPACK_IMPORTED_MODULE_6__["default"]);
 ___CSS_LOADER_EXPORT___.i(_node_modules_css_loader_dist_cjs_js_signup_page_css__WEBPACK_IMPORTED_MODULE_7__["default"]);
+___CSS_LOADER_EXPORT___.i(_node_modules_css_loader_dist_cjs_js_profile_edit_page_css__WEBPACK_IMPORTED_MODULE_8__["default"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ":root {\n  --primary-font-color: rgba(0, 0, 0, 0.87);\n  --secondary-font-color: #ffffff;\n  --input-border-color: #b4b4b4;\n  --table-border-color: #dcdcdc;\n  --button-bg-color: #f5f5f5;\n  --button-focus-bg-color: #00bcd429;\n  --submit-button-bg-color: #00bcd4;\n}\n\nbody {\n  font-family: 'Roboto';\n  color: var(--primary-font-color);\n  font-style: normal;\n  font-weight: 400;\n  font-size: 16px;\n  line-height: 24px;\n  letter-spacing: 0.5px;\n}\n\nh1 {\n  margin: 32px 0;\n}\n\n#app {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n}\n\n.nav {\n  margin-bottom: 52px;\n}\n\n.button {\n  background: var(--button-bg-color);\n  border-radius: 4px;\n  border: none;\n  cursor: pointer;\n  width: 100px;\n  height: 32px;\n}\n\n.focus-button {\n  background: var(--button-focus-bg-color);\n}\n\n.submit-button {\n  background: var(--submit-button-bg-color);\n  border-radius: 4px;\n  border: none;\n  color: var(--secondary-font-color);\n  cursor: pointer;\n  height: 36px;\n}\n\ninput {\n  padding: 8px;\n  border: 1px solid var(--input-border-color);\n  box-sizing: border-box;\n  border-radius: 4px;\n}\n\ninput::-webkit-outer-spin-button,\ninput::-webkit-inner-spin-button {\n  -webkit-appearance: none;\n  margin: 0;\n}\n\n.hidden {\n  display: none;\n}\n", "",{"version":3,"sources":["webpack://./src/css/index.css"],"names":[],"mappings":"AAOA;EACE,yCAAyC;EACzC,+BAA+B;EAC/B,6BAA6B;EAC7B,6BAA6B;EAC7B,0BAA0B;EAC1B,kCAAkC;EAClC,iCAAiC;AACnC;;AAEA;EACE,qBAAqB;EACrB,gCAAgC;EAChC,kBAAkB;EAClB,gBAAgB;EAChB,eAAe;EACf,iBAAiB;EACjB,qBAAqB;AACvB;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,aAAa;EACb,uBAAuB;EACvB,mBAAmB;EACnB,sBAAsB;AACxB;;AAEA;EACE,mBAAmB;AACrB;;AAEA;EACE,kCAAkC;EAClC,kBAAkB;EAClB,YAAY;EACZ,eAAe;EACf,YAAY;EACZ,YAAY;AACd;;AAEA;EACE,wCAAwC;AAC1C;;AAEA;EACE,yCAAyC;EACzC,kBAAkB;EAClB,YAAY;EACZ,kCAAkC;EAClC,eAAe;EACf,YAAY;AACd;;AAEA;EACE,YAAY;EACZ,2CAA2C;EAC3C,sBAAsB;EACtB,kBAAkB;AACpB;;AAEA;;EAEE,wBAAwB;EACxB,SAAS;AACX;;AAEA;EACE,aAAa;AACf","sourcesContent":["@import './table.css';\n@import './product-manage-tab.css';\n@import './charge-tab.css';\n@import './purchase-tab.css';\n@import './login.css';\n@import './signup-page.css';\n\n:root {\n  --primary-font-color: rgba(0, 0, 0, 0.87);\n  --secondary-font-color: #ffffff;\n  --input-border-color: #b4b4b4;\n  --table-border-color: #dcdcdc;\n  --button-bg-color: #f5f5f5;\n  --button-focus-bg-color: #00bcd429;\n  --submit-button-bg-color: #00bcd4;\n}\n\nbody {\n  font-family: 'Roboto';\n  color: var(--primary-font-color);\n  font-style: normal;\n  font-weight: 400;\n  font-size: 16px;\n  line-height: 24px;\n  letter-spacing: 0.5px;\n}\n\nh1 {\n  margin: 32px 0;\n}\n\n#app {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n}\n\n.nav {\n  margin-bottom: 52px;\n}\n\n.button {\n  background: var(--button-bg-color);\n  border-radius: 4px;\n  border: none;\n  cursor: pointer;\n  width: 100px;\n  height: 32px;\n}\n\n.focus-button {\n  background: var(--button-focus-bg-color);\n}\n\n.submit-button {\n  background: var(--submit-button-bg-color);\n  border-radius: 4px;\n  border: none;\n  color: var(--secondary-font-color);\n  cursor: pointer;\n  height: 36px;\n}\n\ninput {\n  padding: 8px;\n  border: 1px solid var(--input-border-color);\n  box-sizing: border-box;\n  border-radius: 4px;\n}\n\ninput::-webkit-outer-spin-button,\ninput::-webkit-inner-spin-button {\n  -webkit-appearance: none;\n  margin: 0;\n}\n\n.hidden {\n  display: none;\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ":root {\n  --primary-font-color: rgba(0, 0, 0, 0.87);\n  --secondary-font-color: #ffffff;\n  --input-border-color: #b4b4b4;\n  --table-border-color: #dcdcdc;\n  --button-bg-color: #f5f5f5;\n  --button-focus-bg-color: #00bcd429;\n  --submit-button-bg-color: #00bcd4;\n}\n\nbody {\n  font-family: 'Roboto';\n  color: var(--primary-font-color);\n  font-style: normal;\n  font-weight: 400;\n  font-size: 16px;\n  line-height: 24px;\n  letter-spacing: 0.5px;\n}\n\nh1 {\n  margin: 32px 0;\n}\n\n#app {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n}\n\n.nav {\n  margin-bottom: 52px;\n}\n\n.button {\n  background: var(--button-bg-color);\n  border-radius: 4px;\n  border: none;\n  cursor: pointer;\n  width: 100px;\n  height: 32px;\n}\n\n.focus-button {\n  background: var(--button-focus-bg-color);\n}\n\n.submit-button {\n  background: var(--submit-button-bg-color);\n  border-radius: 4px;\n  border: none;\n  color: var(--secondary-font-color);\n  cursor: pointer;\n  height: 36px;\n}\n\ninput {\n  padding: 8px;\n  border: 1px solid var(--input-border-color);\n  box-sizing: border-box;\n  border-radius: 4px;\n}\n\ninput::-webkit-outer-spin-button,\ninput::-webkit-inner-spin-button {\n  -webkit-appearance: none;\n  margin: 0;\n}\n\n.hidden {\n  display: none;\n}\n", "",{"version":3,"sources":["webpack://./src/css/index.css"],"names":[],"mappings":"AAQA;EACE,yCAAyC;EACzC,+BAA+B;EAC/B,6BAA6B;EAC7B,6BAA6B;EAC7B,0BAA0B;EAC1B,kCAAkC;EAClC,iCAAiC;AACnC;;AAEA;EACE,qBAAqB;EACrB,gCAAgC;EAChC,kBAAkB;EAClB,gBAAgB;EAChB,eAAe;EACf,iBAAiB;EACjB,qBAAqB;AACvB;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,aAAa;EACb,uBAAuB;EACvB,mBAAmB;EACnB,sBAAsB;AACxB;;AAEA;EACE,mBAAmB;AACrB;;AAEA;EACE,kCAAkC;EAClC,kBAAkB;EAClB,YAAY;EACZ,eAAe;EACf,YAAY;EACZ,YAAY;AACd;;AAEA;EACE,wCAAwC;AAC1C;;AAEA;EACE,yCAAyC;EACzC,kBAAkB;EAClB,YAAY;EACZ,kCAAkC;EAClC,eAAe;EACf,YAAY;AACd;;AAEA;EACE,YAAY;EACZ,2CAA2C;EAC3C,sBAAsB;EACtB,kBAAkB;AACpB;;AAEA;;EAEE,wBAAwB;EACxB,SAAS;AACX;;AAEA;EACE,aAAa;AACf","sourcesContent":["@import './table.css';\n@import './product-manage-tab.css';\n@import './charge-tab.css';\n@import './purchase-tab.css';\n@import './login.css';\n@import './signup-page.css';\n@import './profile-edit-page.css';\n\n:root {\n  --primary-font-color: rgba(0, 0, 0, 0.87);\n  --secondary-font-color: #ffffff;\n  --input-border-color: #b4b4b4;\n  --table-border-color: #dcdcdc;\n  --button-bg-color: #f5f5f5;\n  --button-focus-bg-color: #00bcd429;\n  --submit-button-bg-color: #00bcd4;\n}\n\nbody {\n  font-family: 'Roboto';\n  color: var(--primary-font-color);\n  font-style: normal;\n  font-weight: 400;\n  font-size: 16px;\n  line-height: 24px;\n  letter-spacing: 0.5px;\n}\n\nh1 {\n  margin: 32px 0;\n}\n\n#app {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n}\n\n.nav {\n  margin-bottom: 52px;\n}\n\n.button {\n  background: var(--button-bg-color);\n  border-radius: 4px;\n  border: none;\n  cursor: pointer;\n  width: 100px;\n  height: 32px;\n}\n\n.focus-button {\n  background: var(--button-focus-bg-color);\n}\n\n.submit-button {\n  background: var(--submit-button-bg-color);\n  border-radius: 4px;\n  border: none;\n  color: var(--secondary-font-color);\n  cursor: pointer;\n  height: 36px;\n}\n\ninput {\n  padding: 8px;\n  border: 1px solid var(--input-border-color);\n  box-sizing: border-box;\n  border-radius: 4px;\n}\n\ninput::-webkit-outer-spin-button,\ninput::-webkit-inner-spin-button {\n  -webkit-appearance: none;\n  margin: 0;\n}\n\n.hidden {\n  display: none;\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -118,6 +121,32 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, ".product-manage-form {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin-bottom: 48px;\n}\n\n.product-manage-form input {\n  width: 120px;\n  height: 36px;\n}\n\n.product-item input {\n  border: 0;\n}\n\nfieldset {\n  border: 0;\n  padding: 0;\n}\n\nlegend {\n  margin-bottom: 4px;\n}\n\n.product-manage-form__add-button {\n  width: 56px;\n}\n\ntd input {\n  text-align: center;\n  font-size: 16px;\n  width: 118px;\n  letter-spacing: 0.5px;\n}\n\ntd input:focus {\n  outline: none !important;\n  animation: focus linear 1.5s infinite;\n}\n\n@keyframes focus {\n  0% {\n    box-shadow: 0 0 5px red;\n  }\n  20% {\n    box-shadow: 0 0 5px orange;\n  }\n  40% {\n    box-shadow: 0 0 5px yellow;\n  }\n  60% {\n    box-shadow: 0 0 5px green;\n  }\n  80% {\n    box-shadow: 0 0 5px blue;\n  }\n  100% {\n    box-shadow: 0 0 4px purple;\n  }\n}\n", "",{"version":3,"sources":["webpack://./src/css/product-manage-tab.css"],"names":[],"mappings":"AAAA;EACE,aAAa;EACb,mBAAmB;EACnB,uBAAuB;EACvB,mBAAmB;AACrB;;AAEA;EACE,YAAY;EACZ,YAAY;AACd;;AAEA;EACE,SAAS;AACX;;AAEA;EACE,SAAS;EACT,UAAU;AACZ;;AAEA;EACE,kBAAkB;AACpB;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,kBAAkB;EAClB,eAAe;EACf,YAAY;EACZ,qBAAqB;AACvB;;AAEA;EACE,wBAAwB;EACxB,qCAAqC;AACvC;;AAEA;EACE;IACE,uBAAuB;EACzB;EACA;IACE,0BAA0B;EAC5B;EACA;IACE,0BAA0B;EAC5B;EACA;IACE,yBAAyB;EAC3B;EACA;IACE,wBAAwB;EAC1B;EACA;IACE,0BAA0B;EAC5B;AACF","sourcesContent":[".product-manage-form {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  margin-bottom: 48px;\n}\n\n.product-manage-form input {\n  width: 120px;\n  height: 36px;\n}\n\n.product-item input {\n  border: 0;\n}\n\nfieldset {\n  border: 0;\n  padding: 0;\n}\n\nlegend {\n  margin-bottom: 4px;\n}\n\n.product-manage-form__add-button {\n  width: 56px;\n}\n\ntd input {\n  text-align: center;\n  font-size: 16px;\n  width: 118px;\n  letter-spacing: 0.5px;\n}\n\ntd input:focus {\n  outline: none !important;\n  animation: focus linear 1.5s infinite;\n}\n\n@keyframes focus {\n  0% {\n    box-shadow: 0 0 5px red;\n  }\n  20% {\n    box-shadow: 0 0 5px orange;\n  }\n  40% {\n    box-shadow: 0 0 5px yellow;\n  }\n  60% {\n    box-shadow: 0 0 5px green;\n  }\n  80% {\n    box-shadow: 0 0 5px blue;\n  }\n  100% {\n    box-shadow: 0 0 4px purple;\n  }\n}\n"],"sourceRoot":""}]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./src/css/profile-edit-page.css":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./src/css/profile-edit-page.css ***!
+  \*****************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/sourceMaps.js */ "./node_modules/css-loader/dist/runtime/sourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".profile-edit-form label {\n  display: block;\n  margin-top: 8px;\n}\n\n.profile-edit-form input {\n  width: 300px;\n  margin: 8px 0;\n}\n\n.profile-edit-page h2 {\n  text-align: center;\n  margin-bottom: 48px;\n}\n\n.profile-edit-form__edit-button {\n  display: block;\n  width: 300px;\n  margin-top: 32px;\n}\n", "",{"version":3,"sources":["webpack://./src/css/profile-edit-page.css"],"names":[],"mappings":"AAAA;EACE,cAAc;EACd,eAAe;AACjB;;AAEA;EACE,YAAY;EACZ,aAAa;AACf;;AAEA;EACE,kBAAkB;EAClB,mBAAmB;AACrB;;AAEA;EACE,cAAc;EACd,YAAY;EACZ,gBAAgB;AAClB","sourcesContent":[".profile-edit-form label {\n  display: block;\n  margin-top: 8px;\n}\n\n.profile-edit-form input {\n  width: 300px;\n  margin: 8px 0;\n}\n\n.profile-edit-page h2 {\n  text-align: center;\n  margin-bottom: 48px;\n}\n\n.profile-edit-form__edit-button {\n  display: block;\n  width: 300px;\n  margin-top: 32px;\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1155,6 +1184,22 @@ const TEMPLATE = {
       </form>
     </section>
   `,
+    PROFILE_EDIT_PAGE: `
+    <section class="profile-edit-page">
+      <h2>회원 정보 수정</h2>
+      <form class="profile-edit-form">
+        <label>이메일</label>
+        <input type="email" name="email" disabled />
+        <label>이름</label>
+        <input type="text" name="userName" minlength="2" maxlength="6" required />
+        <label>비밀번호</label>
+        <input type="password" name="password" placeholder="비밀번호를 입력해주세요." required />
+        <label>비밀번호 확인</label>
+        <input type="password" name="passwordConfirm" placeholder="비밀번호를 입력해주세요." required />
+        <button type="submit" class="submit-button profile-edit-form__edit-button">확인</button>
+      </form>
+    </section>
+  `,
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TEMPLATE);
 
@@ -1405,6 +1450,38 @@ class ProductManagement extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Cust
 }
 customElements.define('product-management', ProductManagement);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProductManagement);
+
+
+/***/ }),
+
+/***/ "./src/ui/ProfileEditPage.ts":
+/*!***********************************!*\
+  !*** ./src/ui/ProfileEditPage.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CustomElement */ "./src/ui/CustomElement.ts");
+/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../templates */ "./src/templates.ts");
+
+
+class ProfileEditPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
+    connectedCallback() {
+        super.connectedCallback();
+    }
+    render() {
+        this.innerHTML = this.template();
+    }
+    template() {
+        return _templates__WEBPACK_IMPORTED_MODULE_1__["default"].PROFILE_EDIT_PAGE;
+    }
+    setEvent() { }
+}
+customElements.define('profile-edit-page', ProfileEditPage);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProfileEditPage);
 
 
 /***/ }),
@@ -1671,7 +1748,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ui_PurchaseTab__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ui/PurchaseTab */ "./src/ui/PurchaseTab.ts");
 /* harmony import */ var _ui_LoginPage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ui/LoginPage */ "./src/ui/LoginPage.ts");
 /* harmony import */ var _ui_SignupPage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ui/SignupPage */ "./src/ui/SignupPage.ts");
-/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./router */ "./src/router.ts");
+/* harmony import */ var _ui_ProfileEditPage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ui/ProfileEditPage */ "./src/ui/ProfileEditPage.ts");
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./router */ "./src/router.ts");
+
 
 
 
