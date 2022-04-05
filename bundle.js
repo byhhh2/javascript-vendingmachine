@@ -962,7 +962,7 @@ class VendingMachine {
             this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PRODUCT, 'add', newProduct);
         }
         catch (error) {
-            alert(error.message);
+            (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(error.message);
         }
     }
     updateProduct({ targetName, name, price, quantity }) {
@@ -975,7 +975,7 @@ class VendingMachine {
             this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PRODUCT, 'update', target);
         }
         catch (error) {
-            alert(error.message);
+            (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(error.message);
         }
     }
     deleteProduct(targetName) {
@@ -993,7 +993,7 @@ class VendingMachine {
             this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.CHARGE, 'update');
         }
         catch (error) {
-            alert(error.message);
+            (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(error.message);
         }
     }
     insertCoin(userInputMoney) {
@@ -1003,7 +1003,7 @@ class VendingMachine {
             this.dispatch('subscribePurchaseTab', 'update-amount');
         }
         catch (error) {
-            alert(error.message);
+            (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(error.message);
         }
     }
     purchase(productId) {
@@ -1020,7 +1020,7 @@ class VendingMachine {
             _storage__WEBPACK_IMPORTED_MODULE_1__["default"].setLocalStorage('products', this.products);
         }
         catch (error) {
-            alert(error.message);
+            (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(error.message);
         }
     }
     returnCoin() {
@@ -1036,7 +1036,7 @@ class VendingMachine {
             _storage__WEBPACK_IMPORTED_MODULE_1__["default"].setLocalStorage('amount', this.amount.counter);
         }
         catch (error) {
-            alert(error.message);
+            (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(error.message);
         }
     }
 }
