@@ -989,21 +989,47 @@ Authentication._instance = null;
 
 /***/ }),
 
-/***/ "./src/domain/Coin.ts":
+/***/ "./src/domain/Product.ts":
+/*!*******************************!*\
+  !*** ./src/domain/Product.ts ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+class Product {
+    constructor(product, id = Math.random().toString(36).substring(2, 9)) {
+        this.id = id;
+        this.update(product);
+    }
+    update(product) {
+        this.name = product.name;
+        this.price = product.price;
+        this.quantity = product.quantity;
+    }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Product);
+
+
+/***/ }),
+
+/***/ "./src/domain/Safe.ts":
 /*!****************************!*\
-  !*** ./src/domain/Coin.ts ***!
+  !*** ./src/domain/Safe.ts ***!
   \****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Coin": () => (/* binding */ Coin)
+/* harmony export */   "Safe": () => (/* binding */ Safe)
 /* harmony export */ });
 /* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
 
 
-class Coin {
+class Safe {
     constructor(counter) {
         this.counter = {
             500: { type: '500won', count: 0 },
@@ -1051,32 +1077,6 @@ class Coin {
 
 /***/ }),
 
-/***/ "./src/domain/Product.ts":
-/*!*******************************!*\
-  !*** ./src/domain/Product.ts ***!
-  \*******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-class Product {
-    constructor(product, id = Math.random().toString(36).substring(2, 9)) {
-        this.id = id;
-        this.update(product);
-    }
-    update(product) {
-        this.name = product.name;
-        this.price = product.price;
-        this.quantity = product.quantity;
-    }
-}
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Product);
-
-
-/***/ }),
-
 /***/ "./src/domain/VendingMachine.ts":
 /*!**************************************!*\
   !*** ./src/domain/VendingMachine.ts ***!
@@ -1091,7 +1091,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../storage */ "./src/storage.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
 /* harmony import */ var _validator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../validator */ "./src/validator/index.ts");
-/* harmony import */ var _Coin__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Coin */ "./src/domain/Coin.ts");
+/* harmony import */ var _Safe__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Safe */ "./src/domain/Safe.ts");
 /* harmony import */ var _Product__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Product */ "./src/domain/Product.ts");
 
 
@@ -1103,7 +1103,7 @@ class VendingMachine {
     constructor() {
         this.userAmount = 0;
         this.observers = [];
-        this.amount = new _Coin__WEBPACK_IMPORTED_MODULE_4__.Coin(_storage__WEBPACK_IMPORTED_MODULE_1__["default"].getLocalStorage('amount'));
+        this.amount = new _Safe__WEBPACK_IMPORTED_MODULE_4__.Safe(_storage__WEBPACK_IMPORTED_MODULE_1__["default"].getLocalStorage('amount'));
         this.products = _storage__WEBPACK_IMPORTED_MODULE_1__["default"].getLocalStorage('products').map((product) => new _Product__WEBPACK_IMPORTED_MODULE_5__["default"](product, product.id));
     }
     static get instance() {
