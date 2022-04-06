@@ -946,35 +946,39 @@ class Authentication {
             (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(err.message);
         });
     }
-    editProfile({ name, password }) {
-        const token = localStorage.getItem('accessToken');
-        const user = _storage__WEBPACK_IMPORTED_MODULE_1__["default"].getLocalStorage('user');
-        if (!token || !user)
-            return;
-        fetch(`http://localhost:3000/users/${user.id}`, {
-            method: 'put',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-                email: user.email,
-                name,
-                password,
-            }),
-        })
-            .then((response) => __awaiter(this, void 0, void 0, function* () {
-            const { ok } = response;
-            const body = yield response.json();
-            if (!ok)
-                throw new Error(body);
-            localStorage.setItem('user', JSON.stringify(body));
-            this.dispatch({ key: 'userMenu', userName: body.name });
-            (0,_router__WEBPACK_IMPORTED_MODULE_0__.historyRouterPush)('/javascript-vendingmachine/');
-        }))
-            .catch((err) => {
-            (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(err.message);
-        });
+    editProfile({ name, password, passwordConfirm }) {
+        try {
+            const token = localStorage.getItem('accessToken');
+            const user = _storage__WEBPACK_IMPORTED_MODULE_1__["default"].getLocalStorage('user');
+            (0,_validator_authentication__WEBPACK_IMPORTED_MODULE_3__.validateProfileEdit)(password, passwordConfirm, token);
+            fetch(`http://localhost:3000/users/${user.id}`, {
+                method: 'put',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    email: user.email,
+                    name,
+                    password,
+                }),
+            })
+                .then((response) => __awaiter(this, void 0, void 0, function* () {
+                const { ok } = response;
+                const body = yield response.json();
+                if (!ok)
+                    throw new Error(body);
+                localStorage.setItem('user', JSON.stringify(body));
+                this.dispatch({ key: 'userMenu', userName: body.name });
+                (0,_router__WEBPACK_IMPORTED_MODULE_0__.historyRouterPush)('/javascript-vendingmachine/');
+            }))
+                .catch((err) => {
+                (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(err.message);
+            });
+        }
+        catch (error) {
+            (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(error.message);
+        }
     }
 }
 Authentication._instance = null;
@@ -1884,7 +1888,7 @@ class ProfileEditPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Custom
     handleEdit(e) {
         e.preventDefault();
         const form = e.target;
-        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('.profile-edit-form', '@edit', { name: form.userName.value, password: form.password.value }, this);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('.profile-edit-form', '@edit', { name: form.userName.value, password: form.password.value, passwordConfirm: form.passwordConfirm.value }, this);
     }
 }
 customElements.define('profile-edit-page', ProfileEditPage);
@@ -2213,7 +2217,8 @@ const showSnackbar = (message) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "validateSignup": () => (/* binding */ validateSignup)
+/* harmony export */   "validateSignup": () => (/* binding */ validateSignup),
+/* harmony export */   "validateProfileEdit": () => (/* binding */ validateProfileEdit)
 /* harmony export */ });
 const signupValidator = {
     isInsufficientPassword(password) {
@@ -2229,6 +2234,22 @@ const validateSignup = (userName, password, passwordConfirm) => {
     }
     if (signupValidator.isWrongPassword(password, passwordConfirm)) {
         throw new Error('비밀번호와 비밀번호 확인란이 일치하지 않습니다.');
+    }
+};
+const profileEditValidator = {
+    isLogin(token) {
+        return !!token;
+    },
+};
+const validateProfileEdit = (password, passwordConfirm, token) => {
+    if (signupValidator.isInsufficientPassword(password)) {
+        throw new Error('비밀번호는 숫자와 영문자 조합으로 8글자 이상, 20글자 이하를 입력해주세요.');
+    }
+    if (signupValidator.isWrongPassword(password, passwordConfirm)) {
+        throw new Error('비밀번호와 비밀번호 확인란이 일치하지 않습니다.');
+    }
+    if (!profileEditValidator.isLogin(token)) {
+        throw new Error('로그인 유저만 회원정보를 수정할 수 있습니다. 다시 로그인을 해주세요.');
     }
 };
 
