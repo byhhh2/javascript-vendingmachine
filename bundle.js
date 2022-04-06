@@ -911,6 +911,7 @@ class Authentication {
                 const body = yield response.json();
                 if (!response.ok)
                     throw new Error(body);
+                this.dispatch({ key: 'subscribeSignupPage', userName: body.user.name });
                 (0,_router__WEBPACK_IMPORTED_MODULE_0__.historyRouterPush)('/javascript-vendingmachine/');
             }))
                 .catch((err) => {
@@ -969,6 +970,7 @@ class Authentication {
                 if (!ok)
                     throw new Error(body);
                 localStorage.setItem('user', JSON.stringify(body));
+                this.dispatch({ key: 'subscribeProfileEditPage', userName: body.name });
                 this.dispatch({ key: 'userMenu', userName: body.name });
                 (0,_router__WEBPACK_IMPORTED_MODULE_0__.historyRouterPush)('/javascript-vendingmachine/');
             }))
@@ -1179,7 +1181,7 @@ class VendingMachine {
         try {
             (0,_validator__WEBPACK_IMPORTED_MODULE_3__.validateUserInputMoney)(userInputMoney, this.userAmount);
             this.userAmount += userInputMoney;
-            this.dispatch('subscribePurchaseTab', 'update-amount');
+            this.dispatch('subscribePurchaseTab', 'insert-coin');
         }
         catch (error) {
             (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(error.message);
@@ -1191,7 +1193,6 @@ class VendingMachine {
             (0,_validator__WEBPACK_IMPORTED_MODULE_3__.validatePurchable)(this.userAmount, targetProduct);
             this.userAmount -= targetProduct.price;
             targetProduct.quantity -= 1;
-            this.dispatch('subscribePurchaseTab', 'update-amount');
             this.dispatch('subscribePurchaseTab', 'purchase', targetProduct);
             if (targetProduct.quantity <= 0) {
                 this.products = this.products.filter((product) => product.id !== targetProduct.id);
@@ -1205,9 +1206,6 @@ class VendingMachine {
     returnCoin() {
         try {
             (0,_validator__WEBPACK_IMPORTED_MODULE_3__.validateReturn)(this.userAmount);
-            if (this.userAmount > this.amount.getAmount()) {
-                (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)('반환할 잔액이 부족하여, 자판기에 존재하는 잔돈만 반환합니다.');
-            }
             const remainingUserAmount = this.amount.returnChange(this.userAmount);
             this.userAmount = remainingUserAmount;
             this.dispatch('subscribePurchaseTab', 'return');
@@ -1693,6 +1691,7 @@ class LoginPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElemen
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.login-button').classList.add('hidden');
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.user-name').classList.remove('hidden');
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.user-name__menu-button').insertAdjacentHTML('afterbegin', userName.substring(0, 1));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(`안녕하세요 ${userName}님 :)`);
     }
 }
 customElements.define('login-page', LoginPage);
@@ -1878,6 +1877,9 @@ class ProfileEditPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Custom
         const form = e.target;
         (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('.profile-edit-form', '@edit', { name: form.userName.value, password: form.password.value, passwordConfirm: form.passwordConfirm.value }, this);
     }
+    notify({}) {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.showSnackbar)('성공적으로 회원 정보가 수정되었습니다.');
+    }
 }
 customElements.define('profile-edit-page', ProfileEditPage);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProfileEditPage);
@@ -1947,11 +1949,14 @@ class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElem
     }
     notify({ action, amount, product, userAmount }) {
         switch (action) {
-            case 'update-amount':
+            case 'insert-coin':
                 this.updateAmount(userAmount);
+                (0,_utils__WEBPACK_IMPORTED_MODULE_3__.showSnackbar)('성공적으로 금액을 투입했습니다.');
                 return;
             case 'purchase':
+                this.updateAmount(userAmount);
                 this.purchase(product);
+                (0,_utils__WEBPACK_IMPORTED_MODULE_3__.showSnackbar)('성공적으로 상품을 구매했습니다.');
                 return;
             case 'update-product':
                 this.updateProductTable('update-product', product);
@@ -1961,6 +1966,7 @@ class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElem
                 return;
             case 'return':
                 this.returnChange(amount, userAmount);
+                (0,_utils__WEBPACK_IMPORTED_MODULE_3__.showSnackbar)('성공적으로 잔돈이 반환되었습니다. 자판기의 잔액이 부족할 경우 자판기에 존재하는 금액만큼만 반환됩니다.');
         }
     }
     updateAmount(userAmount) {
@@ -2043,6 +2049,9 @@ class SignupPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomEleme
             password: form.password.value,
             passwordConfirm: form.passwordConfirm.value,
         }, this);
+    }
+    notify({ userName }) {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(`${userName}님 회원가입을 축하합니다.`);
     }
 }
 customElements.define('signup-page', SignupPage);
