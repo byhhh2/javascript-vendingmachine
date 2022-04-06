@@ -850,6 +850,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../router */ "./src/router.ts");
 /* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../storage */ "./src/storage.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
+/* harmony import */ var _validator_authentication__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../validator/authentication */ "./src/validator/authentication.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -859,6 +860,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+
 
 
 
@@ -891,27 +893,33 @@ class Authentication {
     subscribeProfileEditPage() {
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.profile-edit-form', '@edit', (e) => this.editProfile(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('profile-edit-page'));
     }
-    signup({ email, name, password }) {
-        fetch('http://localhost:3000/register', {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email,
-                name,
-                password,
-            }),
-        })
-            .then((response) => __awaiter(this, void 0, void 0, function* () {
-            const body = yield response.json();
-            if (!response.ok)
-                throw new Error(body);
-            (0,_router__WEBPACK_IMPORTED_MODULE_0__.historyRouterPush)('/javascript-vendingmachine/');
-        }))
-            .catch((err) => {
-            (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(err.message);
-        });
+    signup({ email, name, password, passwordConfirm }) {
+        try {
+            (0,_validator_authentication__WEBPACK_IMPORTED_MODULE_3__.validateSignup)(name, password, passwordConfirm);
+            fetch('http://localhost:3000/register', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email,
+                    name,
+                    password,
+                }),
+            })
+                .then((response) => __awaiter(this, void 0, void 0, function* () {
+                const body = yield response.json();
+                if (!response.ok)
+                    throw new Error(body);
+                (0,_router__WEBPACK_IMPORTED_MODULE_0__.historyRouterPush)('/javascript-vendingmachine/');
+            }))
+                .catch((err) => {
+                (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(err.message);
+            });
+        }
+        catch (error) {
+            (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(error.message);
+        }
     }
     login({ email, password }) {
         fetch('http://localhost:3000/login', {
@@ -2037,11 +2045,12 @@ class SignupPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomEleme
     handleSignup(e) {
         e.preventDefault();
         const form = e.target;
-        // if (form.password.value !== form.passwordConfirm.value) {
-        //   showSnackbar('비밀번호가 일치하지 않습니다.');
-        //   return;
-        // }
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.signup-form', '@signup', { email: form.email.value, name: form.userName.value, password: form.password.value }, this);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.signup-form', '@signup', {
+            email: form.email.value,
+            name: form.userName.value,
+            password: form.password.value,
+            passwordConfirm: form.passwordConfirm.value,
+        }, this);
     }
 }
 customElements.define('signup-page', SignupPage);
@@ -2191,6 +2200,36 @@ const showSnackbar = (message) => {
     setTimeout(() => {
         snackbar.classList.toggle('show');
     }, 3000);
+};
+
+
+/***/ }),
+
+/***/ "./src/validator/authentication.ts":
+/*!*****************************************!*\
+  !*** ./src/validator/authentication.ts ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "validateSignup": () => (/* binding */ validateSignup)
+/* harmony export */ });
+const signupValidator = {
+    isInsufficientPassword(password) {
+        return !/^(?=.*[a-zA-Z])(?=.*[0-9]).{8,20}$/.test(password);
+    },
+    isWrongPassword(password, passwordConfirm) {
+        return password !== passwordConfirm;
+    },
+};
+const validateSignup = (userName, password, passwordConfirm) => {
+    if (signupValidator.isInsufficientPassword(password)) {
+        throw new Error('비밀번호는 숫자와 영문자 조합으로 8글자 이상, 20글자 이하를 입력해주세요.');
+    }
+    if (signupValidator.isWrongPassword(password, passwordConfirm)) {
+        throw new Error('비밀번호와 비밀번호 확인란이 일치하지 않습니다.');
+    }
 };
 
 
