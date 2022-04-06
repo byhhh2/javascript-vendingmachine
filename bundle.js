@@ -874,7 +874,8 @@ class Authentication {
     }
     subscribe(key, element) {
         this.observers.push({ key, element });
-        this[key]();
+        if (this[key])
+            this[key]();
     }
     dispatch(params) {
         const { key, userName } = params;
@@ -960,6 +961,8 @@ class Authentication {
             if (!ok)
                 throw new Error(body);
             localStorage.setItem('user', JSON.stringify(body));
+            this.dispatch({ key: 'userMenu', userName: body.name });
+            (0,_router__WEBPACK_IMPORTED_MODULE_0__.historyRouterPush)('/javascript-vendingmachine/');
         }))
             .catch((err) => {
             (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(err.message);
@@ -1292,8 +1295,8 @@ const checkLogin = () => {
     const userName = _storage__WEBPACK_IMPORTED_MODULE_0__["default"].getLocalStorage('user') ? _storage__WEBPACK_IMPORTED_MODULE_0__["default"].getLocalStorage('user').name : '';
     (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.user-name__menu-button').insertAdjacentHTML('afterbegin', userName.substring(0, 1));
 };
-checkLogin();
 window.addEventListener('DOMContentLoaded', () => {
+    checkLogin();
     (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.user-name__menu-button').addEventListener('click', function () {
         (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.user-name__menu-button').classList.toggle('shadow');
         (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.menu-element.user-name__edit').classList.toggle('user-name__edit--move');
@@ -1539,6 +1542,13 @@ const TEMPLATE = {
         <purchase-tab class="hidden"></purchase-tab>
       </div>
     </main>
+  `,
+    USER_MENU: `
+    <div class="user-name">
+      <div class="user-name__menu-button"></div>
+      <div class="menu-element user-name__edit">회원수정</div>
+      <div class="menu-element user-name__logout">로그아웃</div>
+    </div>
   `,
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TEMPLATE);
@@ -2036,6 +2046,65 @@ customElements.define('signup-page', SignupPage);
 
 /***/ }),
 
+/***/ "./src/ui/UserMenu.ts":
+/*!****************************!*\
+  !*** ./src/ui/UserMenu.ts ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CustomElement */ "./src/ui/CustomElement.ts");
+/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../templates */ "./src/templates.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../router */ "./src/router.ts");
+/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../storage */ "./src/storage.ts");
+/* harmony import */ var _domain_Authentication__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../domain/Authentication */ "./src/domain/Authentication.ts");
+
+
+
+
+
+
+class UserMenu extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
+    connectedCallback() {
+        super.connectedCallback();
+        _domain_Authentication__WEBPACK_IMPORTED_MODULE_5__["default"].instance.subscribe('userMenu', this);
+    }
+    render() {
+        this.innerHTML = this.template();
+    }
+    template() {
+        return _templates__WEBPACK_IMPORTED_MODULE_1__["default"].USER_MENU;
+    }
+    setEvent() {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.addEvent)(this, 'click', '.user-name__edit', () => this.handleEdit());
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.addEvent)(this, 'click', '.user-name__logout', () => this.handleLogout());
+    }
+    handleEdit() {
+        const user = _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getLocalStorage('user');
+        if (!user)
+            return;
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('[name=email]', (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('profile-edit-page')).value = user.email;
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('[name=userName]', (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('profile-edit-page')).value = user.name;
+        (0,_router__WEBPACK_IMPORTED_MODULE_3__.historyRouterPush)('/javascript-vendingmachine/profile');
+    }
+    handleLogout() {
+        localStorage.clear();
+        location.href = location.origin + '/javascript-vendingmachine/';
+    }
+    notify({ userName }) {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.user-name__menu-button').textContent = userName.substring(0, 1);
+    }
+}
+customElements.define('user-menu', UserMenu);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (UserMenu);
+
+
+/***/ }),
+
 /***/ "./src/ui/VendingMachinePage.ts":
 /*!**************************************!*\
   !*** ./src/ui/VendingMachinePage.ts ***!
@@ -2312,7 +2381,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ui_LoginPage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ui/LoginPage */ "./src/ui/LoginPage.ts");
 /* harmony import */ var _ui_SignupPage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ui/SignupPage */ "./src/ui/SignupPage.ts");
 /* harmony import */ var _ui_ProfileEditPage__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ui/ProfileEditPage */ "./src/ui/ProfileEditPage.ts");
-/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./router */ "./src/router.ts");
+/* harmony import */ var _ui_UserMenu__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./ui/UserMenu */ "./src/ui/UserMenu.ts");
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./router */ "./src/router.ts");
+
 
 
 
