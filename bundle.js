@@ -1245,8 +1245,26 @@ const baseURL = '/javascript-vendingmachine';
         return;
     historyRouterPush(e.target.getAttribute('route'));
 }));
+const isGranted = (pathname) => {
+    const isLogin = !!localStorage.getItem('accessToken');
+    const element = [...pageRouters, ...tabRouters].find((router) => router.path === pathname);
+    if (!element)
+        return;
+    return element.permission || isLogin;
+};
+const deny = () => {
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.showSnackbar)('로그인 후 이용할 수 있습니다.');
+    historyRouterPush(baseURL + '/');
+};
 const historyRouterPush = (pathname) => {
     history.pushState({ pathname }, '', pathname);
+    render(window.location.pathname);
+};
+const render = (path) => {
+    if (!isGranted(path)) {
+        deny();
+        return;
+    }
     renderPage(window.location.pathname);
     renderTab(window.location.pathname);
 };
@@ -1268,25 +1286,23 @@ const renderTab = (path) => {
     prevs.forEach((p) => p.component.classList.add('hidden'));
 };
 const tabRouters = [
-    { path: baseURL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('purchase-tab') },
-    { path: baseURL + '/charge', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('charge-tab') },
-    { path: baseURL + '/management', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('product-management') },
+    { path: baseURL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('purchase-tab'), permission: true },
+    { path: baseURL + '/charge', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('charge-tab'), permission: false },
+    { path: baseURL + '/management', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('product-management'), permission: false },
 ];
 const pageRouters = [
-    { path: baseURL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('vending-machine-page') },
-    { path: baseURL + '/login', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('login-page') },
-    { path: baseURL + '/signup', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('signup-page') },
-    { path: baseURL + '/profile', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('profile-edit-page') },
+    { path: baseURL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('vending-machine-page'), permission: true },
+    { path: baseURL + '/login', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('login-page'), permission: true },
+    { path: baseURL + '/signup', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('signup-page'), permission: true },
+    { path: baseURL + '/profile', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('profile-edit-page'), permission: false },
 ];
 window.addEventListener('popstate', function () {
-    renderPage(window.location.pathname);
-    renderTab(window.location.pathname);
+    render(window.location.pathname);
 });
 if (window.location.pathname === '/') {
     window.location.pathname = baseURL;
 }
-renderPage(window.location.pathname);
-renderTab(window.location.pathname);
+render(window.location.pathname);
 
 
 /***/ }),
