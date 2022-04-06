@@ -71,7 +71,7 @@ ___CSS_LOADER_EXPORT___.i(_node_modules_css_loader_dist_cjs_js_signup_page_css__
 ___CSS_LOADER_EXPORT___.i(_node_modules_css_loader_dist_cjs_js_profile_edit_page_css__WEBPACK_IMPORTED_MODULE_8__["default"]);
 ___CSS_LOADER_EXPORT___.i(_node_modules_css_loader_dist_cjs_js_snackbar_css__WEBPACK_IMPORTED_MODULE_9__["default"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ":root {\n  --primary-font-color: rgba(0, 0, 0, 0.87);\n  --secondary-font-color: #ffffff;\n  --input-border-color: #b4b4b4;\n  --table-border-color: #dcdcdc;\n  --button-bg-color: #f5f5f5;\n  --button-focus-bg-color: #00bcd429;\n  --submit-button-bg-color: #00bcd4;\n}\n\nbody {\n  font-family: 'Roboto';\n  color: var(--primary-font-color);\n  font-style: normal;\n  font-weight: 400;\n  font-size: 16px;\n  line-height: 24px;\n  letter-spacing: 0.5px;\n}\n\nh1 {\n  margin: 32px 0;\n}\n\n#app {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n}\n\n.nav {\n  margin-bottom: 52px;\n}\n\n.button {\n  background: var(--button-bg-color);\n  border-radius: 4px;\n  border: none;\n  cursor: pointer;\n  width: 100px;\n  height: 32px;\n}\n\n.focus-button {\n  background: var(--button-focus-bg-color);\n}\n\n.submit-button {\n  background: var(--submit-button-bg-color);\n  border-radius: 4px;\n  border: none;\n  color: var(--secondary-font-color);\n  cursor: pointer;\n  height: 36px;\n}\n\ninput {\n  padding: 8px;\n  border: 1px solid var(--input-border-color);\n  box-sizing: border-box;\n  border-radius: 4px;\n}\n\ninput::-webkit-outer-spin-button,\ninput::-webkit-inner-spin-button {\n  -webkit-appearance: none;\n  margin: 0;\n}\n\n.hidden {\n  display: none;\n}\n", "",{"version":3,"sources":["webpack://./src/css/index.css"],"names":[],"mappings":"AASA;EACE,yCAAyC;EACzC,+BAA+B;EAC/B,6BAA6B;EAC7B,6BAA6B;EAC7B,0BAA0B;EAC1B,kCAAkC;EAClC,iCAAiC;AACnC;;AAEA;EACE,qBAAqB;EACrB,gCAAgC;EAChC,kBAAkB;EAClB,gBAAgB;EAChB,eAAe;EACf,iBAAiB;EACjB,qBAAqB;AACvB;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,aAAa;EACb,uBAAuB;EACvB,mBAAmB;EACnB,sBAAsB;AACxB;;AAEA;EACE,mBAAmB;AACrB;;AAEA;EACE,kCAAkC;EAClC,kBAAkB;EAClB,YAAY;EACZ,eAAe;EACf,YAAY;EACZ,YAAY;AACd;;AAEA;EACE,wCAAwC;AAC1C;;AAEA;EACE,yCAAyC;EACzC,kBAAkB;EAClB,YAAY;EACZ,kCAAkC;EAClC,eAAe;EACf,YAAY;AACd;;AAEA;EACE,YAAY;EACZ,2CAA2C;EAC3C,sBAAsB;EACtB,kBAAkB;AACpB;;AAEA;;EAEE,wBAAwB;EACxB,SAAS;AACX;;AAEA;EACE,aAAa;AACf","sourcesContent":["@import './table.css';\n@import './product-manage-tab.css';\n@import './charge-tab.css';\n@import './purchase-tab.css';\n@import './login.css';\n@import './signup-page.css';\n@import './profile-edit-page.css';\n@import './snackbar.css';\n\n:root {\n  --primary-font-color: rgba(0, 0, 0, 0.87);\n  --secondary-font-color: #ffffff;\n  --input-border-color: #b4b4b4;\n  --table-border-color: #dcdcdc;\n  --button-bg-color: #f5f5f5;\n  --button-focus-bg-color: #00bcd429;\n  --submit-button-bg-color: #00bcd4;\n}\n\nbody {\n  font-family: 'Roboto';\n  color: var(--primary-font-color);\n  font-style: normal;\n  font-weight: 400;\n  font-size: 16px;\n  line-height: 24px;\n  letter-spacing: 0.5px;\n}\n\nh1 {\n  margin: 32px 0;\n}\n\n#app {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n}\n\n.nav {\n  margin-bottom: 52px;\n}\n\n.button {\n  background: var(--button-bg-color);\n  border-radius: 4px;\n  border: none;\n  cursor: pointer;\n  width: 100px;\n  height: 32px;\n}\n\n.focus-button {\n  background: var(--button-focus-bg-color);\n}\n\n.submit-button {\n  background: var(--submit-button-bg-color);\n  border-radius: 4px;\n  border: none;\n  color: var(--secondary-font-color);\n  cursor: pointer;\n  height: 36px;\n}\n\ninput {\n  padding: 8px;\n  border: 1px solid var(--input-border-color);\n  box-sizing: border-box;\n  border-radius: 4px;\n}\n\ninput::-webkit-outer-spin-button,\ninput::-webkit-inner-spin-button {\n  -webkit-appearance: none;\n  margin: 0;\n}\n\n.hidden {\n  display: none;\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ":root {\n  --primary-font-color: rgba(0, 0, 0, 0.87);\n  --secondary-font-color: #ffffff;\n  --input-border-color: #b4b4b4;\n  --table-border-color: #dcdcdc;\n  --button-bg-color: #f5f5f5;\n  --button-focus-bg-color: #00bcd429;\n  --submit-button-bg-color: #00bcd4;\n}\n\nbody {\n  font-family: 'Roboto';\n  color: var(--primary-font-color);\n  font-style: normal;\n  font-weight: 400;\n  font-size: 16px;\n  line-height: 24px;\n  letter-spacing: 0.5px;\n\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\nh1 {\n  margin: 32px 0;\n}\n\n#app {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n}\n\n.nav {\n  margin-bottom: 52px;\n}\n\n.button {\n  background: var(--button-bg-color);\n  border-radius: 4px;\n  border: none;\n  cursor: pointer;\n  width: 100px;\n  height: 32px;\n}\n\n.focus-button {\n  background: var(--button-focus-bg-color);\n}\n\n.submit-button {\n  background: var(--submit-button-bg-color);\n  border-radius: 4px;\n  border: none;\n  color: var(--secondary-font-color);\n  cursor: pointer;\n  height: 36px;\n}\n\ninput {\n  padding: 8px;\n  border: 1px solid var(--input-border-color);\n  box-sizing: border-box;\n  border-radius: 4px;\n}\n\ninput::-webkit-outer-spin-button,\ninput::-webkit-inner-spin-button {\n  -webkit-appearance: none;\n  margin: 0;\n}\n\n.hidden {\n  display: none;\n}\n", "",{"version":3,"sources":["webpack://./src/css/index.css"],"names":[],"mappings":"AASA;EACE,yCAAyC;EACzC,+BAA+B;EAC/B,6BAA6B;EAC7B,6BAA6B;EAC7B,0BAA0B;EAC1B,kCAAkC;EAClC,iCAAiC;AACnC;;AAEA;EACE,qBAAqB;EACrB,gCAAgC;EAChC,kBAAkB;EAClB,gBAAgB;EAChB,eAAe;EACf,iBAAiB;EACjB,qBAAqB;;EAErB,aAAa;EACb,uBAAuB;EACvB,mBAAmB;AACrB;;AAEA;EACE,cAAc;AAChB;;AAEA;EACE,aAAa;EACb,uBAAuB;EACvB,mBAAmB;EACnB,sBAAsB;AACxB;;AAEA;EACE,mBAAmB;AACrB;;AAEA;EACE,kCAAkC;EAClC,kBAAkB;EAClB,YAAY;EACZ,eAAe;EACf,YAAY;EACZ,YAAY;AACd;;AAEA;EACE,wCAAwC;AAC1C;;AAEA;EACE,yCAAyC;EACzC,kBAAkB;EAClB,YAAY;EACZ,kCAAkC;EAClC,eAAe;EACf,YAAY;AACd;;AAEA;EACE,YAAY;EACZ,2CAA2C;EAC3C,sBAAsB;EACtB,kBAAkB;AACpB;;AAEA;;EAEE,wBAAwB;EACxB,SAAS;AACX;;AAEA;EACE,aAAa;AACf","sourcesContent":["@import './table.css';\n@import './product-manage-tab.css';\n@import './charge-tab.css';\n@import './purchase-tab.css';\n@import './login.css';\n@import './signup-page.css';\n@import './profile-edit-page.css';\n@import './snackbar.css';\n\n:root {\n  --primary-font-color: rgba(0, 0, 0, 0.87);\n  --secondary-font-color: #ffffff;\n  --input-border-color: #b4b4b4;\n  --table-border-color: #dcdcdc;\n  --button-bg-color: #f5f5f5;\n  --button-focus-bg-color: #00bcd429;\n  --submit-button-bg-color: #00bcd4;\n}\n\nbody {\n  font-family: 'Roboto';\n  color: var(--primary-font-color);\n  font-style: normal;\n  font-weight: 400;\n  font-size: 16px;\n  line-height: 24px;\n  letter-spacing: 0.5px;\n\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n\nh1 {\n  margin: 32px 0;\n}\n\n#app {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n}\n\n.nav {\n  margin-bottom: 52px;\n}\n\n.button {\n  background: var(--button-bg-color);\n  border-radius: 4px;\n  border: none;\n  cursor: pointer;\n  width: 100px;\n  height: 32px;\n}\n\n.focus-button {\n  background: var(--button-focus-bg-color);\n}\n\n.submit-button {\n  background: var(--submit-button-bg-color);\n  border-radius: 4px;\n  border: none;\n  color: var(--secondary-font-color);\n  cursor: pointer;\n  height: 36px;\n}\n\ninput {\n  padding: 8px;\n  border: 1px solid var(--input-border-color);\n  box-sizing: border-box;\n  border-radius: 4px;\n}\n\ninput::-webkit-outer-spin-button,\ninput::-webkit-inner-spin-button {\n  -webkit-appearance: none;\n  margin: 0;\n}\n\n.hidden {\n  display: none;\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1198,7 +1198,10 @@ __webpack_require__.r(__webpack_exports__);
 const nav = document.querySelector('.nav');
 const auth = document.querySelector('.auth');
 const baseURL = '/javascript-vendingmachine';
+const isLogin = !!localStorage.getItem('accessToken');
 nav.addEventListener('click', (e) => {
+    if (e.target.tagName !== 'BUTTON')
+        return;
     historyRouterPush(e.target.getAttribute('route'));
 });
 auth.addEventListener('click', (e) => {
@@ -1208,38 +1211,60 @@ auth.addEventListener('click', (e) => {
 });
 const historyRouterPush = (pathname) => {
     history.pushState({ pathname }, '', pathname);
-    render(pathname);
+    renderPage(window.location.pathname);
+    renderTab(window.location.pathname);
 };
-const render = (path) => {
+const renderPage = (path) => {
+    var _a;
+    pageRouters.forEach((router) => {
+        if (router.path !== path)
+            router.component.classList.add('hidden');
+    });
+    (_a = pageRouters.find((router) => router.path === path)) === null || _a === void 0 ? void 0 : _a.component.classList.remove('hidden');
+    auth.classList.add('hidden');
+    if (path === baseURL + '/' || path === baseURL + '/charge' || path === baseURL + '/purchase') {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('vending-machine-page').classList.remove('hidden');
+        auth.classList.remove('hidden');
+    }
+};
+const renderTab = (path) => {
     var _a, _b, _c;
     (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$$)('.focus-button').forEach((button) => button.classList.remove('focus-button'));
     (_a = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)(`[route='${path}']`, nav)) === null || _a === void 0 ? void 0 : _a.classList.add('focus-button');
-    const cur = (_c = (_b = routers.find((route) => route.path === path)) === null || _b === void 0 ? void 0 : _b.component) !== null && _c !== void 0 ? _c : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('product-management');
-    const prevs = routers.filter((route) => route.path !== path);
+    const cur = (_c = (_b = tabRouters.find((route) => route.path === path)) === null || _b === void 0 ? void 0 : _b.component) !== null && _c !== void 0 ? _c : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('product-management');
+    const prevs = tabRouters.filter((route) => route.path !== path);
     cur.classList.remove('hidden');
     prevs.forEach((p) => p.component.classList.add('hidden'));
 };
-const routers = [
+const tabRouters = [
     { path: baseURL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('product-management') },
     { path: baseURL + '/charge', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('charge-tab') },
     { path: baseURL + '/purchase', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('purchase-tab') },
+];
+const pageRouters = [
+    { path: baseURL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('vending-machine-page') },
     { path: baseURL + '/login', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('login-page') },
     { path: baseURL + '/signup', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('signup-page') },
     { path: baseURL + '/profile', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('profile-edit-page') },
 ];
 window.addEventListener('popstate', function () {
-    render(window.location.pathname);
+    renderPage(window.location.pathname);
+    renderTab(window.location.pathname);
 });
 if (window.location.pathname === '/') {
     window.location.pathname = baseURL;
 }
-render(window.location.pathname);
-(0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.signup-button').classList.add('hidden');
-(0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.login-button').classList.toggle('hidden', !!localStorage.getItem('accessToken'));
-(0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.user-name').classList.toggle('hidden', !localStorage.getItem('accessToken'));
-(0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.user-name').textContent = _storage__WEBPACK_IMPORTED_MODULE_0__["default"].getLocalStorage('user')
-    ? _storage__WEBPACK_IMPORTED_MODULE_0__["default"].getLocalStorage('user').name.substring(0, 1)
-    : '';
+renderPage(window.location.pathname);
+renderTab(window.location.pathname);
+const checkLogin = () => {
+    (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.login-button').classList.toggle('hidden', isLogin);
+    (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.user-name').classList.toggle('hidden', !isLogin);
+    nav.classList.toggle('hidden', !isLogin);
+    (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.user-name').textContent = _storage__WEBPACK_IMPORTED_MODULE_0__["default"].getLocalStorage('user')
+        ? _storage__WEBPACK_IMPORTED_MODULE_0__["default"].getLocalStorage('user').name.substring(0, 1)
+        : '';
+};
+checkLogin();
 
 
 /***/ }),
@@ -1459,6 +1484,27 @@ const TEMPLATE = {
       </form>
     </section>
   `,
+    VENDING_MACHINE_PAGE: `
+    <main id="app">
+      <h1 class="title">🍿 자판기 🍿</h1>
+      <nav class="nav">
+        <button type="button" class="nav__product-manage-tab button focus-button" route="/javascript-vendingmachine/">
+          상품 관리
+        </button>
+        <button type="button" class="nav__charge-tab button" route="/javascript-vendingmachine/charge">
+          잔돈 충전
+        </button>
+        <button type="button" class="nav__product-purchase-tab button" route="/javascript-vendingmachine/purchase">
+          상품 구매
+        </button>
+      </nav>
+      <div id="tab">
+        <product-management></product-management>
+        <charge-tab class="hidden"></charge-tab>
+        <purchase-tab class="hidden"></purchase-tab>
+      </div>
+    </main>
+  `,
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TEMPLATE);
 
@@ -1593,6 +1639,7 @@ class LoginPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElemen
         (0,_router__WEBPACK_IMPORTED_MODULE_4__.historyRouterPush)('/javascript-vendingmachine/signup');
     }
     notify({ userName }) {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.nav').classList.remove('hidden');
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.signup-button').classList.add('hidden');
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.login-button').classList.add('hidden');
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.user-name').classList.remove('hidden');
@@ -1954,6 +2001,37 @@ customElements.define('signup-page', SignupPage);
 
 /***/ }),
 
+/***/ "./src/ui/VendingMachinePage.ts":
+/*!**************************************!*\
+  !*** ./src/ui/VendingMachinePage.ts ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CustomElement */ "./src/ui/CustomElement.ts");
+/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../templates */ "./src/templates.ts");
+
+
+class VendingMachinePage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
+    connectedCallback() {
+        super.connectedCallback();
+    }
+    render() {
+        this.innerHTML = this.template();
+    }
+    template() {
+        return _templates__WEBPACK_IMPORTED_MODULE_1__["default"].VENDING_MACHINE_PAGE;
+    }
+}
+customElements.define('vending-machine-page', VendingMachinePage);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (VendingMachinePage);
+
+
+/***/ }),
+
 /***/ "./src/utils.ts":
 /*!**********************!*\
   !*** ./src/utils.ts ***!
@@ -2192,13 +2270,15 @@ var __webpack_exports__ = {};
   \**********************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _css_index_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./css/index.css */ "./src/css/index.css");
-/* harmony import */ var _ui_ProductManagement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ui/ProductManagement */ "./src/ui/ProductManagement.ts");
-/* harmony import */ var _ui_ChargeTab__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ui/ChargeTab */ "./src/ui/ChargeTab.ts");
-/* harmony import */ var _ui_PurchaseTab__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ui/PurchaseTab */ "./src/ui/PurchaseTab.ts");
-/* harmony import */ var _ui_LoginPage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ui/LoginPage */ "./src/ui/LoginPage.ts");
-/* harmony import */ var _ui_SignupPage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ui/SignupPage */ "./src/ui/SignupPage.ts");
-/* harmony import */ var _ui_ProfileEditPage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ui/ProfileEditPage */ "./src/ui/ProfileEditPage.ts");
-/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./router */ "./src/router.ts");
+/* harmony import */ var _ui_VendingMachinePage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ui/VendingMachinePage */ "./src/ui/VendingMachinePage.ts");
+/* harmony import */ var _ui_ProductManagement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ui/ProductManagement */ "./src/ui/ProductManagement.ts");
+/* harmony import */ var _ui_ChargeTab__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ui/ChargeTab */ "./src/ui/ChargeTab.ts");
+/* harmony import */ var _ui_PurchaseTab__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ui/PurchaseTab */ "./src/ui/PurchaseTab.ts");
+/* harmony import */ var _ui_LoginPage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ui/LoginPage */ "./src/ui/LoginPage.ts");
+/* harmony import */ var _ui_SignupPage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ui/SignupPage */ "./src/ui/SignupPage.ts");
+/* harmony import */ var _ui_ProfileEditPage__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ui/ProfileEditPage */ "./src/ui/ProfileEditPage.ts");
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./router */ "./src/router.ts");
+
 
 
 
