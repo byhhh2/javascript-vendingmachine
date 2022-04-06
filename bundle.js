@@ -2108,7 +2108,8 @@ class UserMenu extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement
         (0,_router__WEBPACK_IMPORTED_MODULE_3__.historyRouterPush)('/javascript-vendingmachine/profile');
     }
     handleLogout() {
-        localStorage.clear();
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('user');
         location.href = location.origin + '/javascript-vendingmachine/';
     }
     notify({ userName }) {
