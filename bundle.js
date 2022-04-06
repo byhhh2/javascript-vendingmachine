@@ -1237,8 +1237,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/utils.ts");
 
-const nav = document.querySelector('.nav');
-const auth = document.querySelector('.auth');
+const nav = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('.nav');
+const auth = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('.auth');
 const baseURL = '/javascript-vendingmachine';
 [nav, auth].forEach((container) => container.addEventListener('click', (e) => {
     if (e.target.tagName !== 'BUTTON')
@@ -1252,30 +1252,25 @@ const historyRouterPush = (pathname) => {
 };
 const renderPage = (path) => {
     var _a;
-    pageRouters.forEach((router) => {
-        if (router.path !== path)
-            router.component.classList.add('hidden');
-    });
+    const isVendingMachinePage = path === baseURL + '/' || path === baseURL + '/charge' || path === baseURL + '/management';
+    pageRouters.forEach((router) => router.component.classList.toggle('hidden', router.path !== path));
     (_a = pageRouters.find((router) => router.path === path)) === null || _a === void 0 ? void 0 : _a.component.classList.remove('hidden');
-    auth.classList.add('hidden');
-    if (path === baseURL + '/' || path === baseURL + '/charge' || path === baseURL + '/purchase') {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('vending-machine-page').classList.remove('hidden');
-        auth.classList.remove('hidden');
-    }
+    auth.classList.toggle('hidden', !isVendingMachinePage);
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('vending-machine-page').classList.toggle('hidden', !isVendingMachinePage);
 };
 const renderTab = (path) => {
     var _a, _b, _c;
     (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$$)('.focus-button').forEach((button) => button.classList.remove('focus-button'));
     (_a = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)(`[route='${path}']`, nav)) === null || _a === void 0 ? void 0 : _a.classList.add('focus-button');
-    const cur = (_c = (_b = tabRouters.find((route) => route.path === path)) === null || _b === void 0 ? void 0 : _b.component) !== null && _c !== void 0 ? _c : (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('product-management');
+    const cur = (_c = (_b = tabRouters.find((route) => route.path === path)) === null || _b === void 0 ? void 0 : _b.component) !== null && _c !== void 0 ? _c : (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('purchase-tab');
     const prevs = tabRouters.filter((route) => route.path !== path);
     cur.classList.remove('hidden');
     prevs.forEach((p) => p.component.classList.add('hidden'));
 };
 const tabRouters = [
-    { path: baseURL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('product-management') },
+    { path: baseURL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('purchase-tab') },
     { path: baseURL + '/charge', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('charge-tab') },
-    { path: baseURL + '/purchase', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('purchase-tab') },
+    { path: baseURL + '/management', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('product-management') },
 ];
 const pageRouters = [
     { path: baseURL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('vending-machine-page') },
@@ -1515,13 +1510,13 @@ const TEMPLATE = {
     <main id="app">
       <h1 class="title">🍿 자판기 🍿</h1>
       <nav class="nav">
-        <button type="button" class="nav__product-manage-tab button focus-button" route="/javascript-vendingmachine/">
+        <button type="button" class="nav__product-manage-tab button focus-button" route="/javascript-vendingmachine/management">
           상품 관리
         </button>
         <button type="button" class="nav__charge-tab button" route="/javascript-vendingmachine/charge">
           잔돈 충전
         </button>
-        <button type="button" class="nav__product-purchase-tab button" route="/javascript-vendingmachine/purchase">
+        <button type="button" class="nav__product-purchase-tab button" route="/javascript-vendingmachine/">
           상품 구매
         </button>
       </nav>
