@@ -1235,24 +1235,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "historyRouterPush": () => (/* binding */ historyRouterPush)
 /* harmony export */ });
-/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./storage */ "./src/storage.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils */ "./src/utils.ts");
-
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/utils.ts");
 
 const nav = document.querySelector('.nav');
 const auth = document.querySelector('.auth');
 const baseURL = '/javascript-vendingmachine';
-const isLogin = !!localStorage.getItem('accessToken');
-nav.addEventListener('click', (e) => {
+[nav, auth].forEach((container) => container.addEventListener('click', (e) => {
     if (e.target.tagName !== 'BUTTON')
         return;
     historyRouterPush(e.target.getAttribute('route'));
-});
-auth.addEventListener('click', (e) => {
-    if (e.target.tagName !== 'BUTTON')
-        return;
-    historyRouterPush(e.target.getAttribute('route'));
-});
+}));
 const historyRouterPush = (pathname) => {
     history.pushState({ pathname }, '', pathname);
     renderPage(window.location.pathname);
@@ -1267,29 +1259,29 @@ const renderPage = (path) => {
     (_a = pageRouters.find((router) => router.path === path)) === null || _a === void 0 ? void 0 : _a.component.classList.remove('hidden');
     auth.classList.add('hidden');
     if (path === baseURL + '/' || path === baseURL + '/charge' || path === baseURL + '/purchase') {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('vending-machine-page').classList.remove('hidden');
+        (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('vending-machine-page').classList.remove('hidden');
         auth.classList.remove('hidden');
     }
 };
 const renderTab = (path) => {
     var _a, _b, _c;
-    (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$$)('.focus-button').forEach((button) => button.classList.remove('focus-button'));
-    (_a = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)(`[route='${path}']`, nav)) === null || _a === void 0 ? void 0 : _a.classList.add('focus-button');
-    const cur = (_c = (_b = tabRouters.find((route) => route.path === path)) === null || _b === void 0 ? void 0 : _b.component) !== null && _c !== void 0 ? _c : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('product-management');
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$$)('.focus-button').forEach((button) => button.classList.remove('focus-button'));
+    (_a = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)(`[route='${path}']`, nav)) === null || _a === void 0 ? void 0 : _a.classList.add('focus-button');
+    const cur = (_c = (_b = tabRouters.find((route) => route.path === path)) === null || _b === void 0 ? void 0 : _b.component) !== null && _c !== void 0 ? _c : (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('product-management');
     const prevs = tabRouters.filter((route) => route.path !== path);
     cur.classList.remove('hidden');
     prevs.forEach((p) => p.component.classList.add('hidden'));
 };
 const tabRouters = [
-    { path: baseURL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('product-management') },
-    { path: baseURL + '/charge', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('charge-tab') },
-    { path: baseURL + '/purchase', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('purchase-tab') },
+    { path: baseURL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('product-management') },
+    { path: baseURL + '/charge', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('charge-tab') },
+    { path: baseURL + '/purchase', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('purchase-tab') },
 ];
 const pageRouters = [
-    { path: baseURL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('vending-machine-page') },
-    { path: baseURL + '/login', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('login-page') },
-    { path: baseURL + '/signup', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('signup-page') },
-    { path: baseURL + '/profile', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('profile-edit-page') },
+    { path: baseURL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('vending-machine-page') },
+    { path: baseURL + '/login', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('login-page') },
+    { path: baseURL + '/signup', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('signup-page') },
+    { path: baseURL + '/profile', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('profile-edit-page') },
 ];
 window.addEventListener('popstate', function () {
     renderPage(window.location.pathname);
@@ -1300,21 +1292,6 @@ if (window.location.pathname === '/') {
 }
 renderPage(window.location.pathname);
 renderTab(window.location.pathname);
-const checkLogin = () => {
-    (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.login-button').classList.toggle('hidden', isLogin);
-    (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.user-name').classList.toggle('hidden', !isLogin);
-    nav.classList.toggle('hidden', !isLogin);
-    const userName = _storage__WEBPACK_IMPORTED_MODULE_0__["default"].getLocalStorage('user') ? _storage__WEBPACK_IMPORTED_MODULE_0__["default"].getLocalStorage('user').name : '';
-    (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.user-name__menu-button').insertAdjacentHTML('afterbegin', userName.substring(0, 1));
-};
-window.addEventListener('DOMContentLoaded', () => {
-    checkLogin();
-    (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.user-name__menu-button').addEventListener('click', function () {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.user-name__menu-button').classList.toggle('shadow');
-        (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.menu-element.user-name__edit').classList.toggle('user-name__edit--move');
-        (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.menu-element.user-name__logout').classList.toggle('user-name__logout--move');
-    });
-});
 
 
 /***/ }),
@@ -2092,13 +2069,24 @@ class UserMenu extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement
     }
     render() {
         this.innerHTML = this.template();
+        const isLogin = !!localStorage.getItem('accessToken');
+        const userName = _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getLocalStorage('user') ? _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getLocalStorage('user').name : '';
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.user-name', this).classList.toggle('hidden', !isLogin);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.login-button', this).classList.toggle('hidden', isLogin);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.user-name__menu-button', this).insertAdjacentHTML('afterbegin', userName.substring(0, 1));
     }
     template() {
         return _templates__WEBPACK_IMPORTED_MODULE_1__["default"].USER_MENU;
     }
     setEvent() {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.addEvent)(this, 'click', '.user-name__menu-button', () => this.handleMenu());
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.addEvent)(this, 'click', '.user-name__edit', () => this.handleEdit());
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.addEvent)(this, 'click', '.user-name__logout', () => this.handleLogout());
+    }
+    handleMenu() {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.user-name__menu-button', this).classList.toggle('shadow');
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.menu-element.user-name__edit', this).classList.toggle('user-name__edit--move');
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.menu-element.user-name__logout', this).classList.toggle('user-name__logout--move');
     }
     handleEdit() {
         const user = _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getLocalStorage('user');
@@ -2134,6 +2122,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CustomElement */ "./src/ui/CustomElement.ts");
 /* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../templates */ "./src/templates.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
+
 
 
 class VendingMachinePage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
@@ -2142,6 +2132,8 @@ class VendingMachinePage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Cus
     }
     render() {
         this.innerHTML = this.template();
+        const isLogin = !!localStorage.getItem('accessToken');
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.nav', this).classList.toggle('hidden', !isLogin);
     }
     template() {
         return _templates__WEBPACK_IMPORTED_MODULE_1__["default"].VENDING_MACHINE_PAGE;
