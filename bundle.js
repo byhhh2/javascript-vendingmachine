@@ -2051,6 +2051,7 @@ class SignupPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomEleme
         }, this);
     }
     notify({ userName }) {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.signup-form', this).reset();
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(`${userName}님 회원가입을 축하합니다.`);
     }
 }
