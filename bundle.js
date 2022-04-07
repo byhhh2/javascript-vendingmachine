@@ -800,14 +800,19 @@ module.exports = styleTagTransform;
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "COINS": () => (/* binding */ COINS),
+/* harmony export */   "BASE_URL": () => (/* binding */ BASE_URL),
+/* harmony export */   "SERVER_ORIGIN": () => (/* binding */ SERVER_ORIGIN),
 /* harmony export */   "CONFIGURATION": () => (/* binding */ CONFIGURATION),
 /* harmony export */   "ELEMENT_KEY": () => (/* binding */ ELEMENT_KEY),
 /* harmony export */   "ERROR_MESSAGE": () => (/* binding */ ERROR_MESSAGE),
-/* harmony export */   "CONFIRM_MESSAGE": () => (/* binding */ CONFIRM_MESSAGE)
+/* harmony export */   "CONFIRM_MESSAGE": () => (/* binding */ CONFIRM_MESSAGE),
+/* harmony export */   "SUCCESS_MESSAGE": () => (/* binding */ SUCCESS_MESSAGE)
 /* harmony export */ });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/utils.ts");
 
 const COINS = [500, 100, 50, 10];
+const BASE_URL = '/javascript-vendingmachine';
+const SERVER_ORIGIN = 'http://localhost:3000';
 const CONFIGURATION = {
     AMOUNT: {
         UNIT: 10,
@@ -822,6 +827,11 @@ const CONFIGURATION = {
 const ELEMENT_KEY = {
     PRODUCT: 'subscribeProductManagement',
     CHARGE: 'subscribeChargeTab',
+    SIGNUP: 'subscribeSignupPage',
+    LOGIN: 'subscribeLoginPage',
+    PROFILE_EDIT: 'subscribeProfileEditPage',
+    USER_MENU: 'userMenu',
+    PURCHASE: 'subscribePurchaseTab',
 };
 const ERROR_MESSAGE = {
     DUPLICATED_PRODUCT: '중복되는 상품이 존재합니다.',
@@ -829,9 +839,22 @@ const ERROR_MESSAGE = {
     INCORRECT_UNIT_CHARGE_MONEY: `금액은 ${CONFIGURATION.PRICE.UNIT}원 단위로 나누어 떨어지는 금액으로 입력하세요.`,
     OVER_AMOUNT: `현재 보유 금액은 ${(0,_utils__WEBPACK_IMPORTED_MODULE_0__.markUnit)(CONFIGURATION.AMOUNT.MAX)}원을 초과할 수 없습니다!`,
     INSUFFICIENT_CASH: `잔액이 부족합니다.`,
+    INSUFFICIENT_NAME: '이름은 2글자 이상, 6글자 이하로 입력해주세요.',
+    INSUFFICIENT_PASSWORD: '비밀번호는 숫자와 영문자 조합으로 8글자 이상, 20글자 이하를 입력해주세요.',
+    WRONG_PASSWORD: '비밀번호와 비밀번호 확인란이 일치하지 않습니다.',
+    UNAUTHORIZED_IN_EDIT: '로그인 유저만 회원정보를 수정할 수 있습니다. 다시 로그인을 해주세요.',
+    OVER_USER_AMOUNT: '투입 금액이 10,000원을 초과할 수 없습니다.',
+    NO_RETURN_CHANGE: '반환할 잔액이 없습니다.',
+    DENY: '로그인 후 이용할 수 있습니다.',
 };
 const CONFIRM_MESSAGE = {
     DELETE: '해당 상품을 삭제하시겠습니까?',
+};
+const SUCCESS_MESSAGE = {
+    EDIT: '성공적으로 회원 정보가 수정되었습니다.',
+    INSERT_COIN: '성공적으로 금액을 투입했습니다.',
+    PURCHASE: '성공적으로 상품을 구매했습니다.',
+    RETURN: '성공적으로 잔돈이 반환되었습니다. 자판기의 잔액이 부족할 경우 자판기에 존재하는 금액만큼만 반환됩니다.',
 };
 
 
@@ -851,6 +874,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../storage */ "./src/storage.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
 /* harmony import */ var _validator_authentication__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../validator/authentication */ "./src/validator/authentication.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -860,6 +884,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+
 
 
 
@@ -896,7 +921,7 @@ class Authentication {
     signup({ email, name, password, passwordConfirm }) {
         try {
             (0,_validator_authentication__WEBPACK_IMPORTED_MODULE_3__.validateSignup)(name, password, passwordConfirm);
-            fetch('http://localhost:3000/register', {
+            fetch(_constants__WEBPACK_IMPORTED_MODULE_4__.SERVER_ORIGIN + '/register', {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json',
@@ -911,8 +936,8 @@ class Authentication {
                 const body = yield response.json();
                 if (!response.ok)
                     throw new Error(body);
-                this.dispatch({ key: 'subscribeSignupPage', userName: body.user.name });
-                (0,_router__WEBPACK_IMPORTED_MODULE_0__.historyRouterPush)('/javascript-vendingmachine/');
+                this.dispatch({ key: _constants__WEBPACK_IMPORTED_MODULE_4__.ELEMENT_KEY.SIGNUP, userName: body.user.name });
+                (0,_router__WEBPACK_IMPORTED_MODULE_0__.historyRouterPush)(_constants__WEBPACK_IMPORTED_MODULE_4__.BASE_URL + '/');
             }))
                 .catch((err) => {
                 (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(err.message);
@@ -923,7 +948,7 @@ class Authentication {
         }
     }
     login({ email, password }) {
-        fetch('http://localhost:3000/login', {
+        fetch(_constants__WEBPACK_IMPORTED_MODULE_4__.SERVER_ORIGIN + '/login', {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json',
@@ -940,8 +965,8 @@ class Authentication {
             const { accessToken, user } = body;
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('user', JSON.stringify(user));
-            this.dispatch({ key: 'subscribeLoginPage', userName: user.name });
-            (0,_router__WEBPACK_IMPORTED_MODULE_0__.historyRouterPush)('/javascript-vendingmachine/');
+            this.dispatch({ key: _constants__WEBPACK_IMPORTED_MODULE_4__.ELEMENT_KEY.LOGIN, userName: user.name });
+            (0,_router__WEBPACK_IMPORTED_MODULE_0__.historyRouterPush)(_constants__WEBPACK_IMPORTED_MODULE_4__.BASE_URL + '/');
         }))
             .catch((err) => {
             (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(err.message);
@@ -952,7 +977,7 @@ class Authentication {
             const token = localStorage.getItem('accessToken');
             const user = _storage__WEBPACK_IMPORTED_MODULE_1__["default"].getLocalStorage('user');
             (0,_validator_authentication__WEBPACK_IMPORTED_MODULE_3__.validateProfileEdit)(password, passwordConfirm, token);
-            fetch(`http://localhost:3000/users/${user.id}`, {
+            fetch(`${_constants__WEBPACK_IMPORTED_MODULE_4__.SERVER_ORIGIN}/users/${user.id}`, {
                 method: 'put',
                 headers: {
                     'Content-Type': 'application/json',
@@ -970,9 +995,9 @@ class Authentication {
                 if (!ok)
                     throw new Error(body);
                 localStorage.setItem('user', JSON.stringify(body));
-                this.dispatch({ key: 'subscribeProfileEditPage', userName: body.name });
-                this.dispatch({ key: 'userMenu', userName: body.name });
-                (0,_router__WEBPACK_IMPORTED_MODULE_0__.historyRouterPush)('/javascript-vendingmachine/');
+                this.dispatch({ key: _constants__WEBPACK_IMPORTED_MODULE_4__.ELEMENT_KEY.PROFILE_EDIT, userName: body.name });
+                this.dispatch({ key: _constants__WEBPACK_IMPORTED_MODULE_4__.ELEMENT_KEY.USER_MENU, userName: body.name });
+                (0,_router__WEBPACK_IMPORTED_MODULE_0__.historyRouterPush)(_constants__WEBPACK_IMPORTED_MODULE_4__.BASE_URL + '/');
             }))
                 .catch((err) => {
                 (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(err.message);
@@ -1139,7 +1164,7 @@ class VendingMachine {
             const newProduct = new _Product__WEBPACK_IMPORTED_MODULE_5__["default"](product);
             this.products.push(newProduct);
             _storage__WEBPACK_IMPORTED_MODULE_1__["default"].setLocalStorage('products', this.products);
-            this.dispatch('subscribePurchaseTab', 'update-product', newProduct);
+            this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PURCHASE, 'update-product', newProduct);
             this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PRODUCT, 'add', newProduct);
         }
         catch (error) {
@@ -1152,7 +1177,7 @@ class VendingMachine {
             const target = this.products.find((product) => product.name === targetName);
             target.update({ name, price, quantity });
             _storage__WEBPACK_IMPORTED_MODULE_1__["default"].setLocalStorage('products', this.products);
-            this.dispatch('subscribePurchaseTab', 'update-product', target);
+            this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PURCHASE, 'update-product', target);
             this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PRODUCT, 'update', target);
         }
         catch (error) {
@@ -1161,7 +1186,7 @@ class VendingMachine {
     }
     deleteProduct(targetName) {
         const targetProduct = this.products.find((product) => product.name === targetName);
-        this.dispatch('subscribePurchaseTab', 'delete-product', targetProduct);
+        this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PURCHASE, 'delete-product', targetProduct);
         this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PRODUCT, 'delete', targetProduct);
         this.products = this.products.filter((product) => product.name !== targetName);
         _storage__WEBPACK_IMPORTED_MODULE_1__["default"].setLocalStorage('products', this.products);
@@ -1181,7 +1206,7 @@ class VendingMachine {
         try {
             (0,_validator__WEBPACK_IMPORTED_MODULE_3__.validateUserInputMoney)(userInputMoney, this.userAmount);
             this.userAmount += userInputMoney;
-            this.dispatch('subscribePurchaseTab', 'insert-coin');
+            this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PURCHASE, 'insert-coin');
         }
         catch (error) {
             (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(error.message);
@@ -1193,7 +1218,7 @@ class VendingMachine {
             (0,_validator__WEBPACK_IMPORTED_MODULE_3__.validatePurchable)(this.userAmount, targetProduct);
             this.userAmount -= targetProduct.price;
             targetProduct.quantity -= 1;
-            this.dispatch('subscribePurchaseTab', 'purchase', targetProduct);
+            this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PURCHASE, 'purchase', targetProduct);
             if (targetProduct.quantity <= 0) {
                 this.products = this.products.filter((product) => product.id !== targetProduct.id);
             }
@@ -1208,7 +1233,7 @@ class VendingMachine {
             (0,_validator__WEBPACK_IMPORTED_MODULE_3__.validateReturn)(this.userAmount);
             const remainingUserAmount = this.amount.returnChange(this.userAmount);
             this.userAmount = remainingUserAmount;
-            this.dispatch('subscribePurchaseTab', 'return');
+            this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PURCHASE, 'return');
             this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.CHARGE, 'update');
             _storage__WEBPACK_IMPORTED_MODULE_1__["default"].setLocalStorage('amount', this.amount.counter);
         }
@@ -1233,11 +1258,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "historyRouterPush": () => (/* binding */ historyRouterPush)
 /* harmony export */ });
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/utils.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./src/constants.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils */ "./src/utils.ts");
 
-const nav = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('.nav');
-const auth = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('.auth');
-const baseURL = '/javascript-vendingmachine';
+
+const nav = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.nav');
+const auth = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.auth');
 [nav, auth].forEach((container) => container.addEventListener('click', (e) => {
     if (e.target.tagName !== 'BUTTON')
         return;
@@ -1251,8 +1277,8 @@ const isGranted = (pathname) => {
     return element.permission || isLogin;
 };
 const deny = () => {
-    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.showSnackbar)('로그인 후 이용할 수 있습니다.');
-    historyRouterPush(baseURL + '/');
+    (0,_utils__WEBPACK_IMPORTED_MODULE_1__.showSnackbar)(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.DENY);
+    historyRouterPush(_constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/');
 };
 const historyRouterPush = (pathname) => {
     history.pushState({ pathname }, '', pathname);
@@ -1268,37 +1294,37 @@ const render = (path) => {
 };
 const renderPage = (path) => {
     var _a;
-    const isVendingMachinePage = path === baseURL + '/' || path === baseURL + '/charge' || path === baseURL + '/management';
+    const isVendingMachinePage = path === _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/' || path === _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/charge' || path === _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/management';
     pageRouters.forEach((router) => router.component.classList.toggle('hidden', router.path !== path));
     (_a = pageRouters.find((router) => router.path === path)) === null || _a === void 0 ? void 0 : _a.component.classList.remove('hidden');
     auth.classList.toggle('hidden', !isVendingMachinePage);
-    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('vending-machine-page').classList.toggle('hidden', !isVendingMachinePage);
+    (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('vending-machine-page').classList.toggle('hidden', !isVendingMachinePage);
 };
 const renderTab = (path) => {
     var _a, _b, _c;
-    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$$)('.focus-button').forEach((button) => button.classList.remove('focus-button'));
-    (_a = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)(`[route='${path}']`, nav)) === null || _a === void 0 ? void 0 : _a.classList.add('focus-button');
-    const cur = (_c = (_b = tabRouters.find((route) => route.path === path)) === null || _b === void 0 ? void 0 : _b.component) !== null && _c !== void 0 ? _c : (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('purchase-tab');
+    (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$$)('.focus-button').forEach((button) => button.classList.remove('focus-button'));
+    (_a = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)(`[route='${path}']`, nav)) === null || _a === void 0 ? void 0 : _a.classList.add('focus-button');
+    const cur = (_c = (_b = tabRouters.find((route) => route.path === path)) === null || _b === void 0 ? void 0 : _b.component) !== null && _c !== void 0 ? _c : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('purchase-tab');
     const prevs = tabRouters.filter((route) => route.path !== path);
     cur.classList.remove('hidden');
     prevs.forEach((p) => p.component.classList.add('hidden'));
 };
 const tabRouters = [
-    { path: baseURL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('purchase-tab'), permission: true },
-    { path: baseURL + '/charge', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('charge-tab'), permission: false },
-    { path: baseURL + '/management', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('product-management'), permission: false },
+    { path: _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('purchase-tab'), permission: true },
+    { path: _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/charge', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('charge-tab'), permission: false },
+    { path: _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/management', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('product-management'), permission: false },
 ];
 const pageRouters = [
-    { path: baseURL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('vending-machine-page'), permission: true },
-    { path: baseURL + '/login', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('login-page'), permission: true },
-    { path: baseURL + '/signup', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('signup-page'), permission: true },
-    { path: baseURL + '/profile', component: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.$)('profile-edit-page'), permission: false },
+    { path: _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('vending-machine-page'), permission: true },
+    { path: _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/login', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('login-page'), permission: true },
+    { path: _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/signup', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('signup-page'), permission: true },
+    { path: _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/profile', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('profile-edit-page'), permission: false },
 ];
 window.addEventListener('popstate', function () {
     render(window.location.pathname);
 });
 if (window.location.pathname === '/') {
-    window.location.pathname = baseURL;
+    window.location.pathname = _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL;
 }
 render(window.location.pathname);
 
@@ -1656,6 +1682,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
 /* harmony import */ var _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../domain/Authentication */ "./src/domain/Authentication.ts");
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../router */ "./src/router.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
+
 
 
 
@@ -1664,7 +1692,7 @@ __webpack_require__.r(__webpack_exports__);
 class LoginPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
     connectedCallback() {
         super.connectedCallback();
-        _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__["default"].instance.subscribe('subscribeLoginPage', this);
+        _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__["default"].instance.subscribe(_constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.LOGIN, this);
     }
     render() {
         this.innerHTML = this.template();
@@ -1683,7 +1711,7 @@ class LoginPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElemen
     }
     handleSignup(e) {
         e.preventDefault();
-        (0,_router__WEBPACK_IMPORTED_MODULE_4__.historyRouterPush)('/javascript-vendingmachine/signup');
+        (0,_router__WEBPACK_IMPORTED_MODULE_4__.historyRouterPush)(_constants__WEBPACK_IMPORTED_MODULE_5__.BASE_URL + '/signup');
     }
     notify({ userName }) {
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.nav').classList.remove('hidden');
@@ -1848,6 +1876,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../storage */ "./src/storage.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
 /* harmony import */ var _domain_Authentication__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../domain/Authentication */ "./src/domain/Authentication.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
+
 
 
 
@@ -1856,7 +1886,7 @@ __webpack_require__.r(__webpack_exports__);
 class ProfileEditPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
     connectedCallback() {
         super.connectedCallback();
-        _domain_Authentication__WEBPACK_IMPORTED_MODULE_4__["default"].instance.subscribe('subscribeProfileEditPage', this);
+        _domain_Authentication__WEBPACK_IMPORTED_MODULE_4__["default"].instance.subscribe(_constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.PROFILE_EDIT, this);
     }
     render() {
         this.innerHTML = this.template();
@@ -1878,7 +1908,7 @@ class ProfileEditPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Custom
         (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('.profile-edit-form', '@edit', { name: form.userName.value, password: form.password.value, passwordConfirm: form.passwordConfirm.value }, this);
     }
     notify({}) {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.showSnackbar)('성공적으로 회원 정보가 수정되었습니다.');
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.showSnackbar)(_constants__WEBPACK_IMPORTED_MODULE_5__.SUCCESS_MESSAGE.EDIT);
     }
 }
 customElements.define('profile-edit-page', ProfileEditPage);
@@ -1912,7 +1942,7 @@ __webpack_require__.r(__webpack_exports__);
 class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
     connectedCallback() {
         super.connectedCallback();
-        _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_4__["default"].instance.observe('subscribePurchaseTab', this);
+        _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_4__["default"].instance.observe(_constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.PURCHASE, this);
     }
     render() {
         this.innerHTML = this.template();
@@ -1951,12 +1981,12 @@ class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElem
         switch (action) {
             case 'insert-coin':
                 this.updateAmount(userAmount);
-                (0,_utils__WEBPACK_IMPORTED_MODULE_3__.showSnackbar)('성공적으로 금액을 투입했습니다.');
+                (0,_utils__WEBPACK_IMPORTED_MODULE_3__.showSnackbar)(_constants__WEBPACK_IMPORTED_MODULE_5__.SUCCESS_MESSAGE.INSERT_COIN);
                 return;
             case 'purchase':
                 this.updateAmount(userAmount);
                 this.purchase(product);
-                (0,_utils__WEBPACK_IMPORTED_MODULE_3__.showSnackbar)('성공적으로 상품을 구매했습니다.');
+                (0,_utils__WEBPACK_IMPORTED_MODULE_3__.showSnackbar)(_constants__WEBPACK_IMPORTED_MODULE_5__.SUCCESS_MESSAGE.PURCHASE);
                 return;
             case 'update-product':
                 this.updateProductTable('update-product', product);
@@ -1966,7 +1996,7 @@ class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElem
                 return;
             case 'return':
                 this.returnChange(amount, userAmount);
-                (0,_utils__WEBPACK_IMPORTED_MODULE_3__.showSnackbar)('성공적으로 잔돈이 반환되었습니다. 자판기의 잔액이 부족할 경우 자판기에 존재하는 금액만큼만 반환됩니다.');
+                (0,_utils__WEBPACK_IMPORTED_MODULE_3__.showSnackbar)(_constants__WEBPACK_IMPORTED_MODULE_5__.SUCCESS_MESSAGE.RETURN);
         }
     }
     updateAmount(userAmount) {
@@ -2022,6 +2052,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../templates */ "./src/templates.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
 /* harmony import */ var _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../domain/Authentication */ "./src/domain/Authentication.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
+
 
 
 
@@ -2029,7 +2061,7 @@ __webpack_require__.r(__webpack_exports__);
 class SignupPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
     connectedCallback() {
         super.connectedCallback();
-        _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__["default"].instance.subscribe('subscribeSignupPage', this);
+        _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__["default"].instance.subscribe(_constants__WEBPACK_IMPORTED_MODULE_4__.ELEMENT_KEY.SIGNUP, this);
     }
     render() {
         this.innerHTML = this.template();
@@ -2077,6 +2109,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../router */ "./src/router.ts");
 /* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../storage */ "./src/storage.ts");
 /* harmony import */ var _domain_Authentication__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../domain/Authentication */ "./src/domain/Authentication.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
+
 
 
 
@@ -2086,7 +2120,7 @@ __webpack_require__.r(__webpack_exports__);
 class UserMenu extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
     connectedCallback() {
         super.connectedCallback();
-        _domain_Authentication__WEBPACK_IMPORTED_MODULE_5__["default"].instance.subscribe('userMenu', this);
+        _domain_Authentication__WEBPACK_IMPORTED_MODULE_5__["default"].instance.subscribe(_constants__WEBPACK_IMPORTED_MODULE_6__.ELEMENT_KEY.USER_MENU, this);
     }
     render() {
         this.innerHTML = this.template();
@@ -2115,12 +2149,12 @@ class UserMenu extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement
             return;
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('[name=email]', (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('profile-edit-page')).value = user.email;
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('[name=userName]', (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('profile-edit-page')).value = user.name;
-        (0,_router__WEBPACK_IMPORTED_MODULE_3__.historyRouterPush)('/javascript-vendingmachine/profile');
+        (0,_router__WEBPACK_IMPORTED_MODULE_3__.historyRouterPush)(_constants__WEBPACK_IMPORTED_MODULE_6__.BASE_URL + '/profile');
     }
     handleLogout() {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('user');
-        location.href = location.origin + '/javascript-vendingmachine/';
+        location.href = location.origin + _constants__WEBPACK_IMPORTED_MODULE_6__.BASE_URL + '/';
     }
     notify({ userName }) {
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.user-name__menu-button').textContent = userName.substring(0, 1);
@@ -2234,6 +2268,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "validateSignup": () => (/* binding */ validateSignup),
 /* harmony export */   "validateProfileEdit": () => (/* binding */ validateProfileEdit)
 /* harmony export */ });
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
+
 const signupValidator = {
     isInsufficientPassword(password) {
         return !/^(?=.*[a-zA-Z])(?=.*[0-9]).{8,20}$/.test(password);
@@ -2247,13 +2283,13 @@ const signupValidator = {
 };
 const validateSignup = (userName, password, passwordConfirm) => {
     if (signupValidator.isInsufficientName(userName)) {
-        throw new Error('이름은 2글자 이상, 6글자 이하로 입력해주세요.');
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.INSUFFICIENT_NAME);
     }
     if (signupValidator.isInsufficientPassword(password)) {
-        throw new Error('비밀번호는 숫자와 영문자 조합으로 8글자 이상, 20글자 이하를 입력해주세요.');
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.INSUFFICIENT_PASSWORD);
     }
     if (signupValidator.isWrongPassword(password, passwordConfirm)) {
-        throw new Error('비밀번호와 비밀번호 확인란이 일치하지 않습니다.');
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.WRONG_PASSWORD);
     }
 };
 const profileEditValidator = {
@@ -2263,13 +2299,13 @@ const profileEditValidator = {
 };
 const validateProfileEdit = (password, passwordConfirm, token) => {
     if (signupValidator.isInsufficientPassword(password)) {
-        throw new Error('비밀번호는 숫자와 영문자 조합으로 8글자 이상, 20글자 이하를 입력해주세요.');
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.INSUFFICIENT_PASSWORD);
     }
     if (signupValidator.isWrongPassword(password, passwordConfirm)) {
-        throw new Error('비밀번호와 비밀번호 확인란이 일치하지 않습니다.');
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.WRONG_PASSWORD);
     }
     if (!profileEditValidator.isLogin(token)) {
-        throw new Error('로그인 유저만 회원정보를 수정할 수 있습니다. 다시 로그인을 해주세요.');
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.UNAUTHORIZED_IN_EDIT);
     }
 };
 
@@ -2355,7 +2391,7 @@ const validateUserInputMoney = (userInputMoney, userAmount) => {
         throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.INCORRECT_UNIT_CHARGE_MONEY);
     }
     if (userInputMoneyValidator.isOverMax(userAmount, userInputMoney)) {
-        throw new Error('투입 금액이 10,000원을 초과할 수 없습니다.');
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.OVER_USER_AMOUNT);
     }
 };
 const purchableValidator = {
@@ -2375,7 +2411,7 @@ const returnValidator = {
 };
 const validateReturn = (userAmount) => {
     if (returnValidator.isInsufficientUserAmount(userAmount)) {
-        throw new Error('반환할 잔액이 없습니다.');
+        throw new Error(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.NO_RETURN_CHANGE);
     }
 };
 
