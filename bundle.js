@@ -900,9 +900,9 @@ class Authentication {
         return Authentication._instance;
     }
     subscribe(key, element) {
+        var _a;
         this.observers.push({ key, element });
-        if (this[key])
-            this[key]();
+        (_a = this[key]) === null || _a === void 0 ? void 0 : _a.call(this);
     }
     dispatch(params) {
         const { key, userName } = params;
