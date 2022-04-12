@@ -1084,11 +1084,9 @@ class Safe {
         }
     }
     returnChange(userAmount) {
-        _constants__WEBPACK_IMPORTED_MODULE_0__.COINS.forEach((coin) => {
-            this.userChange[coin].count = 0;
-        });
         let remainingUserAmount = userAmount;
         _constants__WEBPACK_IMPORTED_MODULE_0__.COINS.forEach((coin) => {
+            this.userChange[coin].count = 0;
             while (remainingUserAmount > 0 && this.counter[coin].count > 0) {
                 remainingUserAmount -= coin;
                 this.userChange[coin].count += 1;
