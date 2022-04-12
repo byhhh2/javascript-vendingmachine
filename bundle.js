@@ -1167,7 +1167,7 @@ class VendingMachine {
     }
     dispatch(key, action, product) {
         const targets = this.observers.filter((observer) => observer.key === key);
-        targets.forEach((target) => target.element.notify({ action, amount: this.amount, product, userAmount: this.userAmount }));
+        targets.forEach((target) => target.element.notify(Object.assign({ action, product }, this)));
     }
     observe(key, element) {
         this.observers.push({ key, element });
