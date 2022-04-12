@@ -804,6 +804,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "SERVER_ORIGIN": () => (/* binding */ SERVER_ORIGIN),
 /* harmony export */   "CONFIGURATION": () => (/* binding */ CONFIGURATION),
 /* harmony export */   "ELEMENT_KEY": () => (/* binding */ ELEMENT_KEY),
+/* harmony export */   "ELEMENT_ACTION": () => (/* binding */ ELEMENT_ACTION),
 /* harmony export */   "CUSTOM_EVENT": () => (/* binding */ CUSTOM_EVENT),
 /* harmony export */   "ERROR_MESSAGE": () => (/* binding */ ERROR_MESSAGE),
 /* harmony export */   "CONFIRM_MESSAGE": () => (/* binding */ CONFIRM_MESSAGE),
@@ -835,6 +836,17 @@ var ELEMENT_KEY;
     ELEMENT_KEY["USER_MENU"] = "userMenu";
     ELEMENT_KEY["PURCHASE"] = "subscribePurchaseTab";
 })(ELEMENT_KEY || (ELEMENT_KEY = {}));
+var ELEMENT_ACTION;
+(function (ELEMENT_ACTION) {
+    ELEMENT_ACTION["INSERT_ITEM"] = "add";
+    ELEMENT_ACTION["UPDATE_ITEM"] = "update";
+    ELEMENT_ACTION["DELETE_ITEM"] = "delete";
+    ELEMENT_ACTION["UPDATE_AMOUNT"] = "insert-coin";
+    ELEMENT_ACTION["PURCHASE"] = "purchase";
+    ELEMENT_ACTION["UPDATE_PRODUCT"] = "update-product";
+    ELEMENT_ACTION["DELETE_PRODUCT"] = "delete-product";
+    ELEMENT_ACTION["RETURN_OF_CHANGE"] = "return";
+})(ELEMENT_ACTION || (ELEMENT_ACTION = {}));
 const CUSTOM_EVENT = {
     PRODUCT: {
         ADD: '@add',
@@ -917,10 +929,9 @@ class Authentication {
         }
         return Authentication._instance;
     }
-    dispatch(params) {
-        const { key, userName } = params;
+    dispatch({ key, action, userName }) {
         const targets = this.observers.filter((observer) => observer.key === key);
-        targets.forEach((target) => target.element.notify({ userName }));
+        targets.forEach((target) => target.element.notify({ action, userName }));
     }
     observe({ key, element }) {
         var _a;
@@ -1166,7 +1177,7 @@ class VendingMachine {
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('#purchasable-product-list-table', _constants__WEBPACK_IMPORTED_MODULE_0__.CUSTOM_EVENT.PRODUCT.PURCHASE, (e) => this.purchase(e.detail.productId), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('purchase-tab'));
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.return-button', _constants__WEBPACK_IMPORTED_MODULE_0__.CUSTOM_EVENT.RETURN_OF_CHANGE, () => this.returnCoin(), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('purchase-tab'));
     }
-    dispatch(key, action, product) {
+    dispatch({ key, action, product }) {
         const targets = this.observers.filter((observer) => observer.key === key);
         targets.forEach((target) => target.element.notify(Object.assign({ action, product }, this)));
     }
@@ -1180,8 +1191,8 @@ class VendingMachine {
             const newProduct = new _Product__WEBPACK_IMPORTED_MODULE_5__["default"](product);
             this.products.push(newProduct);
             _storage__WEBPACK_IMPORTED_MODULE_1__["default"].setLocalStorage('products', this.products);
-            this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PURCHASE, 'update-product', newProduct);
-            this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PRODUCT, 'add', newProduct);
+            this.dispatch({ key: _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PURCHASE, action: _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_ACTION.UPDATE_PRODUCT, product: newProduct });
+            this.dispatch({ key: _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PRODUCT, action: _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_ACTION.INSERT_ITEM, product: newProduct });
         }
         catch (error) {
             (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(error.message);
@@ -1193,8 +1204,8 @@ class VendingMachine {
             const target = this.products.find((product) => product.name === targetName);
             target.update({ name, price, quantity });
             _storage__WEBPACK_IMPORTED_MODULE_1__["default"].setLocalStorage('products', this.products);
-            this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PURCHASE, 'update-product', target);
-            this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PRODUCT, 'update', target);
+            this.dispatch({ key: _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PURCHASE, action: _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_ACTION.UPDATE_PRODUCT, product: target });
+            this.dispatch({ key: _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PRODUCT, action: _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_ACTION.UPDATE_ITEM, product: target });
         }
         catch (error) {
             (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(error.message);
@@ -1202,8 +1213,8 @@ class VendingMachine {
     }
     deleteProduct(targetName) {
         const targetProduct = this.products.find((product) => product.name === targetName);
-        this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PURCHASE, 'delete-product', targetProduct);
-        this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PRODUCT, 'delete', targetProduct);
+        this.dispatch({ key: _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PURCHASE, action: _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_ACTION.DELETE_PRODUCT, product: targetProduct });
+        this.dispatch({ key: _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PRODUCT, action: _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_ACTION.DELETE_ITEM, product: targetProduct });
         this.products = this.products.filter((product) => product.name !== targetName);
         _storage__WEBPACK_IMPORTED_MODULE_1__["default"].setLocalStorage('products', this.products);
     }
@@ -1212,7 +1223,7 @@ class VendingMachine {
             (0,_validator__WEBPACK_IMPORTED_MODULE_3__.validateChange)(inputMoney, this.amount.getAmount());
             this.amount.genarateRandomCoin(inputMoney);
             _storage__WEBPACK_IMPORTED_MODULE_1__["default"].setLocalStorage('amount', this.amount.counter);
-            this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.CHARGE, 'update');
+            this.dispatch({ key: _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.CHARGE, action: _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_ACTION.UPDATE_ITEM });
         }
         catch (error) {
             (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(error.message);
@@ -1222,7 +1233,7 @@ class VendingMachine {
         try {
             (0,_validator__WEBPACK_IMPORTED_MODULE_3__.validateUserInputMoney)(userInputMoney, this.userAmount);
             this.userAmount += userInputMoney;
-            this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PURCHASE, 'insert-coin');
+            this.dispatch({ key: _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PURCHASE, action: _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_ACTION.UPDATE_AMOUNT });
         }
         catch (error) {
             (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(error.message);
@@ -1234,7 +1245,7 @@ class VendingMachine {
             (0,_validator__WEBPACK_IMPORTED_MODULE_3__.validatePurchable)(this.userAmount, targetProduct);
             this.userAmount -= targetProduct.price;
             targetProduct.quantity -= 1;
-            this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PURCHASE, 'purchase', targetProduct);
+            this.dispatch({ key: _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PURCHASE, action: _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_ACTION.PURCHASE, product: targetProduct });
             if (targetProduct.quantity <= 0) {
                 this.products = this.products.filter((product) => product.id !== targetProduct.id);
             }
@@ -1249,8 +1260,8 @@ class VendingMachine {
             (0,_validator__WEBPACK_IMPORTED_MODULE_3__.validateReturn)(this.userAmount);
             const remainingUserAmount = this.amount.returnChange(this.userAmount);
             this.userAmount = remainingUserAmount;
-            this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PURCHASE, 'return');
-            this.dispatch(_constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.CHARGE, 'update');
+            this.dispatch({ key: _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PURCHASE, action: _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_ACTION.RETURN_OF_CHANGE });
+            this.dispatch({ key: _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.CHARGE, action: _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_ACTION.UPDATE_ITEM });
             _storage__WEBPACK_IMPORTED_MODULE_1__["default"].setLocalStorage('amount', this.amount.counter);
         }
         catch (error) {
