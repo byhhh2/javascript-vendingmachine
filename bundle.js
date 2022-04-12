@@ -1087,7 +1087,7 @@ class Safe {
         let remainingUserAmount = userAmount;
         _constants__WEBPACK_IMPORTED_MODULE_0__.COINS.forEach((coin) => {
             this.userChange[coin].count = 0;
-            while (remainingUserAmount > 0 && this.counter[coin].count > 0) {
+            while (remainingUserAmount > 0 && this.counter[coin].count > 0 && remainingUserAmount >= coin) {
                 remainingUserAmount -= coin;
                 this.userChange[coin].count += 1;
                 this.counter[coin].count -= 1;
