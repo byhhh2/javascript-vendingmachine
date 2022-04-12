@@ -825,15 +825,16 @@ const CONFIGURATION = {
         MAX: 10000,
     },
 };
-const ELEMENT_KEY = {
-    PRODUCT: 'subscribeProductManagement',
-    CHARGE: 'subscribeChargeTab',
-    SIGNUP: 'subscribeSignupPage',
-    LOGIN: 'subscribeLoginPage',
-    PROFILE_EDIT: 'subscribeProfileEditPage',
-    USER_MENU: 'userMenu',
-    PURCHASE: 'subscribePurchaseTab',
-};
+var ELEMENT_KEY;
+(function (ELEMENT_KEY) {
+    ELEMENT_KEY["PRODUCT"] = "subscribeProductManagement";
+    ELEMENT_KEY["CHARGE"] = "subscribeChargeTab";
+    ELEMENT_KEY["SIGNUP"] = "subscribeSignupPage";
+    ELEMENT_KEY["LOGIN"] = "subscribeLoginPage";
+    ELEMENT_KEY["PROFILE_EDIT"] = "subscribeProfileEditPage";
+    ELEMENT_KEY["USER_MENU"] = "userMenu";
+    ELEMENT_KEY["PURCHASE"] = "subscribePurchaseTab";
+})(ELEMENT_KEY || (ELEMENT_KEY = {}));
 const CUSTOM_EVENT = {
     PRODUCT: {
         ADD: '@add',
@@ -916,15 +917,15 @@ class Authentication {
         }
         return Authentication._instance;
     }
-    subscribe(key, element) {
-        var _a;
-        this.observers.push({ key, element });
-        (_a = this[key]) === null || _a === void 0 ? void 0 : _a.call(this);
-    }
     dispatch(params) {
         const { key, userName } = params;
         const targets = this.observers.filter((observer) => observer.key === key);
         targets.forEach((target) => target.element.notify({ userName }));
+    }
+    observe({ key, element }) {
+        var _a;
+        this.observers.push({ key, element });
+        (_a = this[key]) === null || _a === void 0 ? void 0 : _a.call(this);
     }
     subscribeSignupPage() {
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.signup-form', _constants__WEBPACK_IMPORTED_MODULE_4__.CUSTOM_EVENT.AUTH.SIGNUP, (e) => this.signup(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('signup-page'));
@@ -1169,7 +1170,7 @@ class VendingMachine {
         const targets = this.observers.filter((observer) => observer.key === key);
         targets.forEach((target) => target.element.notify(Object.assign({ action, product }, this)));
     }
-    observe(key, element) {
+    observe({ key, element }) {
         this.observers.push({ key, element });
         this[key]();
     }
@@ -1624,7 +1625,7 @@ __webpack_require__.r(__webpack_exports__);
 class ChargeTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
     connectedCallback() {
         super.connectedCallback();
-        _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_3__["default"].instance.observe(_constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.CHARGE, this);
+        _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_3__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.CHARGE, element: this });
     }
     render() {
         this.innerHTML = this.template();
@@ -1707,7 +1708,7 @@ __webpack_require__.r(__webpack_exports__);
 class LoginPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
     connectedCallback() {
         super.connectedCallback();
-        _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__["default"].instance.subscribe(_constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.LOGIN, this);
+        _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.LOGIN, element: this });
     }
     render() {
         this.innerHTML = this.template();
@@ -1768,7 +1769,7 @@ __webpack_require__.r(__webpack_exports__);
 class ProductManagement extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
     connectedCallback() {
         super.connectedCallback();
-        _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_3__["default"].instance.observe(_constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.PRODUCT, this);
+        _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_3__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.PRODUCT, element: this });
     }
     render() {
         this.innerHTML = this.template();
@@ -1901,7 +1902,7 @@ __webpack_require__.r(__webpack_exports__);
 class ProfileEditPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
     connectedCallback() {
         super.connectedCallback();
-        _domain_Authentication__WEBPACK_IMPORTED_MODULE_4__["default"].instance.subscribe(_constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.PROFILE_EDIT, this);
+        _domain_Authentication__WEBPACK_IMPORTED_MODULE_4__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.PROFILE_EDIT, element: this });
     }
     render() {
         this.innerHTML = this.template();
@@ -1957,7 +1958,7 @@ __webpack_require__.r(__webpack_exports__);
 class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
     connectedCallback() {
         super.connectedCallback();
-        _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_4__["default"].instance.observe(_constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.PURCHASE, this);
+        _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_4__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.PURCHASE, element: this });
     }
     render() {
         this.innerHTML = this.template();
@@ -2076,7 +2077,7 @@ __webpack_require__.r(__webpack_exports__);
 class SignupPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
     connectedCallback() {
         super.connectedCallback();
-        _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__["default"].instance.subscribe(_constants__WEBPACK_IMPORTED_MODULE_4__.ELEMENT_KEY.SIGNUP, this);
+        _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_4__.ELEMENT_KEY.SIGNUP, element: this });
     }
     render() {
         this.innerHTML = this.template();
@@ -2135,7 +2136,7 @@ __webpack_require__.r(__webpack_exports__);
 class UserMenu extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
     connectedCallback() {
         super.connectedCallback();
-        _domain_Authentication__WEBPACK_IMPORTED_MODULE_5__["default"].instance.subscribe(_constants__WEBPACK_IMPORTED_MODULE_6__.ELEMENT_KEY.USER_MENU, this);
+        _domain_Authentication__WEBPACK_IMPORTED_MODULE_5__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_6__.ELEMENT_KEY.USER_MENU, element: this });
     }
     render() {
         this.innerHTML = this.template();
