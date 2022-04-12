@@ -804,6 +804,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "SERVER_ORIGIN": () => (/* binding */ SERVER_ORIGIN),
 /* harmony export */   "CONFIGURATION": () => (/* binding */ CONFIGURATION),
 /* harmony export */   "ELEMENT_KEY": () => (/* binding */ ELEMENT_KEY),
+/* harmony export */   "CUSTOM_EVENT": () => (/* binding */ CUSTOM_EVENT),
 /* harmony export */   "ERROR_MESSAGE": () => (/* binding */ ERROR_MESSAGE),
 /* harmony export */   "CONFIRM_MESSAGE": () => (/* binding */ CONFIRM_MESSAGE),
 /* harmony export */   "SUCCESS_MESSAGE": () => (/* binding */ SUCCESS_MESSAGE)
@@ -832,6 +833,22 @@ const ELEMENT_KEY = {
     PROFILE_EDIT: 'subscribeProfileEditPage',
     USER_MENU: 'userMenu',
     PURCHASE: 'subscribePurchaseTab',
+};
+const CUSTOM_EVENT = {
+    PRODUCT: {
+        ADD: '@add',
+        UPDATE: '@update',
+        DELETE: '@delete',
+        PURCHASE: '@purchase',
+    },
+    AUTH: {
+        SIGNUP: '@signup',
+        LOGIN: '@login',
+        EDIT: '@edit',
+    },
+    CHARGE: '@charge',
+    INSERT_COIN: '@insert-coin',
+    RETURN_OF_CHANGE: '@return-of-change',
 };
 const ERROR_MESSAGE = {
     DUPLICATED_PRODUCT: '중복되는 상품이 존재합니다.',
@@ -910,13 +927,13 @@ class Authentication {
         targets.forEach((target) => target.element.notify({ userName }));
     }
     subscribeSignupPage() {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.signup-form', '@signup', (e) => this.signup(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('signup-page'));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.signup-form', _constants__WEBPACK_IMPORTED_MODULE_4__.CUSTOM_EVENT.AUTH.SIGNUP, (e) => this.signup(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('signup-page'));
     }
     subscribeLoginPage() {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.login-form', '@login', (e) => this.login(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('login-page'));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.login-form', _constants__WEBPACK_IMPORTED_MODULE_4__.CUSTOM_EVENT.AUTH.LOGIN, (e) => this.login(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('login-page'));
     }
     subscribeProfileEditPage() {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.profile-edit-form', '@edit', (e) => this.editProfile(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('profile-edit-page'));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.profile-edit-form', _constants__WEBPACK_IMPORTED_MODULE_4__.CUSTOM_EVENT.AUTH.EDIT, (e) => this.editProfile(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('profile-edit-page'));
     }
     signup({ email, name, password, passwordConfirm }) {
         try {
@@ -1136,17 +1153,17 @@ class VendingMachine {
         return VendingMachine._instance;
     }
     subscribeProductManagement() {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.product-manage-form', '@add', (e) => this.addProduct(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('product-management'));
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('#product-list-table', '@update', (e) => this.updateProduct(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('product-management'));
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('#product-list-table', '@delete', (e) => this.deleteProduct(e.detail.productName), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('product-management'));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.product-manage-form', _constants__WEBPACK_IMPORTED_MODULE_0__.CUSTOM_EVENT.PRODUCT.ADD, (e) => this.addProduct(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('product-management'));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('#product-list-table', _constants__WEBPACK_IMPORTED_MODULE_0__.CUSTOM_EVENT.PRODUCT.UPDATE, (e) => this.updateProduct(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('product-management'));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('#product-list-table', _constants__WEBPACK_IMPORTED_MODULE_0__.CUSTOM_EVENT.PRODUCT.DELETE, (e) => this.deleteProduct(e.detail.productName), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('product-management'));
     }
     subscribeChargeTab() {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.charge-form', '@charge', (e) => this.charge(e.detail.change), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('charge-tab'));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.charge-form', _constants__WEBPACK_IMPORTED_MODULE_0__.CUSTOM_EVENT.CHARGE, (e) => this.charge(e.detail.change), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('charge-tab'));
     }
     subscribePurchaseTab() {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.user-amount-form', '@insert-coin', (e) => this.insertCoin(e.detail.userInputMoney), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('purchase-tab'));
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('#purchasable-product-list-table', '@purchase', (e) => this.purchase(e.detail.productId), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('purchase-tab'));
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.return-button', '@return', () => this.returnCoin(), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('purchase-tab'));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.user-amount-form', _constants__WEBPACK_IMPORTED_MODULE_0__.CUSTOM_EVENT.INSERT_COIN, (e) => this.insertCoin(e.detail.userInputMoney), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('purchase-tab'));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('#purchasable-product-list-table', _constants__WEBPACK_IMPORTED_MODULE_0__.CUSTOM_EVENT.PRODUCT.PURCHASE, (e) => this.purchase(e.detail.productId), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('purchase-tab'));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.return-button', _constants__WEBPACK_IMPORTED_MODULE_0__.CUSTOM_EVENT.RETURN_OF_CHANGE, () => this.returnCoin(), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('purchase-tab'));
     }
     dispatch(key, action, product) {
         const targets = this.observers.filter((observer) => observer.key === key);
@@ -1624,7 +1641,7 @@ class ChargeTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElemen
     handleCharge(e) {
         e.preventDefault();
         const change = e.target.change.valueAsNumber;
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.charge-form', '@charge', { change }, this);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.charge-form', _constants__WEBPACK_IMPORTED_MODULE_5__.CUSTOM_EVENT.CHARGE, { change }, this);
     }
     notify({ amount }) {
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.charge-amount', this).textContent = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.markUnit)(amount.getAmount());
@@ -1705,7 +1722,7 @@ class LoginPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElemen
     handleLogin(e) {
         e.preventDefault();
         const form = e.target;
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.login-form', '@login', { email: form.email.value, password: form.password.value }, this);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.login-form', _constants__WEBPACK_IMPORTED_MODULE_5__.CUSTOM_EVENT.AUTH.LOGIN, { email: form.email.value, password: form.password.value }, this);
     }
     handleSignup(e) {
         e.preventDefault();
@@ -1771,7 +1788,7 @@ class ProductManagement extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Cust
         const name = e.target.productName.value;
         const price = e.target.price.valueAsNumber;
         const quantity = e.target.quantity.valueAsNumber;
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.product-manage-form', '@add', { name, price, quantity }, this);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.product-manage-form', _constants__WEBPACK_IMPORTED_MODULE_5__.CUSTOM_EVENT.PRODUCT.ADD, { name, price, quantity }, this);
     }
     handleUpdateAndDelete(e) {
         if (e.target.classList.contains('product-item__edit-button')) {
@@ -1779,7 +1796,7 @@ class ProductManagement extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Cust
         }
         if (e.target.classList.contains('product-item__delete-button') && confirm(_constants__WEBPACK_IMPORTED_MODULE_5__.CONFIRM_MESSAGE.DELETE)) {
             const productName = e.target.closest('.product-item').dataset.productName;
-            (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('#product-list-table', '@delete', { productName }, this);
+            (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('#product-list-table', _constants__WEBPACK_IMPORTED_MODULE_5__.CUSTOM_EVENT.PRODUCT.DELETE, { productName }, this);
         }
     }
     showForm(e) {
@@ -1808,7 +1825,7 @@ class ProductManagement extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Cust
         const name = e.target.productName.value;
         const price = e.target.price.valueAsNumber;
         const quantity = e.target.quantity.valueAsNumber;
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('#product-list-table', '@update', { targetName, name, price, quantity }, this);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('#product-list-table', _constants__WEBPACK_IMPORTED_MODULE_5__.CUSTOM_EVENT.PRODUCT.UPDATE, { targetName, name, price, quantity }, this);
     }
     notify({ action, product }) {
         switch (action) {
@@ -1903,7 +1920,7 @@ class ProfileEditPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Custom
     handleEdit(e) {
         e.preventDefault();
         const form = e.target;
-        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('.profile-edit-form', '@edit', { name: form.userName.value, password: form.password.value, passwordConfirm: form.passwordConfirm.value }, this);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('.profile-edit-form', _constants__WEBPACK_IMPORTED_MODULE_5__.CUSTOM_EVENT.AUTH.EDIT, { name: form.userName.value, password: form.password.value, passwordConfirm: form.passwordConfirm.value }, this);
     }
     notify({}) {
         (0,_utils__WEBPACK_IMPORTED_MODULE_3__.showSnackbar)(_constants__WEBPACK_IMPORTED_MODULE_5__.SUCCESS_MESSAGE.EDIT);
@@ -1954,15 +1971,15 @@ class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElem
     setEvent() {
         (0,_utils__WEBPACK_IMPORTED_MODULE_3__.addEvent)(this, 'submit', '.user-amount-form', (e) => this.handleInsertCoin(e));
         (0,_utils__WEBPACK_IMPORTED_MODULE_3__.addEvent)(this, 'click', '.purchase_button', (e) => this.handlePurchase(e));
-        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.addEvent)(this, 'click', '.return-button', () => (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('.return-button', '@return', {}, this));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.addEvent)(this, 'click', '.return-button', () => (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('.return-button', _constants__WEBPACK_IMPORTED_MODULE_5__.CUSTOM_EVENT.RETURN_OF_CHANGE, {}, this));
     }
     handleInsertCoin(e) {
         e.preventDefault();
-        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('.user-amount-form', '@insert-coin', { userInputMoney: e.target.change.valueAsNumber }, this);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('.user-amount-form', _constants__WEBPACK_IMPORTED_MODULE_5__.CUSTOM_EVENT.INSERT_COIN, { userInputMoney: e.target.change.valueAsNumber }, this);
     }
     handlePurchase(e) {
         const productItem = e.target.closest('.product-item');
-        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('#purchasable-product-list-table', '@purchase', { productId: productItem.dataset.productId }, this);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('#purchasable-product-list-table', _constants__WEBPACK_IMPORTED_MODULE_5__.CUSTOM_EVENT.PRODUCT.PURCHASE, { productId: productItem.dataset.productId }, this);
     }
     insertPurchableProduct(product, productTable) {
         (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('tbody', productTable).insertAdjacentHTML('beforeend', `<tr class="product-item" data-product-name="${product.name}" data-product-id="${product.id}">
@@ -2073,7 +2090,7 @@ class SignupPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomEleme
     handleSignup(e) {
         e.preventDefault();
         const form = e.target;
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.signup-form', '@signup', {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.signup-form', _constants__WEBPACK_IMPORTED_MODULE_4__.CUSTOM_EVENT.AUTH.SIGNUP, {
             email: form.email.value,
             name: form.userName.value,
             password: form.password.value,
