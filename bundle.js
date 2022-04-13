@@ -1165,9 +1165,9 @@ class VendingMachine {
         return VendingMachine._instance;
     }
     subscribeProductManagement() {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.product-manage-form', _constants__WEBPACK_IMPORTED_MODULE_0__.CUSTOM_EVENT.PRODUCT.ADD, (e) => this.addProduct(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('product-management'));
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('#product-list-table', _constants__WEBPACK_IMPORTED_MODULE_0__.CUSTOM_EVENT.PRODUCT.UPDATE, (e) => this.updateProduct(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('product-management'));
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('#product-list-table', _constants__WEBPACK_IMPORTED_MODULE_0__.CUSTOM_EVENT.PRODUCT.DELETE, (e) => this.deleteProduct(e.detail.productName), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('product-management'));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.product-manage-form', _constants__WEBPACK_IMPORTED_MODULE_0__.CUSTOM_EVENT.PRODUCT.ADD, (e) => this.addProduct(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('product-management-tab'));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('#product-list-table', _constants__WEBPACK_IMPORTED_MODULE_0__.CUSTOM_EVENT.PRODUCT.UPDATE, (e) => this.updateProduct(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('product-management-tab'));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('#product-list-table', _constants__WEBPACK_IMPORTED_MODULE_0__.CUSTOM_EVENT.PRODUCT.DELETE, (e) => this.deleteProduct(e.detail.productName), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('product-management-tab'));
     }
     subscribeChargeTab() {
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.charge-form', _constants__WEBPACK_IMPORTED_MODULE_0__.CUSTOM_EVENT.CHARGE, (e) => this.charge(e.detail.change), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('charge-tab'));
@@ -1336,7 +1336,7 @@ const routes = [
         children: [
             { path: _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('purchase-tab'), permission: true },
             { path: _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/charge', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('charge-tab'), permission: false },
-            { path: _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/management', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('product-management'), permission: false },
+            { path: _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/management', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('product-management-tab'), permission: false },
         ],
     },
     { path: _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/login', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('login-page'), permission: true },
@@ -1584,7 +1584,7 @@ const TEMPLATE = {
         </button>
       </nav>
       <div id="tab">
-        <product-management></product-management>
+        <product-management-tab></product-management-tab>
         <charge-tab class="hidden"></charge-tab>
         <purchase-tab class="hidden"></purchase-tab>
       </div>
@@ -1751,10 +1751,10 @@ customElements.define('login-page', LoginPage);
 
 /***/ }),
 
-/***/ "./src/ui/ProductManagement.ts":
-/*!*************************************!*\
-  !*** ./src/ui/ProductManagement.ts ***!
-  \*************************************/
+/***/ "./src/ui/ProductManagementTab.ts":
+/*!****************************************!*\
+  !*** ./src/ui/ProductManagementTab.ts ***!
+  \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1773,7 +1773,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class ProductManagement extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
+class ProductManagementTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
     connectedCallback() {
         super.connectedCallback();
         _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_3__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.PRODUCT, element: this });
@@ -1878,8 +1878,8 @@ class ProductManagement extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Cust
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)(`[data-product-id="${product.id}"]`).remove();
     }
 }
-customElements.define('product-management', ProductManagement);
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProductManagement);
+customElements.define('product-management-tab', ProductManagementTab);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProductManagementTab);
 
 
 /***/ }),
@@ -2517,7 +2517,7 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _css_index_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./css/index.css */ "./src/css/index.css");
 /* harmony import */ var _ui_VendingMachinePage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ui/VendingMachinePage */ "./src/ui/VendingMachinePage.ts");
-/* harmony import */ var _ui_ProductManagement__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ui/ProductManagement */ "./src/ui/ProductManagement.ts");
+/* harmony import */ var _ui_ProductManagementTab__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ui/ProductManagementTab */ "./src/ui/ProductManagementTab.ts");
 /* harmony import */ var _ui_ChargeTab__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ui/ChargeTab */ "./src/ui/ChargeTab.ts");
 /* harmony import */ var _ui_PurchaseTab__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ui/PurchaseTab */ "./src/ui/PurchaseTab.ts");
 /* harmony import */ var _ui_LoginPage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ui/LoginPage */ "./src/ui/LoginPage.ts");
