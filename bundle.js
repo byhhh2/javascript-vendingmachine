@@ -1298,7 +1298,7 @@ const auth = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('.auth');
 }));
 const isGranted = (pathname) => {
     const isLogin = !!localStorage.getItem('accessToken');
-    const element = [...pageRouters, ...tabRouters].find((router) => router.path === pathname);
+    const element = [...routes, ...routes[0].children].find((router) => router.path === pathname);
     if (!element)
         return;
     return element.permission || isLogin;
@@ -1316,33 +1316,29 @@ const render = (path) => {
         restrictAccess();
         return;
     }
-    renderPage(window.location.pathname);
-    renderTab(window.location.pathname);
+    routing(path);
 };
-const renderPage = (path) => {
-    var _a;
-    const isVendingMachinePage = path === _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/' || path === _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/charge' || path === _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/management';
-    pageRouters.forEach((router) => router.component.classList.toggle('hidden', router.path !== path));
-    (_a = pageRouters.find((router) => router.path === path)) === null || _a === void 0 ? void 0 : _a.component.classList.remove('hidden');
-    auth.classList.toggle('hidden', !isVendingMachinePage);
-    (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('vending-machine-page').classList.toggle('hidden', !isVendingMachinePage);
-};
-const renderTab = (path) => {
-    var _a, _b, _c;
+const routing = (path) => {
+    var _a, _b;
+    const targetRoute = routes.find((route) => route.path.includes(path));
+    routes.forEach((route) => route.component.classList.toggle('hidden', route.path !== path));
+    targetRoute.component.classList.remove('hidden');
+    auth.classList.toggle('hidden', !!!targetRoute.children);
+    (_a = targetRoute.children) === null || _a === void 0 ? void 0 : _a.forEach((tab) => tab.component.classList.toggle('hidden', tab.path !== path));
     (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$$)('.focus-button').forEach((button) => button.classList.remove('focus-button'));
-    (_a = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)(`[route='${path}']`, nav)) === null || _a === void 0 ? void 0 : _a.classList.add('focus-button');
-    const cur = (_c = (_b = tabRouters.find((route) => route.path === path)) === null || _b === void 0 ? void 0 : _b.component) !== null && _c !== void 0 ? _c : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('purchase-tab');
-    const prevs = tabRouters.filter((route) => route.path !== path);
-    cur.classList.remove('hidden');
-    prevs.forEach((p) => p.component.classList.add('hidden'));
+    (_b = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)(`[route='${path}']`, nav)) === null || _b === void 0 ? void 0 : _b.classList.add('focus-button');
 };
-const tabRouters = [
-    { path: _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('purchase-tab'), permission: true },
-    { path: _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/charge', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('charge-tab'), permission: false },
-    { path: _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/management', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('product-management'), permission: false },
-];
-const pageRouters = [
-    { path: _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('vending-machine-page'), permission: true },
+const routes = [
+    {
+        path: [_constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/', _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/charge', _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/management'],
+        component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('vending-machine-page'),
+        permission: true,
+        children: [
+            { path: _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('purchase-tab'), permission: true },
+            { path: _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/charge', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('charge-tab'), permission: false },
+            { path: _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/management', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('product-management'), permission: false },
+        ],
+    },
     { path: _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/login', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('login-page'), permission: true },
     { path: _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/signup', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('signup-page'), permission: true },
     { path: _constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/profile', component: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.$)('profile-edit-page'), permission: false },
