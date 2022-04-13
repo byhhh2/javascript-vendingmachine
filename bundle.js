@@ -1303,7 +1303,7 @@ const isGranted = (pathname) => {
         return;
     return element.permission || isLogin;
 };
-const deny = () => {
+const restrictAccess = () => {
     (0,_utils__WEBPACK_IMPORTED_MODULE_1__.showSnackbar)(_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.DENY);
     historyRouterPush(_constants__WEBPACK_IMPORTED_MODULE_0__.BASE_URL + '/');
 };
@@ -1313,7 +1313,7 @@ const historyRouterPush = (pathname) => {
 };
 const render = (path) => {
     if (!isGranted(path)) {
-        deny();
+        restrictAccess();
         return;
     }
     renderPage(window.location.pathname);
