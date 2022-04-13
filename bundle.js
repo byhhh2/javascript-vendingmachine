@@ -1607,61 +1607,6 @@ const TEMPLATE = {
 
 /***/ }),
 
-/***/ "./src/ui/ChargeTab.ts":
-/*!*****************************!*\
-  !*** ./src/ui/ChargeTab.ts ***!
-  \*****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CustomElement */ "./src/ui/CustomElement.ts");
-/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../templates */ "./src/templates.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
-/* harmony import */ var _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../domain/VendingMachine */ "./src/domain/VendingMachine.ts");
-/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../storage */ "./src/storage.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
-
-
-
-
-
-
-class ChargeTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
-    connectedCallback() {
-        super.connectedCallback();
-        _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_3__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.CHARGE, element: this });
-    }
-    render() {
-        this.innerHTML = this.template();
-        const amount = _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getLocalStorage('amount');
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.charge-amount', this).textContent = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.markUnit)(Object.entries(amount).reduce((previous, [key, value]) => previous + value.count * Number(key), 0));
-        _constants__WEBPACK_IMPORTED_MODULE_5__.COINS.forEach((coin) => ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)(`.coin-${coin}-quantity`).textContent = String(amount[coin].count)));
-    }
-    template() {
-        return _templates__WEBPACK_IMPORTED_MODULE_1__["default"].CHARGE_TAB;
-    }
-    setEvent() {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.addEvent)(this, 'submit', '.charge-form', (e) => this.handleCharge(e));
-    }
-    handleCharge(e) {
-        e.preventDefault();
-        const change = e.target.change.valueAsNumber;
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.charge-form', _constants__WEBPACK_IMPORTED_MODULE_5__.CUSTOM_EVENT.CHARGE, { change }, this);
-    }
-    notify({ amount }) {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.charge-amount', this).textContent = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.markUnit)(amount.getAmount());
-        _constants__WEBPACK_IMPORTED_MODULE_5__.COINS.forEach((coin) => ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)(`.coin-${coin}-quantity`).textContent = amount.counter[coin].count));
-    }
-}
-customElements.define('charge-tab', ChargeTab);
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ChargeTab);
-
-
-/***/ }),
-
 /***/ "./src/ui/CustomElement.ts":
 /*!*********************************!*\
   !*** ./src/ui/CustomElement.ts ***!
@@ -1690,10 +1635,10 @@ class CustomElement extends HTMLElement {
 
 /***/ }),
 
-/***/ "./src/ui/LoginPage.ts":
-/*!*****************************!*\
-  !*** ./src/ui/LoginPage.ts ***!
-  \*****************************/
+/***/ "./src/ui/UserMenu.ts":
+/*!****************************!*\
+  !*** ./src/ui/UserMenu.ts ***!
+  \****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1703,9 +1648,82 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CustomElement */ "./src/ui/CustomElement.ts");
 /* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../templates */ "./src/templates.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
-/* harmony import */ var _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../domain/Authentication */ "./src/domain/Authentication.ts");
-/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../router */ "./src/router.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../router */ "./src/router.ts");
+/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../storage */ "./src/storage.ts");
+/* harmony import */ var _domain_Authentication__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../domain/Authentication */ "./src/domain/Authentication.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
+
+
+
+
+
+
+
+class UserMenu extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
+    connectedCallback() {
+        super.connectedCallback();
+        _domain_Authentication__WEBPACK_IMPORTED_MODULE_5__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_6__.ELEMENT_KEY.USER_MENU, element: this });
+    }
+    render() {
+        this.innerHTML = this.template();
+        const isLogin = !!localStorage.getItem('accessToken');
+        const userName = _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getLocalStorage('user') ? _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getLocalStorage('user').name : '';
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.user-name', this).classList.toggle('hidden', !isLogin);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.login-button', this).classList.toggle('hidden', isLogin);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.user-name__menu-button', this).insertAdjacentHTML('afterbegin', userName.substring(0, 1));
+    }
+    template() {
+        return _templates__WEBPACK_IMPORTED_MODULE_1__["default"].USER_MENU;
+    }
+    setEvent() {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.addEvent)(this, 'click', '.user-name__menu-button', () => this.handleMenu());
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.addEvent)(this, 'click', '.user-name__edit', () => this.handleEdit());
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.addEvent)(this, 'click', '.user-name__logout', () => this.handleLogout());
+    }
+    handleMenu() {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.user-name__menu-button', this).classList.toggle('shadow');
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.menu-element.user-name__edit', this).classList.toggle('user-name__edit--move');
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.menu-element.user-name__logout', this).classList.toggle('user-name__logout--move');
+    }
+    handleEdit() {
+        const user = _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getLocalStorage('user');
+        if (!user)
+            return;
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('[name=email]', (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('profile-edit-page')).value = user.email;
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('[name=userName]', (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('profile-edit-page')).value = user.name;
+        (0,_router__WEBPACK_IMPORTED_MODULE_3__.historyRouterPush)(_constants__WEBPACK_IMPORTED_MODULE_6__.BASE_URL + '/profile');
+    }
+    handleLogout() {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('user');
+        location.href = location.origin + _constants__WEBPACK_IMPORTED_MODULE_6__.BASE_URL + '/';
+    }
+    notify({ userName }) {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.user-name__menu-button').textContent = userName.substring(0, 1);
+    }
+}
+customElements.define('user-menu', UserMenu);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (UserMenu);
+
+
+/***/ }),
+
+/***/ "./src/ui/page/LoginPage.ts":
+/*!**********************************!*\
+  !*** ./src/ui/page/LoginPage.ts ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../CustomElement */ "./src/ui/CustomElement.ts");
+/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../templates */ "./src/templates.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils */ "./src/utils.ts");
+/* harmony import */ var _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../domain/Authentication */ "./src/domain/Authentication.ts");
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../router */ "./src/router.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
 
 
 
@@ -1751,9 +1769,9 @@ customElements.define('login-page', LoginPage);
 
 /***/ }),
 
-/***/ "./src/ui/ProductManagementTab.ts":
+/***/ "./src/ui/page/ProfileEditPage.ts":
 /*!****************************************!*\
-  !*** ./src/ui/ProductManagementTab.ts ***!
+  !*** ./src/ui/page/ProfileEditPage.ts ***!
   \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -1761,12 +1779,213 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CustomElement */ "./src/ui/CustomElement.ts");
-/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../templates */ "./src/templates.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
-/* harmony import */ var _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../domain/VendingMachine */ "./src/domain/VendingMachine.ts");
-/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../storage */ "./src/storage.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
+/* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../CustomElement */ "./src/ui/CustomElement.ts");
+/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../templates */ "./src/templates.ts");
+/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../storage */ "./src/storage.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils */ "./src/utils.ts");
+/* harmony import */ var _domain_Authentication__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../domain/Authentication */ "./src/domain/Authentication.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
+
+
+
+
+
+
+class ProfileEditPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
+    connectedCallback() {
+        super.connectedCallback();
+        _domain_Authentication__WEBPACK_IMPORTED_MODULE_4__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.PROFILE_EDIT, element: this });
+    }
+    render() {
+        this.innerHTML = this.template();
+        const user = _storage__WEBPACK_IMPORTED_MODULE_2__["default"].getLocalStorage('user');
+        if (!user)
+            return;
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('[name=email]', this).value = user.email;
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('[name=userName]', this).value = user.name;
+    }
+    template() {
+        return _templates__WEBPACK_IMPORTED_MODULE_1__["default"].PROFILE_EDIT_PAGE;
+    }
+    setEvent() {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.addEvent)(this, 'submit', '.profile-edit-form', (e) => this.handleEdit(e));
+    }
+    handleEdit(e) {
+        e.preventDefault();
+        const form = e.target;
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('.profile-edit-form', _constants__WEBPACK_IMPORTED_MODULE_5__.CUSTOM_EVENT.AUTH.EDIT, { name: form.userName.value, password: form.password.value, passwordConfirm: form.passwordConfirm.value }, this);
+    }
+    notify({}) {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.showSnackbar)(_constants__WEBPACK_IMPORTED_MODULE_5__.SUCCESS_MESSAGE.EDIT);
+    }
+}
+customElements.define('profile-edit-page', ProfileEditPage);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProfileEditPage);
+
+
+/***/ }),
+
+/***/ "./src/ui/page/SignupPage.ts":
+/*!***********************************!*\
+  !*** ./src/ui/page/SignupPage.ts ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../CustomElement */ "./src/ui/CustomElement.ts");
+/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../templates */ "./src/templates.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils */ "./src/utils.ts");
+/* harmony import */ var _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../domain/Authentication */ "./src/domain/Authentication.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
+
+
+
+
+
+class SignupPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
+    connectedCallback() {
+        super.connectedCallback();
+        _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_4__.ELEMENT_KEY.SIGNUP, element: this });
+    }
+    render() {
+        this.innerHTML = this.template();
+    }
+    template() {
+        return _templates__WEBPACK_IMPORTED_MODULE_1__["default"].SIGNUP_PAGE;
+    }
+    setEvent() {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.addEvent)(this, 'submit', '.signup-form', (e) => this.handleSignup(e));
+    }
+    handleSignup(e) {
+        e.preventDefault();
+        const form = e.target;
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.signup-form', _constants__WEBPACK_IMPORTED_MODULE_4__.CUSTOM_EVENT.AUTH.SIGNUP, {
+            email: form.email.value,
+            name: form.userName.value,
+            password: form.password.value,
+            passwordConfirm: form.passwordConfirm.value,
+        }, this);
+    }
+    notify({ userName }) {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.signup-form', this).reset();
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(`${userName}님 회원가입을 축하합니다.`);
+    }
+}
+customElements.define('signup-page', SignupPage);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SignupPage);
+
+
+/***/ }),
+
+/***/ "./src/ui/page/VendingMachinePage.ts":
+/*!*******************************************!*\
+  !*** ./src/ui/page/VendingMachinePage.ts ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../CustomElement */ "./src/ui/CustomElement.ts");
+/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../templates */ "./src/templates.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils */ "./src/utils.ts");
+
+
+
+class VendingMachinePage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
+    connectedCallback() {
+        super.connectedCallback();
+    }
+    render() {
+        this.innerHTML = this.template();
+        const isLogin = !!localStorage.getItem('accessToken');
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.nav', this).classList.toggle('hidden', !isLogin);
+    }
+    template() {
+        return _templates__WEBPACK_IMPORTED_MODULE_1__["default"].VENDING_MACHINE_PAGE;
+    }
+}
+customElements.define('vending-machine-page', VendingMachinePage);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (VendingMachinePage);
+
+
+/***/ }),
+
+/***/ "./src/ui/tab/ChargeTab.ts":
+/*!*********************************!*\
+  !*** ./src/ui/tab/ChargeTab.ts ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../CustomElement */ "./src/ui/CustomElement.ts");
+/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../templates */ "./src/templates.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils */ "./src/utils.ts");
+/* harmony import */ var _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../domain/VendingMachine */ "./src/domain/VendingMachine.ts");
+/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../storage */ "./src/storage.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
+
+
+
+
+
+
+class ChargeTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
+    connectedCallback() {
+        super.connectedCallback();
+        _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_3__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.CHARGE, element: this });
+    }
+    render() {
+        this.innerHTML = this.template();
+        const amount = _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getLocalStorage('amount');
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.charge-amount', this).textContent = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.markUnit)(Object.entries(amount).reduce((previous, [key, value]) => previous + value.count * Number(key), 0));
+        _constants__WEBPACK_IMPORTED_MODULE_5__.COINS.forEach((coin) => ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)(`.coin-${coin}-quantity`).textContent = String(amount[coin].count)));
+    }
+    template() {
+        return _templates__WEBPACK_IMPORTED_MODULE_1__["default"].CHARGE_TAB;
+    }
+    setEvent() {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.addEvent)(this, 'submit', '.charge-form', (e) => this.handleCharge(e));
+    }
+    handleCharge(e) {
+        e.preventDefault();
+        const change = e.target.change.valueAsNumber;
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.charge-form', _constants__WEBPACK_IMPORTED_MODULE_5__.CUSTOM_EVENT.CHARGE, { change }, this);
+    }
+    notify({ amount }) {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.charge-amount', this).textContent = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.markUnit)(amount.getAmount());
+        _constants__WEBPACK_IMPORTED_MODULE_5__.COINS.forEach((coin) => ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)(`.coin-${coin}-quantity`).textContent = amount.counter[coin].count));
+    }
+}
+customElements.define('charge-tab', ChargeTab);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ChargeTab);
+
+
+/***/ }),
+
+/***/ "./src/ui/tab/ProductManagementTab.ts":
+/*!********************************************!*\
+  !*** ./src/ui/tab/ProductManagementTab.ts ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../CustomElement */ "./src/ui/CustomElement.ts");
+/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../templates */ "./src/templates.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils */ "./src/utils.ts");
+/* harmony import */ var _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../domain/VendingMachine */ "./src/domain/VendingMachine.ts");
+/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../storage */ "./src/storage.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
 
 
 
@@ -1884,9 +2103,9 @@ customElements.define('product-management-tab', ProductManagementTab);
 
 /***/ }),
 
-/***/ "./src/ui/ProfileEditPage.ts":
+/***/ "./src/ui/tab/PurchaseTab.ts":
 /*!***********************************!*\
-  !*** ./src/ui/ProfileEditPage.ts ***!
+  !*** ./src/ui/tab/PurchaseTab.ts ***!
   \***********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -1894,68 +2113,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CustomElement */ "./src/ui/CustomElement.ts");
-/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../templates */ "./src/templates.ts");
-/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../storage */ "./src/storage.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
-/* harmony import */ var _domain_Authentication__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../domain/Authentication */ "./src/domain/Authentication.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
-
-
-
-
-
-
-class ProfileEditPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
-    connectedCallback() {
-        super.connectedCallback();
-        _domain_Authentication__WEBPACK_IMPORTED_MODULE_4__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.PROFILE_EDIT, element: this });
-    }
-    render() {
-        this.innerHTML = this.template();
-        const user = _storage__WEBPACK_IMPORTED_MODULE_2__["default"].getLocalStorage('user');
-        if (!user)
-            return;
-        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('[name=email]', this).value = user.email;
-        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('[name=userName]', this).value = user.name;
-    }
-    template() {
-        return _templates__WEBPACK_IMPORTED_MODULE_1__["default"].PROFILE_EDIT_PAGE;
-    }
-    setEvent() {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.addEvent)(this, 'submit', '.profile-edit-form', (e) => this.handleEdit(e));
-    }
-    handleEdit(e) {
-        e.preventDefault();
-        const form = e.target;
-        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('.profile-edit-form', _constants__WEBPACK_IMPORTED_MODULE_5__.CUSTOM_EVENT.AUTH.EDIT, { name: form.userName.value, password: form.password.value, passwordConfirm: form.passwordConfirm.value }, this);
-    }
-    notify({}) {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.showSnackbar)(_constants__WEBPACK_IMPORTED_MODULE_5__.SUCCESS_MESSAGE.EDIT);
-    }
-}
-customElements.define('profile-edit-page', ProfileEditPage);
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProfileEditPage);
-
-
-/***/ }),
-
-/***/ "./src/ui/PurchaseTab.ts":
-/*!*******************************!*\
-  !*** ./src/ui/PurchaseTab.ts ***!
-  \*******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CustomElement */ "./src/ui/CustomElement.ts");
-/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../templates */ "./src/templates.ts");
-/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../storage */ "./src/storage.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
-/* harmony import */ var _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../domain/VendingMachine */ "./src/domain/VendingMachine.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
+/* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../CustomElement */ "./src/ui/CustomElement.ts");
+/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../templates */ "./src/templates.ts");
+/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../storage */ "./src/storage.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils */ "./src/utils.ts");
+/* harmony import */ var _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../domain/VendingMachine */ "./src/domain/VendingMachine.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
 
 
 
@@ -2057,169 +2220,6 @@ class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElem
 }
 customElements.define('purchase-tab', PurchaseTab);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PurchaseTab);
-
-
-/***/ }),
-
-/***/ "./src/ui/SignupPage.ts":
-/*!******************************!*\
-  !*** ./src/ui/SignupPage.ts ***!
-  \******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CustomElement */ "./src/ui/CustomElement.ts");
-/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../templates */ "./src/templates.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
-/* harmony import */ var _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../domain/Authentication */ "./src/domain/Authentication.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
-
-
-
-
-
-class SignupPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
-    connectedCallback() {
-        super.connectedCallback();
-        _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_4__.ELEMENT_KEY.SIGNUP, element: this });
-    }
-    render() {
-        this.innerHTML = this.template();
-    }
-    template() {
-        return _templates__WEBPACK_IMPORTED_MODULE_1__["default"].SIGNUP_PAGE;
-    }
-    setEvent() {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.addEvent)(this, 'submit', '.signup-form', (e) => this.handleSignup(e));
-    }
-    handleSignup(e) {
-        e.preventDefault();
-        const form = e.target;
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.signup-form', _constants__WEBPACK_IMPORTED_MODULE_4__.CUSTOM_EVENT.AUTH.SIGNUP, {
-            email: form.email.value,
-            name: form.userName.value,
-            password: form.password.value,
-            passwordConfirm: form.passwordConfirm.value,
-        }, this);
-    }
-    notify({ userName }) {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.signup-form', this).reset();
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.showSnackbar)(`${userName}님 회원가입을 축하합니다.`);
-    }
-}
-customElements.define('signup-page', SignupPage);
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SignupPage);
-
-
-/***/ }),
-
-/***/ "./src/ui/UserMenu.ts":
-/*!****************************!*\
-  !*** ./src/ui/UserMenu.ts ***!
-  \****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CustomElement */ "./src/ui/CustomElement.ts");
-/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../templates */ "./src/templates.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
-/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../router */ "./src/router.ts");
-/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../storage */ "./src/storage.ts");
-/* harmony import */ var _domain_Authentication__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../domain/Authentication */ "./src/domain/Authentication.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
-
-
-
-
-
-
-
-class UserMenu extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
-    connectedCallback() {
-        super.connectedCallback();
-        _domain_Authentication__WEBPACK_IMPORTED_MODULE_5__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_6__.ELEMENT_KEY.USER_MENU, element: this });
-    }
-    render() {
-        this.innerHTML = this.template();
-        const isLogin = !!localStorage.getItem('accessToken');
-        const userName = _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getLocalStorage('user') ? _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getLocalStorage('user').name : '';
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.user-name', this).classList.toggle('hidden', !isLogin);
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.login-button', this).classList.toggle('hidden', isLogin);
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.user-name__menu-button', this).insertAdjacentHTML('afterbegin', userName.substring(0, 1));
-    }
-    template() {
-        return _templates__WEBPACK_IMPORTED_MODULE_1__["default"].USER_MENU;
-    }
-    setEvent() {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.addEvent)(this, 'click', '.user-name__menu-button', () => this.handleMenu());
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.addEvent)(this, 'click', '.user-name__edit', () => this.handleEdit());
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.addEvent)(this, 'click', '.user-name__logout', () => this.handleLogout());
-    }
-    handleMenu() {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.user-name__menu-button', this).classList.toggle('shadow');
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.menu-element.user-name__edit', this).classList.toggle('user-name__edit--move');
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.menu-element.user-name__logout', this).classList.toggle('user-name__logout--move');
-    }
-    handleEdit() {
-        const user = _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getLocalStorage('user');
-        if (!user)
-            return;
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('[name=email]', (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('profile-edit-page')).value = user.email;
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('[name=userName]', (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('profile-edit-page')).value = user.name;
-        (0,_router__WEBPACK_IMPORTED_MODULE_3__.historyRouterPush)(_constants__WEBPACK_IMPORTED_MODULE_6__.BASE_URL + '/profile');
-    }
-    handleLogout() {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('user');
-        location.href = location.origin + _constants__WEBPACK_IMPORTED_MODULE_6__.BASE_URL + '/';
-    }
-    notify({ userName }) {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.user-name__menu-button').textContent = userName.substring(0, 1);
-    }
-}
-customElements.define('user-menu', UserMenu);
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (UserMenu);
-
-
-/***/ }),
-
-/***/ "./src/ui/VendingMachinePage.ts":
-/*!**************************************!*\
-  !*** ./src/ui/VendingMachinePage.ts ***!
-  \**************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CustomElement */ "./src/ui/CustomElement.ts");
-/* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../templates */ "./src/templates.ts");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
-
-
-
-class VendingMachinePage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
-    connectedCallback() {
-        super.connectedCallback();
-    }
-    render() {
-        this.innerHTML = this.template();
-        const isLogin = !!localStorage.getItem('accessToken');
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.nav', this).classList.toggle('hidden', !isLogin);
-    }
-    template() {
-        return _templates__WEBPACK_IMPORTED_MODULE_1__["default"].VENDING_MACHINE_PAGE;
-    }
-}
-customElements.define('vending-machine-page', VendingMachinePage);
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (VendingMachinePage);
 
 
 /***/ }),
@@ -2516,13 +2516,13 @@ var __webpack_exports__ = {};
   \**********************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _css_index_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./css/index.css */ "./src/css/index.css");
-/* harmony import */ var _ui_VendingMachinePage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ui/VendingMachinePage */ "./src/ui/VendingMachinePage.ts");
-/* harmony import */ var _ui_ProductManagementTab__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ui/ProductManagementTab */ "./src/ui/ProductManagementTab.ts");
-/* harmony import */ var _ui_ChargeTab__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ui/ChargeTab */ "./src/ui/ChargeTab.ts");
-/* harmony import */ var _ui_PurchaseTab__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ui/PurchaseTab */ "./src/ui/PurchaseTab.ts");
-/* harmony import */ var _ui_LoginPage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ui/LoginPage */ "./src/ui/LoginPage.ts");
-/* harmony import */ var _ui_SignupPage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ui/SignupPage */ "./src/ui/SignupPage.ts");
-/* harmony import */ var _ui_ProfileEditPage__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ui/ProfileEditPage */ "./src/ui/ProfileEditPage.ts");
+/* harmony import */ var _ui_page_VendingMachinePage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ui/page/VendingMachinePage */ "./src/ui/page/VendingMachinePage.ts");
+/* harmony import */ var _ui_tab_ProductManagementTab__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ui/tab/ProductManagementTab */ "./src/ui/tab/ProductManagementTab.ts");
+/* harmony import */ var _ui_tab_ChargeTab__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ui/tab/ChargeTab */ "./src/ui/tab/ChargeTab.ts");
+/* harmony import */ var _ui_tab_PurchaseTab__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ui/tab/PurchaseTab */ "./src/ui/tab/PurchaseTab.ts");
+/* harmony import */ var _ui_page_LoginPage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ui/page/LoginPage */ "./src/ui/page/LoginPage.ts");
+/* harmony import */ var _ui_page_SignupPage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ui/page/SignupPage */ "./src/ui/page/SignupPage.ts");
+/* harmony import */ var _ui_page_ProfileEditPage__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ui/page/ProfileEditPage */ "./src/ui/page/ProfileEditPage.ts");
 /* harmony import */ var _ui_UserMenu__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./ui/UserMenu */ "./src/ui/UserMenu.ts");
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./router */ "./src/router.ts");
 
