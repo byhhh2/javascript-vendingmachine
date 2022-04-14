@@ -1615,9 +1615,11 @@ const TEMPLATE = {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "CustomElement": () => (/* binding */ CustomElement)
+/* harmony export */   "Page": () => (/* binding */ Page),
+/* harmony export */   "Tab": () => (/* binding */ Tab),
+/* harmony export */   "Menu": () => (/* binding */ Menu)
 /* harmony export */ });
-class CustomElement extends HTMLElement {
+class Page extends HTMLElement {
     connectedCallback() {
         this.render();
         this.setEvent();
@@ -1630,6 +1632,10 @@ class CustomElement extends HTMLElement {
     }
     setEvent() { }
     notify(notification) { }
+}
+class Tab extends Page {
+}
+class Menu extends Page {
 }
 
 
@@ -1659,7 +1665,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class UserMenu extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
+class UserMenu extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Menu {
     connectedCallback() {
         super.connectedCallback();
         _domain_Authentication__WEBPACK_IMPORTED_MODULE_5__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_6__.ELEMENT_KEY.USER_MENU, element: this });
@@ -1730,7 +1736,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class LoginPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
+class LoginPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Page {
     connectedCallback() {
         super.connectedCallback();
         _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.LOGIN, element: this });
@@ -1791,7 +1797,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class ProfileEditPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
+class ProfileEditPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Page {
     connectedCallback() {
         super.connectedCallback();
         _domain_Authentication__WEBPACK_IMPORTED_MODULE_4__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.PROFILE_EDIT, element: this });
@@ -1845,7 +1851,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class SignupPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
+class SignupPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Page {
     connectedCallback() {
         super.connectedCallback();
         _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_4__.ELEMENT_KEY.SIGNUP, element: this });
@@ -1896,7 +1902,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class VendingMachinePage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
+class VendingMachinePage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Page {
     connectedCallback() {
         super.connectedCallback();
     }
@@ -1937,7 +1943,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class ChargeTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
+class ChargeTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Tab {
     connectedCallback() {
         super.connectedCallback();
         _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_3__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.CHARGE, element: this });
@@ -1992,7 +1998,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class ProductManagementTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
+class ProductManagementTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Tab {
     connectedCallback() {
         super.connectedCallback();
         _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_3__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.PRODUCT, element: this });
@@ -2125,7 +2131,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.CustomElement {
+class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Tab {
     connectedCallback() {
         super.connectedCallback();
         _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_4__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.PURCHASE, element: this });
