@@ -923,12 +923,6 @@ class Authentication {
     constructor() {
         this.observers = [];
     }
-    static get instance() {
-        if (!Authentication._instance) {
-            Authentication._instance = new Authentication();
-        }
-        return Authentication._instance;
-    }
     dispatch({ key, action, userName }) {
         const targets = this.observers.filter((observer) => observer.key === key);
         targets.forEach((target) => target.element.notify({ action, userName }));
@@ -1037,7 +1031,6 @@ class Authentication {
         }
     }
 }
-Authentication._instance = null;
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Authentication);
 
 
@@ -1158,12 +1151,6 @@ class VendingMachine {
         this.amount = new _Safe__WEBPACK_IMPORTED_MODULE_4__.Safe(_storage__WEBPACK_IMPORTED_MODULE_1__["default"].getLocalStorage('amount'));
         this.products = _storage__WEBPACK_IMPORTED_MODULE_1__["default"].getLocalStorage('products').map((product) => new _Product__WEBPACK_IMPORTED_MODULE_5__["default"](product, product.id));
     }
-    static get instance() {
-        if (!VendingMachine._instance) {
-            VendingMachine._instance = new VendingMachine();
-        }
-        return VendingMachine._instance;
-    }
     subscribeProductManagement() {
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('.product-manage-form', _constants__WEBPACK_IMPORTED_MODULE_0__.CUSTOM_EVENT.PRODUCT.ADD, (e) => this.addProduct(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('product-management-tab'));
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.on)('#product-list-table', _constants__WEBPACK_IMPORTED_MODULE_0__.CUSTOM_EVENT.PRODUCT.UPDATE, (e) => this.updateProduct(e.detail), (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('product-management-tab'));
@@ -1269,8 +1256,42 @@ class VendingMachine {
         }
     }
 }
-VendingMachine._instance = null;
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (VendingMachine);
+
+
+/***/ }),
+
+/***/ "./src/interface.ts":
+/*!**************************!*\
+  !*** ./src/interface.ts ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./src/constants.ts");
+/* harmony import */ var _domain_Authentication__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./domain/Authentication */ "./src/domain/Authentication.ts");
+/* harmony import */ var _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./domain/VendingMachine */ "./src/domain/VendingMachine.ts");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils */ "./src/utils.ts");
+
+
+
+
+class Interface {
+    constructor(vendingMachine, authentication) {
+        this.vendingMachine = vendingMachine;
+        this.authentication = authentication;
+    }
+    bridge() {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('login-page').inject(this.authentication, _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.LOGIN);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('profile-edit-page').inject(this.authentication, _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PROFILE_EDIT);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('signup-page').inject(this.authentication, _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.SIGNUP);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('product-management-tab').inject(this.vendingMachine, _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PRODUCT);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('charge-tab').inject(this.vendingMachine, _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.CHARGE);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('purchase-tab').inject(this.vendingMachine, _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.PURCHASE);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('user-menu').inject(this.authentication, _constants__WEBPACK_IMPORTED_MODULE_0__.ELEMENT_KEY.USER_MENU);
+    }
+}
+new Interface(new _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_2__["default"](), new _domain_Authentication__WEBPACK_IMPORTED_MODULE_1__["default"]()).bridge();
 
 
 /***/ }),
@@ -1624,6 +1645,9 @@ class Page extends HTMLElement {
         this.render();
         this.setEvent();
     }
+    inject(domain, elementKey) {
+        domain.observe({ key: elementKey, element: this });
+    }
     render() {
         this.innerHTML = this.template();
     }
@@ -1656,9 +1680,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils.ts");
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../router */ "./src/router.ts");
 /* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../storage */ "./src/storage.ts");
-/* harmony import */ var _domain_Authentication__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../domain/Authentication */ "./src/domain/Authentication.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
-
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../constants */ "./src/constants.ts");
 
 
 
@@ -1668,7 +1690,6 @@ __webpack_require__.r(__webpack_exports__);
 class UserMenu extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Menu {
     connectedCallback() {
         super.connectedCallback();
-        _domain_Authentication__WEBPACK_IMPORTED_MODULE_5__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_6__.ELEMENT_KEY.USER_MENU, element: this });
     }
     render() {
         this.innerHTML = this.template();
@@ -1697,12 +1718,12 @@ class UserMenu extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Menu {
             return;
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('[name=email]', (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('profile-edit-page')).value = user.email;
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('[name=userName]', (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('profile-edit-page')).value = user.name;
-        (0,_router__WEBPACK_IMPORTED_MODULE_3__.historyRouterPush)(_constants__WEBPACK_IMPORTED_MODULE_6__.BASE_URL + '/profile');
+        (0,_router__WEBPACK_IMPORTED_MODULE_3__.historyRouterPush)(_constants__WEBPACK_IMPORTED_MODULE_5__.BASE_URL + '/profile');
     }
     handleLogout() {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('user');
-        location.href = location.origin + _constants__WEBPACK_IMPORTED_MODULE_6__.BASE_URL + '/';
+        location.href = location.origin + _constants__WEBPACK_IMPORTED_MODULE_5__.BASE_URL + '/';
     }
     notify({ userName }) {
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.user-name__menu-button').textContent = userName.substring(0, 1);
@@ -1727,10 +1748,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../CustomElement */ "./src/ui/CustomElement.ts");
 /* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../templates */ "./src/templates.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils */ "./src/utils.ts");
-/* harmony import */ var _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../domain/Authentication */ "./src/domain/Authentication.ts");
-/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../router */ "./src/router.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
-
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../router */ "./src/router.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
 
 
 
@@ -1739,7 +1758,6 @@ __webpack_require__.r(__webpack_exports__);
 class LoginPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Page {
     connectedCallback() {
         super.connectedCallback();
-        _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.LOGIN, element: this });
     }
     render() {
         this.innerHTML = this.template();
@@ -1754,11 +1772,11 @@ class LoginPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Page {
     handleLogin(e) {
         e.preventDefault();
         const form = e.target;
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.login-form', _constants__WEBPACK_IMPORTED_MODULE_5__.CUSTOM_EVENT.AUTH.LOGIN, { email: form.email.value, password: form.password.value }, this);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.login-form', _constants__WEBPACK_IMPORTED_MODULE_4__.CUSTOM_EVENT.AUTH.LOGIN, { email: form.email.value, password: form.password.value }, this);
     }
     handleSignup(e) {
         e.preventDefault();
-        (0,_router__WEBPACK_IMPORTED_MODULE_4__.historyRouterPush)(_constants__WEBPACK_IMPORTED_MODULE_5__.BASE_URL + '/signup');
+        (0,_router__WEBPACK_IMPORTED_MODULE_3__.historyRouterPush)(_constants__WEBPACK_IMPORTED_MODULE_4__.BASE_URL + '/signup');
     }
     notify({ userName }) {
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.nav').classList.remove('hidden');
@@ -1789,9 +1807,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../templates */ "./src/templates.ts");
 /* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../storage */ "./src/storage.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils */ "./src/utils.ts");
-/* harmony import */ var _domain_Authentication__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../domain/Authentication */ "./src/domain/Authentication.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
-
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
 
 
 
@@ -1800,7 +1816,6 @@ __webpack_require__.r(__webpack_exports__);
 class ProfileEditPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Page {
     connectedCallback() {
         super.connectedCallback();
-        _domain_Authentication__WEBPACK_IMPORTED_MODULE_4__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.PROFILE_EDIT, element: this });
     }
     render() {
         this.innerHTML = this.template();
@@ -1819,10 +1834,10 @@ class ProfileEditPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Page {
     handleEdit(e) {
         e.preventDefault();
         const form = e.target;
-        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('.profile-edit-form', _constants__WEBPACK_IMPORTED_MODULE_5__.CUSTOM_EVENT.AUTH.EDIT, { name: form.userName.value, password: form.password.value, passwordConfirm: form.passwordConfirm.value }, this);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('.profile-edit-form', _constants__WEBPACK_IMPORTED_MODULE_4__.CUSTOM_EVENT.AUTH.EDIT, { name: form.userName.value, password: form.password.value, passwordConfirm: form.passwordConfirm.value }, this);
     }
     notify({}) {
-        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.showSnackbar)(_constants__WEBPACK_IMPORTED_MODULE_5__.SUCCESS_MESSAGE.EDIT);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.showSnackbar)(_constants__WEBPACK_IMPORTED_MODULE_4__.SUCCESS_MESSAGE.EDIT);
     }
 }
 customElements.define('profile-edit-page', ProfileEditPage);
@@ -1844,9 +1859,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../CustomElement */ "./src/ui/CustomElement.ts");
 /* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../templates */ "./src/templates.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils */ "./src/utils.ts");
-/* harmony import */ var _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../domain/Authentication */ "./src/domain/Authentication.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
-
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
 
 
 
@@ -1854,7 +1867,6 @@ __webpack_require__.r(__webpack_exports__);
 class SignupPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Page {
     connectedCallback() {
         super.connectedCallback();
-        _domain_Authentication__WEBPACK_IMPORTED_MODULE_3__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_4__.ELEMENT_KEY.SIGNUP, element: this });
     }
     render() {
         this.innerHTML = this.template();
@@ -1868,7 +1880,7 @@ class SignupPage extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Page {
     handleSignup(e) {
         e.preventDefault();
         const form = e.target;
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.signup-form', _constants__WEBPACK_IMPORTED_MODULE_4__.CUSTOM_EVENT.AUTH.SIGNUP, {
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.signup-form', _constants__WEBPACK_IMPORTED_MODULE_3__.CUSTOM_EVENT.AUTH.SIGNUP, {
             email: form.email.value,
             name: form.userName.value,
             password: form.password.value,
@@ -1934,10 +1946,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../CustomElement */ "./src/ui/CustomElement.ts");
 /* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../templates */ "./src/templates.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils */ "./src/utils.ts");
-/* harmony import */ var _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../domain/VendingMachine */ "./src/domain/VendingMachine.ts");
-/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../storage */ "./src/storage.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
-
+/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../storage */ "./src/storage.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
 
 
 
@@ -1946,13 +1956,12 @@ __webpack_require__.r(__webpack_exports__);
 class ChargeTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Tab {
     connectedCallback() {
         super.connectedCallback();
-        _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_3__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.CHARGE, element: this });
     }
     render() {
         this.innerHTML = this.template();
-        const amount = _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getLocalStorage('amount');
+        const amount = _storage__WEBPACK_IMPORTED_MODULE_3__["default"].getLocalStorage('amount');
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.charge-amount', this).textContent = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.markUnit)(Object.entries(amount).reduce((previous, [key, value]) => previous + value.count * Number(key), 0));
-        _constants__WEBPACK_IMPORTED_MODULE_5__.COINS.forEach((coin) => ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)(`.coin-${coin}-quantity`).textContent = String(amount[coin].count)));
+        _constants__WEBPACK_IMPORTED_MODULE_4__.COINS.forEach((coin) => ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)(`.coin-${coin}-quantity`).textContent = String(amount[coin].count)));
     }
     template() {
         return _templates__WEBPACK_IMPORTED_MODULE_1__["default"].CHARGE_TAB;
@@ -1963,11 +1972,11 @@ class ChargeTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Tab {
     handleCharge(e) {
         e.preventDefault();
         const change = e.target.change.valueAsNumber;
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.charge-form', _constants__WEBPACK_IMPORTED_MODULE_5__.CUSTOM_EVENT.CHARGE, { change }, this);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.charge-form', _constants__WEBPACK_IMPORTED_MODULE_4__.CUSTOM_EVENT.CHARGE, { change }, this);
     }
     notify({ amount }) {
         (0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)('.charge-amount', this).textContent = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.markUnit)(amount.getAmount());
-        _constants__WEBPACK_IMPORTED_MODULE_5__.COINS.forEach((coin) => ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)(`.coin-${coin}-quantity`).textContent = amount.counter[coin].count));
+        _constants__WEBPACK_IMPORTED_MODULE_4__.COINS.forEach((coin) => ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.$)(`.coin-${coin}-quantity`).textContent = amount.counter[coin].count));
     }
 }
 customElements.define('charge-tab', ChargeTab);
@@ -1989,10 +1998,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CustomElement__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../CustomElement */ "./src/ui/CustomElement.ts");
 /* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../templates */ "./src/templates.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils */ "./src/utils.ts");
-/* harmony import */ var _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../domain/VendingMachine */ "./src/domain/VendingMachine.ts");
-/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../storage */ "./src/storage.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
-
+/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../storage */ "./src/storage.ts");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
 
 
 
@@ -2001,11 +2008,10 @@ __webpack_require__.r(__webpack_exports__);
 class ProductManagementTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Tab {
     connectedCallback() {
         super.connectedCallback();
-        _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_3__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.PRODUCT, element: this });
     }
     render() {
         this.innerHTML = this.template();
-        const products = _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getLocalStorage('products');
+        const products = _storage__WEBPACK_IMPORTED_MODULE_3__["default"].getLocalStorage('products');
         products.forEach((product) => this.insertItem(product));
     }
     template() {
@@ -2021,15 +2027,15 @@ class ProductManagementTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.T
         const name = e.target.productName.value;
         const price = e.target.price.valueAsNumber;
         const quantity = e.target.quantity.valueAsNumber;
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.product-manage-form', _constants__WEBPACK_IMPORTED_MODULE_5__.CUSTOM_EVENT.PRODUCT.ADD, { name, price, quantity }, this);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('.product-manage-form', _constants__WEBPACK_IMPORTED_MODULE_4__.CUSTOM_EVENT.PRODUCT.ADD, { name, price, quantity }, this);
     }
     handleUpdateAndDelete(e) {
         if (e.target.classList.contains('product-item__edit-button')) {
             this.showForm(e);
         }
-        if (e.target.classList.contains('product-item__delete-button') && confirm(_constants__WEBPACK_IMPORTED_MODULE_5__.CONFIRM_MESSAGE.DELETE)) {
+        if (e.target.classList.contains('product-item__delete-button') && confirm(_constants__WEBPACK_IMPORTED_MODULE_4__.CONFIRM_MESSAGE.DELETE)) {
             const productName = e.target.closest('.product-item').dataset.productName;
-            (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('#product-list-table', _constants__WEBPACK_IMPORTED_MODULE_5__.CUSTOM_EVENT.PRODUCT.DELETE, { productName }, this);
+            (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('#product-list-table', _constants__WEBPACK_IMPORTED_MODULE_4__.CUSTOM_EVENT.PRODUCT.DELETE, { productName }, this);
         }
     }
     showForm(e) {
@@ -2058,17 +2064,17 @@ class ProductManagementTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.T
         const name = e.target.productName.value;
         const price = e.target.price.valueAsNumber;
         const quantity = e.target.quantity.valueAsNumber;
-        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('#product-list-table', _constants__WEBPACK_IMPORTED_MODULE_5__.CUSTOM_EVENT.PRODUCT.UPDATE, { targetName, name, price, quantity }, this);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_2__.emit)('#product-list-table', _constants__WEBPACK_IMPORTED_MODULE_4__.CUSTOM_EVENT.PRODUCT.UPDATE, { targetName, name, price, quantity }, this);
     }
     notify({ action, product }) {
         switch (action) {
-            case _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_ACTION.INSERT_ITEM:
+            case _constants__WEBPACK_IMPORTED_MODULE_4__.ELEMENT_ACTION.INSERT_ITEM:
                 this.insertItem(product);
                 return;
-            case _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_ACTION.UPDATE_ITEM:
+            case _constants__WEBPACK_IMPORTED_MODULE_4__.ELEMENT_ACTION.UPDATE_ITEM:
                 this.updateItem(product);
                 return;
-            case _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_ACTION.DELETE_ITEM:
+            case _constants__WEBPACK_IMPORTED_MODULE_4__.ELEMENT_ACTION.DELETE_ITEM:
                 this.deleteItem(product);
                 return;
         }
@@ -2123,9 +2129,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _templates__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../templates */ "./src/templates.ts");
 /* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../storage */ "./src/storage.ts");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils */ "./src/utils.ts");
-/* harmony import */ var _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../domain/VendingMachine */ "./src/domain/VendingMachine.ts");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
-
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../constants */ "./src/constants.ts");
 
 
 
@@ -2134,7 +2138,6 @@ __webpack_require__.r(__webpack_exports__);
 class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Tab {
     connectedCallback() {
         super.connectedCallback();
-        _domain_VendingMachine__WEBPACK_IMPORTED_MODULE_4__["default"].instance.observe({ key: _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_KEY.PURCHASE, element: this });
     }
     render() {
         this.innerHTML = this.template();
@@ -2148,15 +2151,15 @@ class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Tab {
     setEvent() {
         (0,_utils__WEBPACK_IMPORTED_MODULE_3__.addEvent)(this, 'submit', '.user-amount-form', (e) => this.handleInsertCoin(e));
         (0,_utils__WEBPACK_IMPORTED_MODULE_3__.addEvent)(this, 'click', '.purchase_button', (e) => this.handlePurchase(e));
-        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.addEvent)(this, 'click', '.return-button', () => (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('.return-button', _constants__WEBPACK_IMPORTED_MODULE_5__.CUSTOM_EVENT.RETURN_OF_CHANGE, {}, this));
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.addEvent)(this, 'click', '.return-button', () => (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('.return-button', _constants__WEBPACK_IMPORTED_MODULE_4__.CUSTOM_EVENT.RETURN_OF_CHANGE, {}, this));
     }
     handleInsertCoin(e) {
         e.preventDefault();
-        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('.user-amount-form', _constants__WEBPACK_IMPORTED_MODULE_5__.CUSTOM_EVENT.INSERT_COIN, { userInputMoney: e.target.change.valueAsNumber }, this);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('.user-amount-form', _constants__WEBPACK_IMPORTED_MODULE_4__.CUSTOM_EVENT.INSERT_COIN, { userInputMoney: e.target.change.valueAsNumber }, this);
     }
     handlePurchase(e) {
         const productItem = e.target.closest('.product-item');
-        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('#purchasable-product-list-table', _constants__WEBPACK_IMPORTED_MODULE_5__.CUSTOM_EVENT.PRODUCT.PURCHASE, { productId: productItem.dataset.productId }, this);
+        (0,_utils__WEBPACK_IMPORTED_MODULE_3__.emit)('#purchasable-product-list-table', _constants__WEBPACK_IMPORTED_MODULE_4__.CUSTOM_EVENT.PRODUCT.PURCHASE, { productId: productItem.dataset.productId }, this);
     }
     insertPurchableProduct(product, productTable) {
         (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('tbody', productTable).insertAdjacentHTML('beforeend', `<tr class="product-item" data-product-name="${product.name}" data-product-id="${product.id}">
@@ -2171,24 +2174,24 @@ class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Tab {
     }
     notify({ action, amount, product, userAmount }) {
         switch (action) {
-            case _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_ACTION.INSERT_COIN:
+            case _constants__WEBPACK_IMPORTED_MODULE_4__.ELEMENT_ACTION.INSERT_COIN:
                 this.updateAmount(userAmount);
-                (0,_utils__WEBPACK_IMPORTED_MODULE_3__.showSnackbar)(_constants__WEBPACK_IMPORTED_MODULE_5__.SUCCESS_MESSAGE.INSERT_COIN);
+                (0,_utils__WEBPACK_IMPORTED_MODULE_3__.showSnackbar)(_constants__WEBPACK_IMPORTED_MODULE_4__.SUCCESS_MESSAGE.INSERT_COIN);
                 return;
-            case _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_ACTION.PURCHASE:
+            case _constants__WEBPACK_IMPORTED_MODULE_4__.ELEMENT_ACTION.PURCHASE:
                 this.updateAmount(userAmount);
                 this.purchase(product);
-                (0,_utils__WEBPACK_IMPORTED_MODULE_3__.showSnackbar)(_constants__WEBPACK_IMPORTED_MODULE_5__.SUCCESS_MESSAGE.PURCHASE);
+                (0,_utils__WEBPACK_IMPORTED_MODULE_3__.showSnackbar)(_constants__WEBPACK_IMPORTED_MODULE_4__.SUCCESS_MESSAGE.PURCHASE);
                 return;
-            case _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_ACTION.UPDATE_PRODUCT:
-                this.updateProductTable(_constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_ACTION.UPDATE_PRODUCT, product);
+            case _constants__WEBPACK_IMPORTED_MODULE_4__.ELEMENT_ACTION.UPDATE_PRODUCT:
+                this.updateProductTable(_constants__WEBPACK_IMPORTED_MODULE_4__.ELEMENT_ACTION.UPDATE_PRODUCT, product);
                 return;
-            case _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_ACTION.DELETE_PRODUCT:
-                this.updateProductTable(_constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_ACTION.DELETE_PRODUCT, product);
+            case _constants__WEBPACK_IMPORTED_MODULE_4__.ELEMENT_ACTION.DELETE_PRODUCT:
+                this.updateProductTable(_constants__WEBPACK_IMPORTED_MODULE_4__.ELEMENT_ACTION.DELETE_PRODUCT, product);
                 return;
-            case _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_ACTION.RETURN_OF_CHANGE:
+            case _constants__WEBPACK_IMPORTED_MODULE_4__.ELEMENT_ACTION.RETURN_OF_CHANGE:
                 this.returnChange(amount, userAmount);
-                (0,_utils__WEBPACK_IMPORTED_MODULE_3__.showSnackbar)(_constants__WEBPACK_IMPORTED_MODULE_5__.SUCCESS_MESSAGE.RETURN);
+                (0,_utils__WEBPACK_IMPORTED_MODULE_3__.showSnackbar)(_constants__WEBPACK_IMPORTED_MODULE_4__.SUCCESS_MESSAGE.RETURN);
         }
     }
     updateAmount(userAmount) {
@@ -2205,18 +2208,18 @@ class PurchaseTab extends _CustomElement__WEBPACK_IMPORTED_MODULE_0__.Tab {
         const productTable = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('#purchasable-product-list-table', this);
         const targetProduct = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)(`[data-product-id="${product.id}"]`, productTable);
         switch (action) {
-            case _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_ACTION.UPDATE_PRODUCT:
+            case _constants__WEBPACK_IMPORTED_MODULE_4__.ELEMENT_ACTION.UPDATE_PRODUCT:
                 targetProduct === null || targetProduct === void 0 ? void 0 : targetProduct.remove();
                 this.insertPurchableProduct(product, productTable);
                 return;
-            case _constants__WEBPACK_IMPORTED_MODULE_5__.ELEMENT_ACTION.DELETE_PRODUCT:
+            case _constants__WEBPACK_IMPORTED_MODULE_4__.ELEMENT_ACTION.DELETE_PRODUCT:
                 targetProduct.remove();
                 return;
         }
     }
     returnChange(amount, userAmount) {
         (0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)('.user-amount', this).textContent = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.markUnit)(userAmount);
-        _constants__WEBPACK_IMPORTED_MODULE_5__.COINS.forEach((coin) => ((0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)(`.change-${coin}-quantity`).textContent = amount.userChange[coin].count));
+        _constants__WEBPACK_IMPORTED_MODULE_4__.COINS.forEach((coin) => ((0,_utils__WEBPACK_IMPORTED_MODULE_3__.$)(`.change-${coin}-quantity`).textContent = amount.userChange[coin].count));
     }
     deleteProductItem(product, productItems) {
         if (product.quantity > 0)
@@ -2531,6 +2534,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ui_page_ProfileEditPage__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ui/page/ProfileEditPage */ "./src/ui/page/ProfileEditPage.ts");
 /* harmony import */ var _ui_UserMenu__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./ui/UserMenu */ "./src/ui/UserMenu.ts");
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./router */ "./src/router.ts");
+/* harmony import */ var _interface__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./interface */ "./src/interface.ts");
+
 
 
 
