@@ -814,7 +814,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const COINS = [500, 100, 50, 10];
 const BASE_URL = '/javascript-vendingmachine';
-const SERVER_ORIGIN = 'http://localhost:3000';
+const SERVER_ORIGIN = 'https://json-auth-server-jz.herokuapp.com';
 const CONFIGURATION = {
     AMOUNT: {
         UNIT: 10,
